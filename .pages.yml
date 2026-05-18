@@ -27,9 +27,10 @@ content:
 
   - name: reviews
     label: "Guest Reviews Marquee"
-    type: list
+    type: file
     path: src/content/reviews.json
     format: json
+    list: true
     fields:
       - name: stars
         label: "Star Rating Selection"
