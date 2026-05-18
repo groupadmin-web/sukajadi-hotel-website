@@ -5,11 +5,16 @@ import Features from "@/components/features.astro";
 import Hero from "@/components/hero.astro";
 import Logos from "@/components/logos.astro";
 import Layout from "@/layouts/Layout.astro";
+
+// Import your dynamic guest reviews database list
+import reviewsData from "@/content/reviews.json";
 ---
 
-<Layout title="">
+<Layout title="Mutiara Hotel & Convention">
+  
+  <Hero />
+
   <Container>
-    <Hero />
     <Features />
     <Logos />
     <Cta />
@@ -20,36 +25,42 @@ import Layout from "@/layouts/Layout.astro";
     
     <div class="marquee-container">
       <div class="marquee-track">
-        
-        <div class="review-card">
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p class="content">"The best hotel experience in the area. Exceptionally clean rooms and the staff treats you like royalty!"</p>
-          <p class="author">- Michael S., TripAdvisor</p>
-        </div>
-  
-        <div class="review-card">
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p class="content">"Extremely strategic location. The floating WhatsApp button made booking our airport transfer seamless."</p>
-          <p class="author">- Linda R., Google Review</p>
-        </div>
-  
-        <div class="review-card">
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p class="content">"Incredible value for money. Premium bedding, powerful AC, and fast Wi-Fi. Will absolutely return."</p>
-          <p class="author">- Ahmad J., Booking.com</p>
-        </div>
-  
-        <div class="review-card">
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p class="content">"The best hotel experience in the area. Exceptionally clean rooms and the staff treats you like royalty!"</p>
-          <p class="author">- Michael S., TripAdvisor</p>
-        </div>
-        <div class="review-card">
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p class="content">"Extremely strategic location. The floating WhatsApp button made booking our airport transfer seamless."</p>
-          <p class="author">- Linda R., Google Review</p>
-        </div>
-  
+        {
+          reviewsData.map((review) => (
+            <div class="review-card">
+              <div class="stars">
+                {review.stars === "5" && "⭐⭐⭐⭐⭐"}
+                {review.stars === "4" && "⭐⭐⭐⭐"}
+                {review.stars === "3" && "⭐⭐⭐"}
+                {/* Fallback support for older text entries if any exist */}
+                {!["5", "4", "3"].includes(review.stars) && review.stars}
+              </div>
+              <p class="content">"{review.content}"</p>
+              <p class="author">
+                {review.author_name ? `${review.author_name}, ` : ""}
+                <span class="text-emerald-800 font-semibold">{review.platform || "Google Review"}</span>
+              </p>
+            </div>
+          ))
+        }
+        {/* Duplicate rendering loop block ensures an endless, smooth infinite marquee loop layout */}
+        {
+          reviewsData.map((review) => (
+            <div class="review-card" aria-hidden="true">
+              <div class="stars">
+                {review.stars === "5" && "⭐⭐⭐⭐⭐"}
+                {review.stars === "4" && "⭐⭐⭐⭐"}
+                {review.stars === "3" && "⭐⭐⭐"}
+                {!["5", "4", "3"].includes(review.stars) && review.stars}
+              </div>
+              <p class="content">"{review.content}"</p>
+              <p class="author">
+                {review.author_name ? `${review.author_name}, ` : ""}
+                <span class="text-emerald-800 font-semibold">{review.platform || "Google Review"}</span>
+              </p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -68,7 +79,7 @@ import Layout from "@/layouts/Layout.astro";
   .marquee-track {
     display: flex;
     width: max-content;
-    animation: scrollMarquee 25s linear infinite;
+    animation: scrollMarquee 30s linear infinite;
   }
   .marquee-track:hover {
     animation-play-state: paused;
@@ -95,13 +106,13 @@ import Layout from "@/layouts/Layout.astro";
   }
   .review-card .author {
     color: #1f2937;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 14px;
   }
   
   @keyframes scrollMarquee {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-380px * 3)); }
+    100% { transform: translateX(-50%); }
   }
 </style>
 </Layout>
