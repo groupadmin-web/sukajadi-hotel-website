@@ -1,0 +1,26 @@
+media:
+  input: public/images
+  output: /images
+
+content:
+  - name: homepage
+    label: "Homepage Customization"
+    type: file
+    path: src/content/homepage.json
+    format: json
+    fields:
+      - name: welcome_title
+        label: "Main Header Title"
+        type: string
+        
+      - name: tagline
+        label: "Hotel Tagline/Description Paragraph"
+        type: text
+
+      - name: background_image
+        label: "Front Photo or Slideshow GIF"
+        type: image
+
+      - name: booking_button_text
+        label: "Booking Button Text"
+        type: string
