@@ -83,25 +83,35 @@ const sortedReviews = (reviewsData || []).sort((a, b) => {
     padding: 40px 0;
   }
   /* NEW: Outer flex wrapper forces everything to snap dead center */
+/* Outer container wrapper spanning full width */
   .reviews-grid-wrapper {
+    width: 100%;
     display: flex;
     justify-content: center;
-    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
   }
+  
+  /* Horizontal row wrapper that forces boxes to center-align */
   .reviews-grid {
-    display: grid;
-    /* Adapts columns based on screen space */
-    grid-template-cols: repeat(auto-fit, minmax(320px, 1fr));
+    display: flex;
+    flex-direction: column; /* Stacks vertically on mobile phones */
     gap: 24px;
     width: 100%;
     max-width: 1140px;
-    /* Centers grid columns inside the grid canvas layout itself */
-    justify-content: center; 
+    justify-content: center; /* Centers items horizontally on desktop */
+    align-items: stretch;
   }
-  /* Fallback constraint to keep items looking clean when there are only 1 or 2 items */
+  
+  /* Responsive Desktop Layout Optimization Hook */
   @media (min-width: 768px) {
     .reviews-grid {
-      grid-template-cols: repeat(auto-fit, minmax(320px, 360px));
+      flex-direction: row; /* Snaps into a horizontal row on tablets and desktops */
+      flex-wrap: wrap;     /* Wraps cleanly to a second centered row if you exceed 3-4 boxes */
+    }
+    .review-card {
+      width: 350px;        /* Keeps boxes uniform instead of stretching infinitely */
+      flex: 0 1 350px;
     }
   }
   .review-card {
