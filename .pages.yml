@@ -4,29 +4,23 @@ media:
 
 content:
   - name: homepage
-    label: "Homepage Customization"
+    label: "1. Brand & Header Setup"
     type: file
     path: src/content/homepage.json
     format: json
     fields:
       - name: welcome_title
-        label: "Main Header Title"
+        label: "Main Header Brand Title"
         type: string
-        
       - name: tagline
-        label: "Hotel Tagline/Description Paragraph"
-        type: text
-
+        label: "Sub-Header High-Impact Hook (Keep under 15 words)"
+        type: string
       - name: background_image
-        label: "Front Photo or Slideshow GIF"
+        label: "Widescreen Edge-to-Edge Hero Image"
         type: image
 
-      - name: booking_button_text
-        label: "Booking Button Text"
-        type: string
-
   - name: reviews
-    label: "Guest Reviews Marquee"
+    label: "2. Guest Reviews Marquee"
     type: file
     path: src/content/reviews.json
     format: json
@@ -47,7 +41,7 @@ content:
         label: "Review Quote Content"
         type: text
       - name: author_name
-        label: "Guest Name (Optional)"
+        label: "Guest Name"
         type: string
       - name: platform
         label: "Review Source Platform"
@@ -60,3 +54,46 @@ content:
           - label: "Traveloka"
             value: "Traveloka"
         default: "Google Review"
+
+  - name: rooms
+    label: "3. Rooms & Suites Showcase"
+    type: file
+    path: src/content/rooms.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: "Room Type Title (e.g., Superior Twin Room)"
+        type: string
+      - name: image
+        label: "Room Feature Photo"
+        type: image
+      - name: bed_type
+        label: "Bed Configuration Setup"
+        type: string
+      - name: capacity
+        label: "Max Guest Capacity"
+        type: string
+      - name: size
+        label: "Room Dimensions (e.g., 24 m²)"
+        type: string
+      - name: price_start
+        label: "Starting From Price Indicator (e.g., Rp 785.000)"
+        type: string
+
+  - name: events
+    label: "4. Convention & Events Spaces"
+    type: file
+    path: src/content/events.json
+    format: json
+    list: true
+    fields:
+      - name: hall_name
+        label: "Meeting Room / Ballroom Name"
+        type: string
+      - name: capacity_theater
+        label: "Max Seating Capacity (Theater Style)"
+        type: string
+      - name: main_feature
+        label: "Primary Facility Feature Highlight"
+        type: string
