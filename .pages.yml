@@ -29,10 +29,11 @@ content:
       - name: stars
         label: "Star Rating Selection"
         type: select
-        values:
-          - "5 Stars"
-          - "4 Stars"
-          - "3 Stars"
+        options:
+          values:
+            - "5 Stars"
+            - "4 Stars"
+            - "3 Stars"
         default: "5 Stars"
       - name: content
         label: "Review Quote Content"
@@ -43,10 +44,11 @@ content:
       - name: platform
         label: "Review Source Platform"
         type: select
-        values:
-          - "Google Review"
-          - "Booking.com"
-          - "Traveloka"
+        options:
+          values:
+            - "Google Review"
+            - "Booking.com"
+            - "Traveloka"
         default: "Google Review"
 
   - name: rooms
