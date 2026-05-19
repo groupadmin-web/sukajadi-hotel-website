@@ -1,7 +1,7 @@
 [
   {
     "stars": "4 Stars",
-    "date": "2026-05-15",
+    "date": "2026-05-01",
     "content": "WC Umum wangi sekali",
     "author_name": "Ariel",
     "platform": "Google Review"
@@ -12,5 +12,12 @@
     "content": "Kolamnya yahuddddd",
     "author_name": "Wahyu",
     "platform": "Booking.com"
+  },
+  {
+    "stars": "5 Stars",
+    "date": "2026-05-08",
+    "content": "nyaman sekali tapi sayang liburannya cuma 2 hari",
+    "author_name": "Tuanku",
+    "platform": "Traveloka"
   }
 ]
