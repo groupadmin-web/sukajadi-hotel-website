@@ -14,7 +14,7 @@ content:
         type: string
       - name: tagline
         label: "Sub-Header High-Impact Hook (Keep under 15 words)"
-        type: string
+        type: text
       - name: background_image
         label: "Widescreen Edge-to-Edge Hero Image"
         type: image
@@ -30,13 +30,10 @@ content:
         label: "Star Rating Selection"
         type: select
         options:
-          - label: "5 Stars (Excellent)"
-            value: "5"
-          - label: "4 Stars (Very Good)"
-            value: "4"
-          - label: "3 Stars (Average)"
-            value: "3"
-        default: "5"
+          - "5 Stars"
+          - "4 Stars"
+          - "3 Stars"
+        default: "5 Stars"
       - name: content
         label: "Review Quote Content"
         type: text
@@ -47,12 +44,9 @@ content:
         label: "Review Source Platform"
         type: select
         options:
-          - label: "Google"
-            value: "Google Review"
-          - label: "Booking.com"
-            value: "Booking.com"
-          - label: "Traveloka"
-            value: "Traveloka"
+          - "Google Review"
+          - "Booking.com"
+          - "Traveloka"
         default: "Google Review"
 
   - name: rooms
