@@ -20,104 +20,70 @@ import reviewsData from "@/content/reviews.json";
     <Cta />
   </Container>
 
-  <section class="reviews-section my-16">
-    <h2 class="text-center text-3xl font-bold mb-6 text-gray-800">What Our Guests Love About Us</h2>
+  <section class="reviews-section my-16 px-6 max-w-7xl mx-auto">
+    <h2 class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
+    <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-10"></div>
     
-    <div class="marquee-container">
-      <div class="marquee-track">
-        {
-          reviewsData.map((review) => (
-            <div class="review-card">
-              <div class="stars">
-                {/* UPGRADED STAR TRANSLATOR TO SUPPORT DROPDOWN STRINGS */}
-                {review.stars?.includes("5") && "⭐⭐⭐⭐⭐"}
-                {review.stars?.includes("4") && "⭐⭐⭐⭐"}
-                {review.stars?.includes("3") && "⭐⭐⭐"}
-                
-                {/* Fallback support for older raw text numerical entries if any exist */}
-                {!review.stars?.includes("Stars") && !["5", "4", "3"].includes(review.stars) && review.stars}
-              </div>
-              <p class="content">"{review.content}"</p>
-              <p class="author">
-                {review.author_name ? `${review.author_name}, ` : ""}
-                <span class="text-emerald-800 font-semibold">{review.platform || "Google Review"}</span>
-              </p>
+    <div class="reviews-grid">
+      {
+        reviewsData.map((review) => (
+          <div class="review-card">
+            <div class="stars">
+              {review.stars?.includes("5") && "⭐⭐⭐⭐⭐"}
+              {review.stars?.includes("4") && "⭐⭐⭐⭐"}
+              {review.stars?.includes("3") && "⭐⭐⭐"}
+              {!review.stars?.includes("Stars") && !["5", "4", "3"].includes(review.stars) && review.stars}
             </div>
-          ))
-        }
-        
-        {/* Duplicate rendering loop block ensures an endless, smooth infinite marquee loop layout */}
-        {
-          reviewsData.map((review) => (
-            <div class="review-card" aria-hidden="true">
-              <div class="stars">
-                {/* UPGRADED STAR TRANSLATOR TO SUPPORT DROPDOWN STRINGS */}
-                {review.stars?.includes("5") && "⭐⭐⭐⭐⭐"}
-                {review.stars?.includes("4") && "⭐⭐⭐⭐"}
-                {review.stars?.includes("3") && "⭐⭐⭐"}
-                
-                {!review.stars?.includes("Stars") && !["5", "4", "3"].includes(review.stars) && review.stars}
-              </div>
-              <p class="content">"{review.content}"</p>
-              <p class="author">
-                {review.author_name ? `${review.author_name}, ` : ""}
-                <span class="text-emerald-800 font-semibold">{review.platform || "Google Review"}</span>
-              </p>
-            </div>
-          ))
-        }
-      </div>
+            <p class="content">"{review.content}"</p>
+            <p class="author">
+              {review.author_name ? `${review.author_name}, ` : ""}
+              <span class="text-emerald-800 font-semibold">{review.platform || "Google Review"}</span>
+            </p>
+          </div>
+        ))
+      }
     </div>
   </section>
   
   <style>
   .reviews-section {
     padding: 40px 0;
-    background-color: #f9fafb;
-    overflow: hidden;
   }
-  .marquee-container {
-    width: 100%;
-    overflow: hidden;
-    padding: 10px 0;
-  }
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: scrollMarquee 30s linear infinite;
-  }
-  .marquee-track:hover {
-    animation-play-state: paused;
+  /* Creates a clean row that adapts beautifully if you have 1, 2, or 3+ reviews */
+  .reviews-grid {
+    display: grid;
+    grid-template-cols: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    justify-content: center;
   }
   .review-card {
-    width: 350px;
     background: white;
-    margin: 0 15px;
     padding: 24px;
     border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .stars {
     color: #fbbf24;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    font-size: 16px;
   }
   .review-card .content {
     color: #4b5563;
     font-style: italic;
     font-size: 15px;
-    line-height: 1.5;
-    margin-bottom: 12px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex-grow: 1;
   }
   .review-card .author {
     color: #1f2937;
-    font-weight: normal;
     font-size: 14px;
-  }
-  
-  @keyframes scrollMarquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    border-top: 1px solid #f3f4f6;
+    padding-top: 12px;
   }
 </style>
 </Layout>
