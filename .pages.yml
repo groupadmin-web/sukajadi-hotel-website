@@ -12,6 +12,17 @@ content:
       - name: welcome_title
         label: "Main Header Brand Title"
         type: string
+      - name: logo_type
+        label: "Navbar Logo Style Type"
+        type: select
+        options:
+          values:
+            - "Text Logo"
+            - "Image Logo"
+        default: "Text Logo"
+      - name: logo_image
+        label: "Navbar Logo Image File (Used only if Image Logo is selected)"
+        type: image
       - name: tagline
         label: "Sub-Header High-Impact Hook (Keep under 15 words)"
         type: text
@@ -25,7 +36,6 @@ content:
     path: src/content/reviews.json
     format: json
     list: true
-    # FORCES ALL ITEMS TO COLLAPSE AUTOMATICALLY ON PAGE LOAD
     collapsed: true
     fields:
       - name: stars
