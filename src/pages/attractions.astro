@@ -4,6 +4,18 @@ import Layout from "../layouts/Layout.astro";
 import attractionsData from "../content/attractions.json";
 
 const attractions = Array.isArray(attractionsData) ? attractionsData : [];
+
+// Permanent, un-erasable image assets map matching the titles perfectly
+const fallbackImages = {
+  "Museum of the Asian-African Conference": "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&w=800&q=80",
+  "Taman Balai Kota Bandung": "https://images.unsplash.com/photo-1582234375176-338a9771a737?auto=format&fit=crop&w=800&q=80",
+  "Braga City Walk": "https://images.unsplash.com/photo-1569003339405-ea396a5a8a90?auto=format&fit=crop&w=800&q=80",
+  "23 Paskal Shopping Centre": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=800&q=80",
+  "Gedung Sate": "https://images.unsplash.com/photo-1626245380309-906f0e6533ef?auto=format&fit=crop&w=800&q=80",
+  "Kawah Putih (White Crater)": "https://images.unsplash.com/photo-1616431575958-88aaade00010?auto=format&fit=crop&w=800&q=80",
+  "Mount Tangruban Perahu": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+  "Saung Angklung Udjo": "https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?auto=format&fit=crop&w=800&q=80"
+};
 ---
 
 <Layout title="Local Attractions | Mutiara Hotel & Convention">
@@ -13,7 +25,7 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       <span class="text-[10px] tracking-widest font-sans font-bold text-slate-400 uppercase">Language Mode:</span>
       <div class="bg-slate-100 p-1 rounded-xl inline-flex items-center border border-slate-200/60 shadow-inner">
         <button id="lang-en" type="button" class="px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg transition-all duration-200 cursor-pointer">Original</button>
-        <button id="lang-id" type="button" class="px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg transition-all duration-200 cursor-pointer">Indonesia (AI)</button>
+        <button id="lang-id" type="button" class="px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">Indonesia (AI)</button>
       </div>
     </div>
 
@@ -25,29 +37,49 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
     </div>
 
     <div id="attractions-grid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {attractions.map((item, index) => (
-        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
-          <div class="relative h-60 bg-gray-200 overflow-hidden">
-            <img src={item.image} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
-            <div data-field="category" data-index={index} data-en={item.category} class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">{item.category}</div>
-            <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
-              <span>📍</span> <span data-field="distance" data-index={index} data-en={item.distance}>{item.distance}</span>
+      {attractions.map((item, index) => {
+        // Evaluate matching fallback baseline image safely if empty string is returned from CMS
+        const displayImage = item.image || fallbackImages[item.title] || "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&w=800&q=80";
+        
+        return (
+          <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
+            
+            <div class="relative h-60 bg-gray-200 overflow-hidden shrink-0">
+              <img 
+                src={displayImage} 
+                alt={item.title} 
+                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                loading="lazy" 
+              />
+              <div data-field="category" data-index={index} data-en={item.category} class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">{item.category}</div>
+              <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
+                <span>📍</span> <span data-field="distance" data-index={index} data-en={item.distance}>{item.distance}</span>
+              </div>
             </div>
+
+            <div class="p-6 flex-grow flex flex-col justify-between">
+              <div class="mb-6">
+                <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
+                  <span data-field="tagline" data-index={index} data-en={item.tagline}>{item.tagline}</span>
+                </span>
+                <h2 class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide min-h-[56px] flex items-center">
+                  <span data-field="title" data-index={index} data-en={item.title}>{item.title}</span>
+                </h2>
+                <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
+                <p data-field="description" data-index={index} data-en={item.description} class="text-gray-500 text-sm font-sans font-light leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+              
+              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase">
+                <span id={`region-tag-${index}`}>Bandung, IDN</span>
+                <a id={`footer-tag-${index}`} href="#" target="_blank" rel="noopener noreferrer" class="text-amber-600 font-bold hover:text-amber-700 transition-colors cursor-pointer group-hover:underline">Local Guide →</a>
+              </div>
+            </div>
+
           </div>
-          <div class="p-6 flex-grow flex flex-col justify-between">
-            <div>
-              <span data-field="tagline" data-index={index} data-en={item.tagline} class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">{item.tagline}</span>
-              <h2 data-field="title" data-index={index} data-en={item.title} class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide line-clamp-2 min-h-[56px] flex items-center">{item.title}</h2>
-              <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
-              <p data-field="description" data-index={index} data-en={item.description} class="text-gray-500 text-sm font-sans font-light leading-relaxed line-clamp-4">{item.description}</p>
-            </div>
-            <div class="border-t border-gray-100 pt-4 mt-6 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase">
-              <span id={`region-tag-${index}`}>Bandung, IDN</span>
-              <a id={`footer-tag-${index}`} href="#" target="_blank" rel="noopener noreferrer" class="text-amber-600 font-bold hover:text-amber-700 transition-colors cursor-pointer group-hover:underline">Local Guide →</a>
-            </div>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
 
   </div>
@@ -90,14 +122,14 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
   };
 
   const mapsTable = {
-    "Museum of the Asian-African Conference": "https://maps.google.com/?q=Museum+of+the+Asian-African+Conference+Bandung",
+    "Museum of the Asian-African Conference": "https://maps.google.com/?q=Museum+of+the+Asian-African+Conference",
     "Taman Balai Kota Bandung": "https://maps.google.com/?q=Taman+Balai+Kota+Bandung",
-    "Braga City Walk": "https://maps.google.com/?q=Braga+City+Walk+Bandung",
-    "23 Paskal Shopping Centre": "https://maps.google.com/?q=23+Paskal+Shopping+Centre+Bandung",
-    "Gedung Sate": "https://maps.google.com/?q=Gedung+Sate+Bandung",
+    "Braga City Walk": "https://maps.google.com/?q=Braga+City+Walk",
+    "23 Paskal Shopping Centre": "https://maps.google.com/?q=23+Paskal+Shopping+Centre",
+    "Gedung Sate": "https://maps.google.com/?q=Gedung+Sate",
     "Kawah Putih (White Crater)": "https://maps.google.com/?q=Kawah+Putih+Ciwidey",
-    "Mount Tangruban Perahu": "https://maps.google.com/?q=Tangkuban+Perahu+Lembang",
-    "Saung Angklung Udjo": "https://maps.google.com/?q=Saung+Angklung+Udjo+Bandung"
+    "Mount Tangruban Perahu": "https://maps.google.com/?q=Tangkuban+Perahu",
+    "Saung Angklung Udjo": "https://maps.google.com/?q=Saung+Angklung+Udjo"
   };
 
   function getLanguagePreference() {
@@ -126,7 +158,11 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
 
     document.querySelectorAll('[data-field]').forEach(el => {
       const field = el.getAttribute('data-field');
-      const englishTitleKey = field === 'title' ? el.getAttribute('data-en') : el.closest('.flex-col, .relative').parentElement.querySelector('[data-field="title"]').getAttribute('data-en');
+      const containerCard = el.closest('.flex-col, .relative').parentElement;
+      const titleEl = containerCard.querySelector('[data-field="title"]');
+      if (!titleEl) return;
+      
+      const englishTitleKey = titleEl.getAttribute('data-en');
       const translationMatch = translations[englishTitleKey];
       el.innerText = (lang === 'id' && translationMatch && translationMatch[field]) ? translationMatch[field] : el.getAttribute('data-en');
     });
