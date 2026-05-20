@@ -1,174 +1,66 @@
----
-// src/pages/attractions.astro
-import Layout from "../layouts/Layout.astro";
-import attractionsData from "../content/attractions.json";
-
-const attractions = Array.isArray(attractionsData) ? attractionsData : [];
----
-
-<Layout title="Local Attractions | Mutiara Hotel & Convention">
-  <div class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-    
-    <div class="max-w-6xl mx-auto flex justify-end items-center gap-3 mb-8">
-      <span class="text-[10px] tracking-widest font-sans font-bold text-slate-400 uppercase">Language Mode:</span>
-      <div class="bg-slate-100 p-1 rounded-xl inline-flex items-center border border-slate-200/60 shadow-inner">
-        <button id="lang-en" type="button" class="px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg transition-all duration-200 cursor-pointer">Original</button>
-        <button id="lang-id" type="button" class="px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">Indonesia (AI)</button>
-      </div>
-    </div>
-
-    <div class="max-w-4xl mx-auto text-center mb-16">
-      <span id="txt-subtitle" class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1">Explore Bandung</span>
-      <h1 id="txt-title" class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">Destinations & Attractions</h1>
-      <div class="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
-      <p id="txt-desc" class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic">"From the heritage steps of the historic city center to the dramatic volcanic craters of West Java, experience the best of Bandung right from our doorstep."</p>
-    </div>
-
-    <div id="attractions-grid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-      {attractions.map((item, index) => (
-        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
-          
-          <div class="relative h-60 bg-gray-200 overflow-hidden">
-            <img 
-              src={item.image || 
-                (item.title.includes("Balai Kota") ? "https://images.unsplash.com/photo-1582234375176-338a9771a737?auto=format&fit=crop&w=800&q=80" :
-                 item.title.includes("Sate") ? "https://images.unsplash.com/photo-1626245380309-906f0e6533ef?auto=format&fit=crop&w=800&q=80" :
-                 item.title.includes("Kawah") ? "https://images.unsplash.com/photo-1616431575958-88aaade00010?auto=format&fit=crop&w=800&q=80" : 
-                 "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&w=800&q=80")} 
-              alt={item.title} 
-              class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-              loading="lazy" 
-            />
-            <div data-field="category" data-index={index} data-en={item.category} class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">{item.category}</div>
-            <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
-              <span>📍</span> <span data-field="distance" data-index={index} data-en={item.distance}>{item.distance}</span>
-            </div>
-          </div>
-
-          <div class="p-6 flex-grow flex flex-col justify-between">
-            <div>
-              <span data-field="tagline" data-index={index} data-en={item.tagline} class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">{item.tagline}</span>
-              <h2 data-field="title" data-index={index} data-en={item.title} class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide min-h-[56px] flex items-center">{item.title}</h2>
-              <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
-              
-              <p data-field="description" data-index={index} data-en={item.description} class="text-gray-500 text-sm font-sans font-light leading-relaxed transition-all duration-300">
-                {item.description}
-              </p>
-            </div>
-            <div class="border-t border-gray-100 pt-4 mt-6 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase">
-              <span id={`region-tag-${index}`}>Bandung, IDN</span>
-              <a id={`footer-tag-${index}`} href="#" target="_blank" rel="noopener noreferrer" class="text-amber-600 font-bold hover:text-amber-700 transition-colors cursor-pointer group-hover:underline">Local Guide →</a>
-            </div>
-          </div>
-
-        </div>
-      ))}
-    </div>
-
-  </div>
-</Layout>
-
-<script is:inline>
-  const translations = {
-    "Museum of the Asian-African Conference": {
-      title: "Museum Konferensi Asia-Afrika", tagline: "Situs Sejarah Gedung Merdeka", category: "Pusat Kota", distance: "1,5 Km (15 Menit Berjalan Kaki)",
-      description: "Berjarak sekitar 1,5 km dari Mutiara Hotel, landmark budaya bersejarah ini memperingati Konferensi Asia-Afrika tahun 1955 di mana para pemimpin dari 29 negara berkumpul untuk mempromosikan kerja sama dan solidaritas antar bangsa."
-    },
-    "Taman Balai Kota Bandung": {
-      title: "Taman Balai Kota Bandung", tagline: "Balai Kota & Taman Bersejarah Bandung", category: "Pusat Kota", distance: "1,1 Km (12 Menit Berjalan Kaki)",
-      description: "Terletak di Jalan Wastukencana, pusat administratif kota Bandung ini kaya akan sejarah dan arsitektur yang memukau. Bangunan ini awalnya merupakan gudang kopi pada tahun 1819 sebelum dialihfungsikan menjadi kantor pemerintah kolonial Belanda pada tahun 1927."
-    },
-    "Braga City Walk": {
-      title: "Braga City Walk", tagline: "Kawasan Hiburan Terpadu", category: "Pusat Kota", distance: "800 Meter (10 Menit Berjalan Kaki)",
-      description: "Berjarak sekitar 800 meter dari Mutiara Hotel. Braga City Walk adalah kawasan perbelanjaan dan hiburan populer yang menawarkan deretan butik lokal, jenama internasional, restoran khas, dan bioskop modern."
-    },
-    "23 Paskal Shopping Centre": {
-      title: "23 Paskal Shopping Centre", tagline: "Pusat Ritel & Kuliner Premium", category: "Pusat Kota", distance: "750 Meter (8 Menit Berjalan Kaki)",
-      description: "Terletak hanya 750 meter dari Mutiara Hotel, pusat perbelanjaan utama ini menawarkan perpaduan ritel mode internasional yang mewah, area pusat kuliner (food court) yang masif, dan ruang hiburan keluarga."
-    },
-    "Gedung Sate": {
-      title: "Gedung Sate", tagline: "Simbol Arsitektur Jawa Barat", category: "Pusat Kota", distance: "2,9 Km (8 Menit Berkendara)",
-      description: "Pusat administratif pemerintahan provinsi Jawa Barat yang megah bergaya neoklasik, terkenal dengan museum warisan sejarahnya dan ornamen tusuk sate ikonik di puncak atapnya."
-    },
-    "Kawah Putih (White Crater)": {
-      title: "Kawah Putih", tagline: "Danau Kawah Vulkanik Berwarna Turkuas", category: "Wisata Alam", distance: "45 Km (1,5 Jam Berkendara)",
-      description: "Danau kawah vulkanik belerang yang memukau di selatan Bandung, Ciwidey. Airnya yang berwarna hijau turkuas susu berpadu dengan ranting pohon kering di sekitarnya menciptakan pemandangan mistis yang sangat fotogenik."
-    },
-    "Mount Tangruban Perahu": {
-      title: "Gunung Tangkuban Parahu", tagline: "Gunung Berapi Aktif & Kawah Panoramik", category: "Wisata Alam", distance: "29 Km (55 Menit Berkendara)",
-      description: "Gunung berapi aktif ikonik di utara kota Bandung, Lembang. Pengunjung dapat berjalan kaki atau berkendara langsung ke tepi kawah utama yang besar untuk menyaksikan kepulan asap belerang dengan latar pegunungan yang indah."
-    },
-    "Saung Angklung Udjo": {
-      title: "Saung Angklung Udjo", tagline: "Kebudayaan Bambu & Pertunjukan Musik", category: "Warisan Budaya", distance: "7,2 Km (20 Menit Berkendara)",
-      description: "Sanggar seni budaya legendaris yang didedikasikan untuk melestarikan seni tradisional Sunda. Saksikan pertunjukan interaktif yang energik menggunakan alat musik bambu tradisional Angklung."
-    }
-  };
-
-  const mapsTable = {
-    "Museum of the Asian-African Conference": "https://www.google.com/maps/dir/?api=1&destination=Museum+Konferensi+Asia-Afrika",
-    "Taman Balai Kota Bandung": "https://www.google.com/maps/dir/?api=1&destination=Taman+Balai+Kota+Bandung",
-    "Braga City Walk": "https://www.google.com/maps/dir/?api=1&destination=Braga+City+Walk",
-    "23 Paskal Shopping Centre": "https://www.google.com/maps/dir/?api=1&destination=23+Paskal+Shopping+Centre",
-    "Gedung Sate": "https://www.google.com/maps/dir/?api=1&destination=Gedung+Sate",
-    "Kawah Putih (White Crater)": "https://www.google.com/maps/dir/?api=1&destination=Kawah+Putih",
-    "Mount Tangruban Perahu": "https://www.google.com/maps/dir/?api=1&destination=Tangkuban+Perahu",
-    "Saung Angklung Udjo": "https://www.google.com/maps/dir/?api=1&destination=Saung+Angklung+Udjo"
-  };
-
-  function getLanguagePreference() {
-    return new URLSearchParams(window.location.search).get('lang') === 'id' ? 'id' : 'en';
+[
+  {
+    "title": "Museum of the Asian-African Conference",
+    "distance": "0.9 Miles (15 Min Walk)",
+    "image": "",
+    "tagline": "Gedung Merdeka Heritage Site",
+    "category": "City Center",
+    "description": "Located around 1.5 km from Mutiara Hotel, this cultural landmark commemorates the historic 1955 conference where leaders from 29 African and Asian countries gathered to promote cooperation, understanding, and solidarity among nations."
+  },
+  {
+    "title": "Taman Balai Kota Bandung",
+    "distance": "0.7 Miles (12 Min Walk)",
+    "image": "",
+    "tagline": "Bandung City Hall & Historic Park",
+    "category": "City Center",
+    "description": "Located around 1.5 km from the hotel on Jalan Wastukencana, the administrative center of Bandung is rich in history and remarkable architecture. The building was originally a coffee warehouse in 1819 before being converted into a Dutch colonial government office in 1927."
+  },
+  {
+    "title": "Braga City Walk",
+    "distance": "0.5 Miles (10 Min Walk)",
+    "image": "",
+    "tagline": "Integrated Entertainment Zone",
+    "category": "City Center",
+    "description": "Located around 800 meters from Mutiara Hotel. Braga City Walk is a vibrant shopping and entertainment district featuring a diverse array of local boutiques, international brands, specialty restaurants, and multi-screen cinemas."
+  },
+  {
+    "title": "23 Paskal Shopping Centre",
+    "distance": "0.4 Miles (8 Min Walk)",
+    "image": "",
+    "tagline": "Premium Retail & Culinary Hub",
+    "category": "City Center",
+    "description": "Located around 750 meters from Mutiara Hotel, this premier shopping center offers an excellent blend of luxury shopping, international fashion houses, a massive food market, and entertainment spaces."
+  },
+  {
+    "title": "Gedung Sate",
+    "distance": "1.8 Miles (8 Min Drive)",
+    "image": "",
+    "tagline": "Architectural Symbol of West Java",
+    "category": "City Center",
+    "description": "The striking neoclassical administrative center of West Java's provincial government, renowned for its heritage museum and its iconic roof ornament styled after a traditional skewered ornament."
+  },
+  {
+    "title": "Kawah Putih (White Crater)",
+    "distance": "28 Miles (1.5 Hr Drive)",
+    "image": "",
+    "tagline": "Eerie Turquoise Volcanic Crater Lake",
+    "category": "Nature Excursions",
+    "description": "A striking sulfurous acid volcanic crater lake located south of Bandung in Ciwidey. The stunning milky-turquoise waters and surrounding skeletal trees offer a mystical landscape perfect for photography."
+  },
+  {
+    "title": "Mount Tangruban Perahu",
+    "distance": "18 Miles (55 Min Drive)",
+    "image": "",
+    "tagline": "Active Volcano & Panoramic Craters",
+    "category": "Nature Excursions",
+    "description": "An iconic active volcano north of the city in Lembang. Visitors can hike or drive right up to the edge of the massive main crater to witness steam vents amidst beautiful mountain backdrops."
+  },
+  {
+    "title": "Saung Angklung Udjo",
+    "distance": "4.5 Miles (20 Min Drive)",
+    "image": "",
+    "tagline": "Bamboo Culture & Musical Show",
+    "category": "Cultural Heritage",
+    "description": "A legendary cultural workshop and performance space dedicated to preserving traditional Sudanese art. Experience live energetic performances featuring the traditional Angklung bamboo instruments."
   }
-
-  function applyLanguageTranslation() {
-    const lang = getLanguagePreference();
-    const btnEN = document.getElementById('lang-en');
-    const btnID = document.getElementById('lang-id');
-    if (!btnEN || !btnID) return;
-
-    if (lang === 'id') {
-      btnID.className = "px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg bg-white text-slate-900 shadow-sm border border-slate-200/40 cursor-pointer";
-      btnEN.className = "px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer";
-      document.getElementById('txt-subtitle').innerText = "JELAJAHI BANDUNG";
-      document.getElementById('txt-title').innerText = "DESTINASI & ATRAKSI WISATA";
-      document.getElementById('txt-desc').innerText = '"Dari jejak sejarah pusat kota lama hingga kawah vulkanik Jawa Barat yang memukau, rasakan pesona terbaik Bandung langsung dari pintu hunian kami."';
-    } else {
-      btnEN.className = "px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg bg-white text-slate-900 shadow-sm border border-slate-200/40 cursor-pointer";
-      btnID.className = "px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer";
-      document.getElementById('txt-subtitle').innerText = "EXPLORE BANDUNG";
-      document.getElementById('txt-title').innerText = "DESTINATIONS & ATTRACTIONS";
-      document.getElementById('txt-desc').innerText = '"From the heritage steps of the historic city center to the dramatic volcanic craters of West Java, experience the best of Bandung right from our doorstep."';
-    }
-
-    document.querySelectorAll('[data-field]').forEach(el => {
-      const field = el.getAttribute('data-field');
-      const englishTitleKey = field === 'title' ? el.getAttribute('data-en') : el.closest('.flex-col, .relative').parentElement.querySelector('[data-field="title"]').getAttribute('data-en');
-      const translationMatch = translations[englishTitleKey];
-      el.innerText = (lang === 'id' && translationMatch && translationMatch[field]) ? translationMatch[field] : el.getAttribute('data-en');
-    });
-
-    const totalItems = document.querySelectorAll('[id^="footer-tag-"]').length;
-    for (let i = 0; i < totalItems; i++) {
-      const region = document.getElementById(`region-tag-${i}`);
-      const footer = document.getElementById(`footer-tag-${i}`);
-      const titleElement = document.querySelector(`[data-field="title"][data-index="${i}"]`);
-      if (titleElement) {
-        const englishKey = titleElement.getAttribute('data-en');
-        if (footer && mapsTable[englishKey]) footer.setAttribute('href', mapsTable[englishKey]);
-      }
-      if (region && footer) {
-        region.innerText = lang === 'id' ? 'Bandung, Jawa Barat' : 'Bandung, IDN';
-        footer.innerText = lang === 'id' ? 'Panduan Lokal →' : 'Local Guide →';
-      }
-    }
-  }
-
-  document.getElementById('lang-en').onclick = () => {
-    const url = new URL(window.location.href); url.searchParams.set('lang', 'en'); window.history.pushState({}, '', url); applyLanguageTranslation();
-  };
-  document.getElementById('lang-id').onclick = () => {
-    const url = new URL(window.location.href); url.searchParams.set('lang', 'id'); window.history.pushState({}, '', url); applyLanguageTranslation();
-  };
-
-  applyLanguageTranslation();
-  document.addEventListener('astro:after-swap', applyLanguageTranslation);
-</script>
+]
