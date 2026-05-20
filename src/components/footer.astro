@@ -1,9 +1,9 @@
 ---
+// Import your master brand setup dataset directly to mirror the navbar logic
 import homepageData from "@/content/homepage.json";
 
-// We force the exact absolute path or fallback to the standard public logo asset directory
-const logoImage = homepageData.logo_image || "/images/logo.png"; 
-const brandName = homepageData.logo_text || "Mutiara";
+const logoImage = homepageData.logo_image;
+const brandName = homepageData.logo_text || "MUTIARA";
 ---
 
 <footer class="w-full bg-slate-950 text-slate-400 font-sans border-t border-slate-900 pt-16 pb-8 relative overflow-hidden left-0 right-0">
@@ -13,32 +13,32 @@ const brandName = homepageData.logo_text || "Mutiara";
   {/* INTERNAL INNER GRID INNER SHIELD */}
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-12 border-b border-slate-900">
     
-    {/* COLUMN 1: THE REAL VERIFIED NAVBAR BRAND LOGO IMAGE */}
+    {/* COLUMN 1: THE REAL VERIFIED NAVBAR BRAND LOGO MIRROR */}
     <div class="flex flex-col gap-4">
-      <div class="flex flex-col items-start gap-2">
+      <div class="flex flex-col items-start">
         
-        {/* We output BOTH the image and fallback option explicitly so it never renders blank */}
-        <div class="flex items-center gap-3">
-          <img 
-            src="/images/LogoMTR.png" 
-            alt="Mutiara Hotel & Convention Logo" 
-            class="h-10 w-auto object-contain"
-            onerror="this.style.display='none'" 
-          />
-          <span 
-            class="text-white text-3xl tracking-wide" 
-            style="font-family: 'EB Garamond', Georgia, serif !important;"
-          >
-            {brandName}
-          </span>
-        </div>
+        {/* MIRRORED NAVBAR BRAND HUB */}
+        <a href="/" class="flex items-center group">
+          {logoImage ? (
+            /* Standard Dynamic Image Extraction Mode */
+            <img 
+              src={logoImage} 
+              alt={`${brandName} Logo`} 
+              class="h-12 md:h-16 w-auto object-contain max-w-[200px]"
+            />
+          ) : (
+            /* Clean Typography Fallback Mode */
+            <span 
+              class="text-white text-3xl tracking-wide font-medium" 
+              style="font-family: 'EB Garamond', Georgia, serif !important;"
+            >
+              {brandName}
+            </span>
+          )}
+        </a>
         
-        {/* BRAND SUBTITLE */}
-        <span class="text-[10px] text-amber-500 tracking-[0.25em] font-bold uppercase mt-2">
-          Hotel & Convention
-        </span>
       </div>
-      <p class="text-xs leading-relaxed text-slate-500 max-w-xs mt-2">
+      <p class="text-xs leading-relaxed text-slate-500 max-w-xs mt-4">
         Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.
       </p>
     </div>
