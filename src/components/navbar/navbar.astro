@@ -60,7 +60,9 @@ const menuitems = [
                     <li>
                       <a
                         href={item.path}
-                        class="flex lg:px-3 py-2 items-center text-sm font-semibold tracking-wide text-slate-700 hover:text-amber-600 transition-colors uppercase">
+                        data-nav-link
+                        class="nav-item flex lg:px-3 py-2 items-center text-sm font-semibold tracking-wide text-slate-700 hover:text-amber-600 transition-all uppercase relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-amber-600 after:transform after:scale-x-0 after:transition-transform duration-300"
+                      >
                         <span> {item.title}</span>
                       </a>
                     </li>
@@ -98,3 +100,62 @@ const menuitems = [
     </div>
   </Container>
 </header>
+
+{/* DYNAMIC SCROLL SPY TRACKER SCRIPT */}
+<script>
+  function setupScrollSpy() {
+    const navLinks = document.querySelectorAll('[data-nav-link]');
+    const sections = document.querySelectorAll('section[id]');
+
+    // Options configuration: triggers right when the section takes up 40% of the viewport screen
+    const options = {
+      root: null,
+      rootMargin: '-20% 0px -40% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          
+          navLinks.forEach((link) => {
+            const href = link.getAttribute('href');
+            
+            // Check if the link target aligns with the current active screen section
+            if (href === `#${id}` || (id === 'hero' && href === '/')) {
+              link.classList.add('text-amber-600', 'after:scale-x-100');
+              link.classList.remove('text-slate-700');
+            } else {
+              link.classList.remove('text-amber-600', 'after:scale-x-100');
+              link.classList.add('text-slate-700');
+            }
+          });
+        }
+      });
+    }, options);
+
+    // Tell the observer engine to actively monitor your landing section blocks
+    sections.forEach((section) => observer.observe(section));
+    
+    // Handle specific fallback case for absolute top of page scrolling (Home highlight)
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < 200 && navLinks.length > 0) {
+        navLinks.forEach((link, idx) => {
+          if (link.getAttribute('href') === '/') {
+            link.classList.add('text-amber-600', 'after:scale-x-100');
+            link.classList.remove('text-slate-700');
+          } else {
+            link.classList.remove('text-amber-600', 'after:scale-x-100');
+            if (!link.classList.contains('text-slate-700')) link.classList.add('text-slate-700');
+          }
+        });
+      }
+    });
+  }
+
+  // Lifecycle execution triggers for standard loads and Astro SPA updates
+  document.addEventListener('DOMContentLoaded', setupScrollSpy);
+  document.addEventListener('astro:after-swap', setupScrollSpy);
+  setupScrollSpy();
+</script>
