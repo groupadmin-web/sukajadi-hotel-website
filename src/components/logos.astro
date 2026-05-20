@@ -1,18 +1,45 @@
 ---
-// @ts-ignore
-import { Icon } from "astro-icon/components";
+import badgesData from "@/content/badges.json";
+
+const safeBadges = badgesData || [];
 ---
 
-<div class="mt-24">
-  <h2 class="text-center text-slate-500">Works with your technologies</h2>
-  <div class="flex gap-8 md:gap-20 items-center justify-center mt-10 flex-wrap">
+<div class="mt-24 mb-16 max-w-6xl mx-auto px-4 font-sans">
+  
+  <p class="text-center text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase mb-10">
+    Trusted Luxury Partner Network & Accolades
+  </p>
+  
+  <div class="grid grid-cols-2 md:grid-cols-4 items-center justify-center gap-8 md:gap-12">
+    {
+      safeBadges.map((badge) => (
+        <div class="flex flex-col items-center justify-center text-center group transition-all duration-300 transform hover:-translate-y-1">
+          
+          {/* LOGO BOX COMPONENT CONTAINER */}
+          <div class="h-12 w-full max-w-[140px] flex items-center justify-center mb-2.5">
+            {badge.badge_image ? (
+              <img 
+                src={badge.badge_image} 
+                alt={`${badge.name} Verification`} 
+                class="max-h-full max-w-full object-contain filter grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                loading="lazy"
+              />
+            ) : (
+              <span class="text-sm font-bold tracking-wide text-slate-400 uppercase">{badge.name}</span>
+            )}
+          </div>
 
-    <Icon class="size-8 md:size-12" name="simple-icons:react" />
-    <Icon class="size-8 md:size-12" name="simple-icons:svelte" />
-    <Icon class="size-8 md:size-12" name="simple-icons:astro" />
-    <Icon class="size-8 md:size-16" name="simple-icons:tailwindcss" />
-    <Icon class="size-8 md:size-16" name="simple-icons:alpinedotjs" />
-    <Icon class="size-8 md:size-12" name="simple-icons:vercel" />
-
+          {/* DYNAMIC SCORING LABEL SUBTEXT */}
+          {badge.subtitle && (
+            <span class="text-[11px] font-medium tracking-wide text-slate-400/80 group-hover:text-amber-600 transition-colors duration-300">
+              {badge.subtitle}
+            </span>
+          )}
+          
+        </div>
+      ))
+    }
   </div>
+  
+  <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-slate-200/60 to-transparent mt-16"></div>
 </div>
