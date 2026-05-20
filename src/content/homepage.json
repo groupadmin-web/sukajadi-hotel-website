@@ -1,7 +1,8 @@
 {
   "welcome_title": "MUTIARA HOTEL & CONVENTION",
-  "logo_text": "Mutiara Hotel & Convention",
-  "logo_image": "/images/LogoMTR.png",
+  "logo_text": "MUTIARA HOTEL & CONVENTION",
+  "logo_image": "",
   "tagline": "Our hotel blends the charm of modern hospitality and the sophistication of the colonial era boutique hotel.",
-  "background_image": "/images/kolam 1.jpg"
+  "booking_button_text": "Book Now",
+  "background_image": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80"
 }
