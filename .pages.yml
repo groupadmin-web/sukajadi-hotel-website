@@ -28,18 +28,6 @@ content:
         label: "Display Partners & Awards Row on Website?"
         type: boolean
         default: true
-      - name: cta_title
-        label: "Promotion Headline Title"
-        type: string
-        default: "Exclusive Seasonal Promotion"
-      - name: cta_desc
-        label: "Promotion Offer Details"
-        type: text
-        default: "Book directly through our website to unlock premium perks, complimentary high-speed Wi-Fi upgrades, and exclusive discounts on your next staycation or convention suite booking."
-      - name: cta_btn_text
-        label: "Promotion Button Action text"
-        type: string
-        default: "Claim Offer Now"
 
   - name: reviews
     label: "2. Guest Reviews Marquee"
@@ -170,8 +158,36 @@ content:
     collapsed: true
     fields:
       - name: name
-        label: "Partner Name (Type exactly: Booking.com, Traveloka, Agoda, or Google)"
+        label: "Partner Name"
         type: string
       - name: subtitle
-        label: "Score/Label Notation (e.g., 8.7 / 10 Rating)"
+        label: "Score/Label Notation"
+        type: string
+
+  - name: promotion
+    label: "8. Promotions & Offers Banner"
+    type: file
+    path: src/content/promotion.json
+    format: json
+    fields:
+      - name: banner_bg_type
+        label: "Background Mode Display Option"
+        type: select
+        options:
+          values:
+            - "Photo Background"
+            - "Luxury Solid Charcoal"
+            - "Deep Premium Blue"
+        default: "Photo Background"
+      - name: banner_bg_image
+        label: "Promo Background Photo File (Applies when 'Photo Background' is selected)"
+        type: image
+      - name: cta_title
+        label: "Promo Headline Title"
+        type: string
+      - name: cta_desc
+        label: "Promo Offer Details Paragraph"
+        type: text
+      - name: cta_btn_text
+        label: "Promo Button Action text"
         type: string
