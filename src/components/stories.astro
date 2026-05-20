@@ -1,0 +1,78 @@
+---
+import storiesData from "@/content/stories.json";
+
+const rawStories = storiesData || [];
+const today = new Date();
+
+// CALENDAR FILTER MACHINE logic
+const activeStories = rawStories.filter(story => {
+  const start = story.start_date ? new Date(story.start_date) : null;
+  const expiry = story.expiry_date ? new Date(story.expiry_date) : null;
+  
+  // Set time limits to midnight to make comparisons exact
+  if (start && start > today) return false; // Not yet started
+  if (expiry && expiry < today) return false; // Expired
+  return true;
+});
+
+const archivedStories = rawStories.filter(story => {
+  const expiry = story.expiry_date ? new Date(story.expiry_date) : null;
+  return expiry && expiry < today; // Only targets files whose calendar date is in the past
+});
+---
+
+<section class="py-16 max-w-6xl mx-auto px-6 font-sans overflow-hidden">
+  
+  <div class="space-y-28 md:space-y-36">
+    {
+      activeStories.map((story, index) => {
+        const isEven = index % 2 === 0;
+        return (
+          <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+            <div class={`w-full lg:w-1/2 aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 shadow-md transition-all duration-700 hover:shadow-xl ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+              {story.story_image ? (
+                <img src={story.story_image} alt={story.title} class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" loading="lazy" />
+              ) : (
+                <div class="w-full h-full flex items-center justify-center text-slate-300 font-serif text-sm italic">No photo</div>
+              )}
+            </div>
+            <div class={`w-full lg:w-1/2 flex flex-col justify-center ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
+              {story.subtitle && <span class="text-xs font-semibold tracking-[0.25em] text-amber-600 uppercase mb-3 block">{story.subtitle}</span>}
+              <h3 class="font-serif text-2xl md:text-3xl text-slate-900 tracking-wide font-normal mb-5 leading-snug">{story.title}</h3>
+              <p class="text-slate-500 text-[15px] leading-relaxed font-light tracking-wide">{story.text_content}</p>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  {archivedStories.length > 0 && (
+    <div class="mt-32 pt-16 border-t border-slate-100">
+      <div class="text-center mb-12">
+        <h4 class="font-serif text-2xl text-slate-800 font-normal">Past Events & Announcements</h4>
+        <p class="text-sm text-slate-400 mt-1">A historical log of Mutiara corporate features and seasonal gatherings</p>
+      </div>
+      
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+        {archivedStories.map(story => (
+          <div class="bg-slate-50/50 rounded-xl p-4 border border-slate-100 opacity-80 hover:opacity-100 transition-opacity flex flex-col justify-between h-full">
+            <div>
+              <div class="aspect-video w-full rounded-lg overflow-hidden bg-slate-200 mb-4">
+                {story.story_image && <img src={story.story_image} alt={story.title} class="w-full h-full object-cover grayscale" />}
+              </div>
+              <span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase block mb-1">{story.subtitle || "ARCHIVE"}</span>
+              <h5 class="font-serif text-base text-slate-800 font-medium mb-2 leading-snug">{story.title}</h5>
+              <p class="text-slate-500 text-xs leading-relaxed font-light line-clamp-3">{story.text_content}</p>
+            </div>
+            {story.expiry_date && (
+              <span class="text-[10px] text-amber-600/70 font-sans mt-4 block border-t border-slate-200/60 pt-2 font-medium">
+                Concluded on: {new Date(story.expiry_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</section>
