@@ -2,22 +2,12 @@
 // src/components/hero.astro
 import homepageData from "../content/homepage.json";
 
-const { welcome_title, tagline, booking_button_text, hero_image } = homepageData;
+const { welcome_title, tagline, booking_button_text, slideshow } = homepageData;
 
-// 1. Scan your main images directory ONLY for files that start with "slide-"
-const localSlides = await Astro.glob('../../public/images/slide-*');
-
-// 2. Map those files out to clean website URLs
-const backgroundSlides = localSlides.map(file => {
-  const filename = file.default.split('/').pop();
-  return `/images/${filename}`;
-});
-
-// 3. Put your primary CMS image first, followed by all other slide files found
-const slides = [
-  hero_image || "/images/slide-1.jpg",
-  ...backgroundSlides.filter(path => path !== hero_image && path !== "/images/slide-1.jpg")
-];
+// Safely map the object list to pull out the raw image paths for the template
+const slides = slideshow && slideshow.length > 0 
+  ? slideshow.map(item => item.slide_image).filter(Boolean)
+  : ["/images/slide-1.jpg", "/images/slide-2.jpg", "/images/slide-3.jpg"];
 ---
 
 <main class="relative bg-gray-950 text-white min-h-[80vh] w-full flex items-center justify-center overflow-hidden shadow-2xl">
