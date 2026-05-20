@@ -105,10 +105,26 @@ const menuitems = [
 <script is:inline>
   function initScrollTracking() {
     const links = document.querySelectorAll('[data-nav-link]');
-    
+    const currentPath = window.location.pathname;
+
+    // 1. SMART URL PATH CHECKER: If the address bar contains 'rooms', light it up and exit!
+    if (currentPath.includes('/rooms')) {
+      links.forEach((link) => {
+        const href = link.getAttribute('href');
+        if (href === '/rooms' || href.includes('rooms')) {
+          link.classList.add('text-amber-600', 'after:scale-x-100');
+          link.classList.remove('text-slate-700');
+        } else {
+          link.classList.remove('text-amber-600', 'after:scale-x-100');
+          link.classList.add('text-slate-700');
+        }
+      });
+      return;
+    }
+
+    // 2. Otherwise run homepage section scroll spy logic
     function checkActiveSection() {
       const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50;
-      
       let currentActiveId = '';
       const scrollPosition = window.scrollY + 250;
 
@@ -123,6 +139,8 @@ const menuitems = [
       links.forEach((link) => {
         const href = link.getAttribute('href');
         let shouldHighlight = false;
+
+        if (href === '/rooms' || href.includes('rooms')) return;
 
         if (isAtBottom) {
           shouldHighlight = (href === '#contact');
