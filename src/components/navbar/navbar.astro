@@ -4,36 +4,17 @@ import Link from "@/components/ui/link.astro";
 import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
-// MATCHED EXACTLY TO YOUR SCREENSHOT
+// Fetch your dynamic brand data from your header setup file
+import homepageData from "@/content/homepage.json";
+
 const menuitems = [
-  {
-    title: "HOME",
-    path: "/",
-  },
-  {
-    title: "Q&A",
-    path: "#qa", // Points down to a future Q&A section anchor point
-  },
-  {
-    title: "ROOM",
-    path: "#rooms",
-  },
-  {
-    title: "TOURIST ATTRACTIONS",
-    path: "#attractions",
-  },
-  {
-    title: "GALLERY",
-    path: "#gallery",
-  },
-  {
-    title: "MEETINGS & EVENTS",
-    path: "#events",
-  },
-  {
-    title: "CONTACT",
-    path: "#contact",
-  },
+  { title: "HOME", path: "/" },
+  { title: "Q&A", path: "#qa" },
+  { title: "ROOM", path: "#rooms" },
+  { title: "TOURIST ATTRACTIONS", path: "#attractions" },
+  { title: "GALLERY", path: "#gallery" },
+  { title: "MEETINGS & EVENTS", path: "#events" },
+  { title: "CONTACT", path: "#contact" },
 ];
 ---
 
@@ -42,9 +23,23 @@ const menuitems = [
     <div class="flex flex-col lg:flex-row justify-between items-center py-4">
       <Astronav>
         <div class="flex w-full lg:w-auto items-center justify-between">
-          <a href="/" class="text-xl tracking-wider font-serif">
-            <span class="font-bold text-slate-900">MUTIARA</span>
+          
+          <a href="/" class="flex items-center tracking-wider font-serif">
+            {homepageData.logo_image ? (
+              /* If your staff uploads an image logo file, render it beautifully here */
+              <img 
+                src={homepageData.logo_image} 
+                alt={`${homepageData.logo_text || 'Mutiara'} Logo`} 
+                class="h-8 w-auto object-contain max-w-[180px]" 
+              />
+            ) : (
+              /* If no logo image exists, fallback cleanly to your editable brand text header */
+              <span class="font-bold text-xl text-slate-900 uppercase">
+                {homepageData.logo_text || "MUTIARA"}
+              </span>
+            )}
           </a>
+          
           <div class="block lg:hidden">
             <MenuIcon class="w-5 h-5 text-gray-800" />
           </div>
