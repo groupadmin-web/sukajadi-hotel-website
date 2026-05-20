@@ -1,6 +1,7 @@
 ---
 import homepageData from "@/content/homepage.json";
 
+// Safely pulling the live logo image path value
 const logoImage = homepageData.logo_image;
 ---
 
@@ -11,30 +12,29 @@ const logoImage = homepageData.logo_image;
   {/* INTERNAL INNER GRID INNER SHIELD */}
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-12 border-b border-slate-900">
     
-    {/* COLUMN 1: PERFECT BRAND STACK WITH LOGO MARK */}
+    {/* COLUMN 1: BULLETPROOF STACK BRAND LOGO INTEGRATION */}
     <div class="flex flex-col gap-4">
       <div class="flex items-center gap-4">
         
-        {/* THE REAL SEA-SHELL LOGO GRAPHIC MARK */}
+        {/* OPTIONAL LOGO MARK: If it exists, it renders. If blank, it gracefully skips without breaking the text! */}
         {logoImage && (
           <img 
             src={logoImage} 
-            alt="Mutiara Hotel Logo Mark" 
+            alt="Mutiara Brand Logo" 
             class="h-14 w-auto object-contain brightness-110"
+            onerror="this.style.display='none';"
           />
         )}
         
-        {/* PREMIUM TYPOGRAPHY STACK STRATA */}
+        {/* THE INDEPENDENT TYPOGRAPHY STACK: This will always stay visible no matter what */}
         <div class="flex flex-col justify-center">
-          {/* Mutiara proudly on top in pristine EB Garamond */}
           <span 
-            class="text-white text-3xl font-medium tracking-wide leading-none" 
+            class="text-white text-3xl font-medium tracking-wide leading-none select-none" 
             style="font-family: 'EB Garamond', Georgia, serif !important;"
           >
             Mutiara
           </span>
-          {/* Hotel & Convention resting perfectly below in your favorite orange */}
-          <span class="text-[10px] text-amber-500 tracking-[0.22em] font-bold uppercase mt-1.5 whitespace-nowrap">
+          <span class="text-[10px] text-amber-500 tracking-[0.22em] font-bold uppercase mt-1.5 whitespace-nowrap select-none">
             Hotel & Convention
           </span>
         </div>
