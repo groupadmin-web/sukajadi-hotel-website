@@ -65,7 +65,7 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
               ))}
             </div>
 
-            {/* THE NEW GALLERY TRIGGER BUTTON */}
+            {/* THE GALLERY TRIGGER BUTTON */}
             <button 
               data-gallery-trigger={index}
               class="block w-full bg-amber-600 hover:bg-amber-700 text-white text-center font-bold font-sans text-sm py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all tracking-wider uppercase cursor-pointer"
@@ -74,35 +74,41 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
             </button>
           </div>
 
-          {/* LIGHTBOX POPUP MODAL MAPPED TO INDEPENDENT IMAGE STRINGS */}
+          {/* LIGHTBOX POPUP MODAL WITH HORIZONTAL ROW FLOW */}
           <div id={`gallery-modal-${index}`} class="fixed inset-0 bg-gray-950/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
             <div class="bg-white rounded-xl p-6 max-w-4xl w-full shadow-2xl relative">
               <button data-close-trigger={index} class="absolute -top-12 right-0 text-white hover:text-amber-500 text-sm uppercase font-bold tracking-widest cursor-pointer">✕ Close</button>
-              <h3 class="text-xl font-serif font-bold text-gray-900 mb-4 uppercase tracking-wider">{room.title} Gallery Photo Showcase</h3>
+              <h3 class="text-xl font-serif font-bold text-gray-900 mb-6 uppercase tracking-wider">{room.title} Gallery Photo Showcase</h3>
               
-              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-h-[60vh] overflow-y-auto p-1">
+              {/* HORIZONTAL FLEXBOX CONTAINER */}
+              <div class="flex flex-row flex-wrap items-center justify-start gap-4 p-2 max-h-[60vh] overflow-y-auto">
+                
                 {/* Main Feature Cover */}
-                <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                <div class="w-40 sm:w-52 aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200 shadow-sm flex-shrink-0">
                   <img src={room.image} class="w-full h-full object-cover" alt="Main cover display photo"/>
                 </div>
+                
                 {/* Additional Upload Slot 1 */}
                 {room.room_gallery1 && (
-                  <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                  <div class="w-40 sm:w-52 aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200 shadow-sm flex-shrink-0">
                     <img src={room.room_gallery1} class="w-full h-full object-cover hover:scale-105 transition-transform duration-200" alt="Room detail image 1"/>
                   </div>
                 )}
+                
                 {/* Additional Upload Slot 2 */}
                 {room.room_gallery2 && (
-                  <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                  <div class="w-40 sm:w-52 aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200 shadow-sm flex-shrink-0">
                     <img src={room.room_gallery2} class="w-full h-full object-cover hover:scale-105 transition-transform duration-200" alt="Room detail image 2"/>
                   </div>
                 )}
+                
                 {/* Additional Upload Slot 3 */}
                 {room.room_gallery3 && (
-                  <div class="aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                  <div class="w-40 sm:w-52 aspect-video bg-gray-100 rounded-lg overflow-hidden border border-gray-200 shadow-sm flex-shrink-0">
                     <img src={room.room_gallery3} class="w-full h-full object-cover hover:scale-105 transition-transform duration-200" alt="Room detail image 3"/>
                   </div>
                 )}
+                
               </div>
             </div>
           </div>
@@ -121,22 +127,4 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
     openBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const idx = btn.getAttribute('data-gallery-trigger');
-        const modal = document.getElementById(`gallery-modal-${idx}`);
-        if (modal) modal.style.display = 'flex';
-      });
-    });
-
-    const closeBtns = document.querySelectorAll('[data-close-trigger]');
-    closeBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = btn.getAttribute('data-close-trigger');
-        const modal = document.getElementById(`gallery-modal-${idx}`);
-        if (modal) modal.style.display = 'none';
-      });
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', initGalleryPopups);
-  document.addEventListener('astro:after-swap', initGalleryPopups);
-  initGalleryPopups();
-</script>
+        const
