@@ -22,10 +22,10 @@ content:
         label: "Sub-Header High-Impact Hook"
         type: text
 
-      # CMS Input: Single text box that the script converts into a slideshow
-      - name: slideshow_paths
-        label: "Hero Slideshow Image Paths (Separate with commas)"
-        type: text
+      # THIS GIVES YOU THE REAL IMAGE UPLOAD SLOT (NO TEXT BOX!)
+      - name: hero_image
+        label: "Primary Banner Photo"
+        type: image
 
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
