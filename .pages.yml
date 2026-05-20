@@ -1,7 +1,19 @@
+# 1. Base Global Media Settings
 media:
   input: public/images
   output: /images
 
+# 2. FORCE SYSTEM LAYOUT ENGINE DEFENSE
+# This dictates to CloudCannon exactly how to render our slide lists globally
+_structures:
+  gallery_slides:
+    style: select
+    id_key: slide_image
+    values:
+      - value:
+          slide_image: /images/hotel-slide-1.jpg
+
+# 3. Content Collection Mappings
 content:
   - name: homepage
     label: "1. Brand & Header Setup"
@@ -22,16 +34,12 @@ content:
         label: "Sub-Header High-Impact Hook"
         type: text
 
-      # 1. Declare the container key as an array field type
+      # THIS EXPLICITLY RENDERS CLEAN SELECTION/UPLOAD ARRAY CARDS
       - name: slideshow_gallery
         label: "Hero Slideshow Photos"
-        type: list
-        spec:
-          type: object
-          fields:
-            - name: slide_image
-              label: "Upload Slide Photo"
-              type: image
+        type: array
+        options:
+          structures: _structures.gallery_slides
 
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
