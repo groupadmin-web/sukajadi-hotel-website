@@ -12,38 +12,38 @@ const logoImage = homepageData.logo_image;
   {/* INTERNAL INNER GRID INNER SHIELD */}
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-12 border-b border-slate-900">
     
-    {/* COLUMN 1: CLEAN BALANCED VERTICAL BRAND STACK */}
+    {/* COLUMN 1: SIDE-BY-SIDE PRECISION BRAND MATRIX */}
     <div class="flex flex-col gap-4">
-      <div class="flex flex-col items-start gap-3">
+      <div class="flex flex-row items-center gap-4">
         
         {/* THE REAL SEA-SHELL LOGO GRAPHIC MARK */}
         {logoImage && (
           <img 
             src={logoImage} 
             alt="Mutiara Brand Logo" 
-            class="h-14 w-auto object-contain brightness-110"
+            class="h-14 w-auto object-contain brightness-110 flex-shrink-0"
             onerror="this.style.display='none';"
           />
         )}
         
-        {/* CLASSIC HOTEL IDENTITY TYPOGRAPHY BALANCED BLOCK */}
-        <div class="flex flex-col">
-          {/* Elegant serif styling with clean, tasteful tracking */}
+        {/* THE TYPOGRAPHY BLOCK */}
+        <div class="flex flex-col justify-center">
+          {/* Custom inline style applied to widen character gaps by exactly 2% more to reach perfect flush margins */}
           <span 
-            class="text-white text-2xl font-medium uppercase tracking-wider leading-none select-none" 
-            style="font-family: 'EB Garamond', Georgia, serif !important;"
+            class="text-white text-2xl font-medium uppercase leading-none select-none" 
+            style="font-family: 'EB Garamond', Georgia, serif !important; letter-spacing: 7px !important; margin-right: -7px !important;"
           >
             Mutiara
           </span>
           {/* Subtitle baseline text perfectly balanced in orange */}
-          <span class="text-[10px] text-amber-500 tracking-[0.15em] font-bold uppercase mt-2 whitespace-nowrap select-none">
+          <span class="text-[10px] text-amber-500 tracking-[0.15em] font-bold uppercase mt-2.5 whitespace-nowrap select-none">
             Hotel & Convention
           </span>
         </div>
         
       </div>
       
-      <p class="text-xs leading-relaxed text-slate-500 max-w-xs mt-1">
+      <p class="text-xs leading-relaxed text-slate-500 max-w-xs mt-2">
         Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.
       </p>
     </div>
