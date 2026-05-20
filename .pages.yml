@@ -1,17 +1,7 @@
-# 1. GLOBAL INPUT SCHEMAS (This tells CloudCannon how to build lists anywhere on the site)
-_inputs:
-  slideshow:
-    type: array
-    comment: "Manage your home banner sliding carousel photos"
-  slideshow[*]:
-    type: image
-
-# 2. MEDIA ROOT DIRECTORIES
 media:
   input: public/images
   output: /images
 
-# 3. CONTENT MAPPING
 content:
   - name: homepage
     label: "1. Brand & Header Setup"
@@ -31,7 +21,16 @@ content:
       - name: tagline
         label: "Sub-Header High-Impact Hook"
         type: text
-        
+
+      # Structured Object Array for Individual Image Target Modules
+      - name: slideshow
+        label: "Hero Slideshow Photos"
+        type: array
+        fields:
+          - name: slide_image
+            label: "Upload Slide Photo"
+            type: image
+
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
         type: boolean
