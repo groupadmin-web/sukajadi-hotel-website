@@ -70,7 +70,15 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
 
             <div class="border-t border-gray-100 pt-4 mt-6 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase">
               <span id={`region-tag-${index}`}>Bandung, IDN</span>
-              <span id={`footer-tag-${index}`} class="text-amber-600 font-bold">Local Guide →</span>
+              <a 
+                id={`footer-tag-${index}`} 
+                href="#"
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="text-amber-600 font-bold hover:text-amber-700 transition-colors cursor-pointer group-hover:underline"
+              >
+                Local Guide →
+              </a>
             </div>
           </div>
 
@@ -82,13 +90,14 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
 </Layout>
 
 <script is:inline>
-  // Complete Uncut Translation Dictionary for all 8 items
+  // Complete Uncut Translation & Navigation Map Dictionary for all 8 items
   const translations = {
     "Museum of the Asian-African Conference": {
       title: "Museum Konferensi Asia-Afrika",
       tagline: "Situs Sejarah Gedung Merdeka",
       category: "Pusat Kota",
       distance: "1,5 Km (15 Menit Berjalan Kaki)",
+      mapsUrl: "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/Museum+Konferensi+Asia+Afrika/",
       description: "Berjarak sekitar 1,5 km dari Mutiara Hotel, landmark budaya bersejarah ini memperingati Konferensi Asia-Afrika tahun 1955 di mana para pemimpin dari 29 negara berkumpul untuk mempromosikan kerja sama dan solidaritas antar bangsa."
     },
     "Taman Balai Kota Bandung": {
@@ -96,6 +105,7 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       tagline: "Balai Kota & Taman Bersejarah Bandung",
       category: "Pusat Kota",
       distance: "1,1 Km (12 Menit Berjalan Kaki)",
+      mapsUrl: "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/Taman+Balai+Kota+Bandung/",
       description: "Terletak di Jalan Wastukencana, pusat administratif kota Bandung ini kaya akan sejarah dan arsitektur yang memukau. Bangunan ini awalnya merupakan gudang kopi pada tahun 1819 sebelum dialihfungsikan menjadi kantor pemerintah kolonial Belanda pada tahun 1927."
     },
     "Braga City Walk": {
@@ -103,6 +113,7 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       tagline: "Kawasan Hiburan Terpadu",
       category: "Pusat Kota",
       distance: "800 Meter (10 Menit Berjalan Kaki)",
+      mapsUrl: "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/Braga+Citywalk/",
       description: "Berjarak sekitar 800 meter dari Mutiara Hotel. Braga City Walk adalah kawasan perbelanjaan dan hiburan populer yang menawarkan deretan butik lokal, jenama internasional, restoran khas, dan bioskop modern."
     },
     "23 Paskal Shopping Centre": {
@@ -110,6 +121,7 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       tagline: "Pusat Ritel & Kuliner Premium",
       category: "Pusat Kota",
       distance: "750 Meter (8 Menit Berjalan Kaki)",
+      mapsUrl: "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/23+Paskal+Shopping+Center/",
       description: "Terletak hanya 750 meter dari Mutiara Hotel, pusat perbelanjaan utama ini menawarkan perpaduan ritel mode internasional yang mewah, area pusat kuliner (food court) yang masif, dan ruang hiburan keluarga."
     },
     "Gedung Sate": {
@@ -117,6 +129,7 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       tagline: "Simbol Arsitektur Jawa Barat",
       category: "Pusat Kota",
       distance: "2,9 Km (8 Menit Berkendara)",
+      mapsUrl: "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/Gedung+Sate/",
       description: "Pusat administratif pemerintahan provinsi Jawa Barat yang megah bergaya neoklasik, terkenal dengan museum warisan sejarahnya dan ornamen tusuk sate ikonik di puncak atapnya."
     },
     "Kawah Putih (White Crater)": {
@@ -124,6 +137,7 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       tagline: "Danau Kawah Vulkanik Berwarna Turkuas",
       category: "Wisata Alam",
       distance: "45 Km (1,5 Jam Berkendara)",
+      mapsUrl: "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60/Kawah+Putih/",
       description: "Danau kawah vulkanik belerang yang memukau di selatan Bandung, Ciwidey. Airnya yang berwarna hijau turkuas susu berpadu dengan ranting pohon kering di sekitarnya menciptakan pemandangan mistis yang sangat fotogenik."
     },
     "Mount Tangkuban Perahu": {
@@ -131,6 +145,7 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       tagline: "Gunung Berapi Aktif & Kawah Panoramik",
       category: "Wisata Alam",
       distance: "29 Km (55 Menit Berkendara)",
+      mapsUrl: "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60/Tangkuban+Perahu/",
       description: "Gunung berapi aktif ikonik di utara kota Bandung, Lembang. Pengunjung dapat berjalan kaki atau berkendara langsung ke tepi kawah utama yang besar untuk menyaksikan kepulan asap belerang dengan latar pegunungan yang indah."
     },
     "Saung Angklung Udjo": {
@@ -138,8 +153,21 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       tagline: "Kebudayaan Bambu & Pertunjukan Musik",
       category: "Warisan Budaya",
       distance: "7,2 Km (20 Menit Berkendara)",
+      mapsUrl: "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60/Saung+Angklung+Udjo/",
       description: "Sanggar seni budaya legendaris yang didedikasikan untuk melestarikan seni tradisional Sunda. Saksikan pertunjukan interaktif yang energik menggunakan alat musik bambu tradisional Angklung."
     }
+  };
+
+  // Default Fallback Maps URL generator if key lookup is running dynamically from default text string
+  const mapsFallbackGenerator = {
+    "Museum of the Asian-African Conference": "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/Museum+Konferensi+Asia+Afrika/",
+    "Taman Balai Kota Bandung": "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/Taman+Balai+Kota+Bandung/",
+    "Braga City Walk": "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/Braga+Citywalk/",
+    "23 Paskal Shopping Centre": "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/23+Paskal+Shopping+Center/",
+    "Gedung Sate": "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60,+Pasir+Kaliki,+Andir,+Bandung+City,+West+Java+40171/Gedung+Sate/",
+    "Kawah Putih (White Crater)": "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60/Kawah+Putih/",
+    "Mount Tangkuban Perahu": "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60/Tangkuban+Perahu/",
+    "Saung Angklung Udjo": "https://www.google.com/maps/dir/Mutiara+Hotel+Bandung,+Jl.+Kebon+Kawung+No.60/Saung+Angklung+Udjo/"
   };
 
   function getLanguagePreference() {
@@ -154,7 +182,7 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
 
     if (!btnEN || !btnID) return;
 
-    // Apply the exact high-end interactive pill-button styles matching your homepage mockup
+    // Apply high-end pill styles matching your home layout mockup
     if (lang === 'id') {
       btnID.className = "px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg bg-white text-slate-900 shadow-sm border border-slate-200/40 cursor-pointer";
       btnEN.className = "px-4 py-1.5 text-[11px] font-sans font-bold uppercase tracking-wider rounded-lg text-slate-400 hover:text-slate-600 transition-colors cursor-pointer";
@@ -184,10 +212,21 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
       }
     });
 
+    // Loop through cards to dynamically apply targeted URLs and labels
     const totalItems = document.querySelectorAll('[id^="footer-tag-"]').length;
     for (let i = 0; i < totalItems; i++) {
       const region = document.getElementById(`region-tag-${i}`);
       const footer = document.getElementById(`footer-tag-${i}`);
+      
+      // Look up our base reference directly to attach the correct Maps URL routing parameters
+      const currentCardTitleElement = document.querySelector(`[data-field="title"][data-index="${i}"]`);
+      if (currentCardTitleElement) {
+        const englishKey = currentCardTitleElement.getAttribute('data-en');
+        if (footer && mapsFallbackGenerator[englishKey]) {
+          footer.setAttribute('href', mapsFallbackGenerator[englishKey]);
+        }
+      }
+
       if (region && footer) {
         region.innerText = lang === 'id' ? 'Bandung, Jawa Barat' : 'Bandung, IDN';
         footer.innerText = lang === 'id' ? 'Panduan Lokal →' : 'Local Guide →';
