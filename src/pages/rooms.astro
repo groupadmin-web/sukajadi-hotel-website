@@ -170,7 +170,7 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
             </div>
 
             <h4 class="text-xs tracking-wider uppercase font-sans font-bold text-gray-400 mb-3">Included Amenities</h4>
-            <div class="flex flex-wrap gap-2 mb-8">
+            <div class="flex flex-wrap gap-2 mb-4">
               {room.features && room.features.map((feature) => (
                 <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded font-medium font-sans border border-slate-200">
                   {feature}
@@ -178,13 +178,6 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
               ))}
             </div>
           </div>
-
-          <a 
-            href="https://m.mutiarahotel.com" 
-            class="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold font-sans text-sm py-4 rounded-xl shadow transition-all tracking-wider uppercase mt-4"
-          >
-            Book This Room
-          </a>
         </div>
 
       </div>
@@ -247,7 +240,6 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
     });
   }
 
-  // Bind cleanly to standard lifecycle renders
   window.addEventListener('DOMContentLoaded', initSplitGalleryPopups);
   window.addEventListener('astro:after-swap', initSplitGalleryPopups);
   initSplitGalleryPopups();
