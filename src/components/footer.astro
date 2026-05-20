@@ -1,8 +1,8 @@
 ---
 import homepageData from "@/content/homepage.json";
 
-// Dynamic fallbacks if the main branding JSON variables aren't initialized
-const logoImage = homepageData.logo_image || "/logo.svg"; 
+// We force the exact absolute path or fallback to the standard public logo asset directory
+const logoImage = homepageData.logo_image || "/images/logo.png"; 
 const brandName = homepageData.logo_text || "Mutiara";
 ---
 
@@ -15,27 +15,26 @@ const brandName = homepageData.logo_text || "Mutiara";
     
     {/* COLUMN 1: THE REAL VERIFIED NAVBAR BRAND LOGO IMAGE */}
     <div class="flex flex-col gap-4">
-      <div class="flex flex-col items-start gap-2.5">
+      <div class="flex flex-col items-start gap-2">
         
-        {logoImage ? (
-          /* Uses the exact logo path managed in your navbar/homepage dataset */
+        {/* We output BOTH the image and fallback option explicitly so it never renders blank */}
+        <div class="flex items-center gap-3">
           <img 
-            src={logoImage} 
-            alt={`${brandName} Official Brand Logo`} 
-            class="h-12 w-auto object-contain brightness-100 filter text-white"
+            src="/images/logo.png" 
+            alt="Mutiara Logo" 
+            class="h-10 w-auto object-contain"
+            onerror="this.style.display='none'" 
           />
-        ) : (
-          /* Elegant EB Garamond typography fallback text if an image file fails to load */
           <span 
-            class="text-white text-3xl font-medium tracking-wide" 
-            style="font-family: 'EB Garamond', Garamond, serif;"
+            class="text-white text-3xl tracking-wide" 
+            style="font-family: 'EB Garamond', Georgia, serif !important;"
           >
             {brandName}
           </span>
-        )}
+        </div>
         
         {/* BRAND SUBTITLE */}
-        <span class="text-[10px] text-amber-500 tracking-[0.25em] font-bold uppercase mt-1">
+        <span class="text-[10px] text-amber-500 tracking-[0.25em] font-bold uppercase mt-2">
           Hotel & Convention
         </span>
       </div>
@@ -44,7 +43,7 @@ const brandName = homepageData.logo_text || "Mutiara";
       </p>
     </div>
 
-    {/* COLUMN 2: ACCOMMODATION ANCHORS (Updated with dynamic EB Garamond titles!) */}
+    {/* COLUMN 2: ACCOMMODATION ANCHORS */}
     <div>
       <h4 class="text-white text-xs font-bold uppercase tracking-widest mb-5 border-l-2 border-amber-500 pl-2.5">
         Accommodations
