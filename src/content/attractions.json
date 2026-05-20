@@ -2,7 +2,6 @@
   {
     "title": "Museum of the Asian-African Conference",
     "distance": "0.9 Miles (15 Min Walk)",
-    "image": "",
     "tagline": "Gedung Merdeka Heritage Site",
     "category": "City Center",
     "description": "Located around 1.5 km from Mutiara Hotel, this cultural landmark commemorates the historic 1955 conference where leaders from 29 African and Asian countries gathered to promote cooperation, understanding, and solidarity among nations."
@@ -10,15 +9,14 @@
   {
     "title": "Taman Balai Kota Bandung",
     "distance": "0.7 Miles (12 Min Walk)",
-    "image": "",
     "tagline": "Bandung City Hall & Historic Park",
     "category": "City Center",
+    "image": "/images/Taman_Balai_Kota_Bandung.jpg",
     "description": "Located around 1.5 km from the hotel on Jalan Wastukencana, the administrative center of Bandung is rich in history and remarkable architecture. The building was originally a coffee warehouse in 1819 before being converted into a Dutch colonial government office in 1927."
   },
   {
     "title": "Braga City Walk",
     "distance": "0.5 Miles (10 Min Walk)",
-    "image": "",
     "tagline": "Integrated Entertainment Zone",
     "category": "City Center",
     "description": "Located around 800 meters from Mutiara Hotel. Braga City Walk is a vibrant shopping and entertainment district featuring a diverse array of local boutiques, international brands, specialty restaurants, and multi-screen cinemas."
@@ -26,7 +24,6 @@
   {
     "title": "23 Paskal Shopping Centre",
     "distance": "0.4 Miles (8 Min Walk)",
-    "image": "",
     "tagline": "Premium Retail & Culinary Hub",
     "category": "City Center",
     "description": "Located around 750 meters from Mutiara Hotel, this premier shopping center offers an excellent blend of luxury shopping, international fashion houses, a massive food market, and entertainment spaces."
@@ -34,7 +31,6 @@
   {
     "title": "Gedung Sate",
     "distance": "1.8 Miles (8 Min Drive)",
-    "image": "",
     "tagline": "Architectural Symbol of West Java",
     "category": "City Center",
     "description": "The striking neoclassical administrative center of West Java's provincial government, renowned for its heritage museum and its iconic roof ornament styled after a traditional skewered ornament."
@@ -42,7 +38,6 @@
   {
     "title": "Kawah Putih (White Crater)",
     "distance": "28 Miles (1.5 Hr Drive)",
-    "image": "",
     "tagline": "Eerie Turquoise Volcanic Crater Lake",
     "category": "Nature Excursions",
     "description": "A striking sulfurous acid volcanic crater lake located south of Bandung in Ciwidey. The stunning milky-turquoise waters and surrounding skeletal trees offer a mystical landscape perfect for photography."
@@ -50,7 +45,6 @@
   {
     "title": "Mount Tangruban Perahu",
     "distance": "18 Miles (55 Min Drive)",
-    "image": "",
     "tagline": "Active Volcano & Panoramic Craters",
     "category": "Nature Excursions",
     "description": "An iconic active volcano north of the city in Lembang. Visitors can hike or drive right up to the edge of the massive main crater to witness steam vents amidst beautiful mountain backdrops."
@@ -58,7 +52,6 @@
   {
     "title": "Saung Angklung Udjo",
     "distance": "4.5 Miles (20 Min Drive)",
-    "image": "",
     "tagline": "Bamboo Culture & Musical Show",
     "category": "Cultural Heritage",
     "description": "A legendary cultural workshop and performance space dedicated to preserving traditional Sudanese art. Experience live energetic performances featuring the traditional Angklung bamboo instruments."
