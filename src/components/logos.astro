@@ -19,9 +19,9 @@ const safeBadges = badgesData || [];
           <div class="flex flex-col items-center justify-center text-center group transition-all duration-300">
             
             {/* INLINE CODE-DRAWN LOGO ENGINE */}
-            <div class="h-10 w-full max-w-[130px] flex items-center justify-center mb-3 text-slate-400 group-hover:text-slate-900 transition-colors duration-500">
+            <div class="h-12 w-full max-w-[130px] flex items-center justify-center mb-3 text-slate-400 group-hover:text-slate-900 transition-colors duration-500">
               
-              {/* BOOKING.COM MATCH - Cleaned up viewbox and paths */}
+              {/* BOOKING.COM MATCH */}
               {staffTypedName.includes("booking") && (
                 <div class="flex items-center justify-center bg-[#003580] text-white px-3 py-1 rounded font-sans font-bold tracking-tight text-sm select-none group-hover:bg-[#00224f] transition-colors">
                   Booking.com
@@ -35,11 +35,22 @@ const safeBadges = badgesData || [];
                 </span>
               )}
 
-              {/* AGODA MATCH */}
+              {/* BRAND-ACCURATE AGODA MATCH */}
               {staffTypedName.includes("agoda") && (
-                <span class="text-xl font-extrabold tracking-tighter uppercase font-sans text-slate-700 group-hover:text-amber-600 transition-colors select-none">
-                  agoda
-                </span>
+                <div class="flex flex-col items-center select-none scale-95">
+                  {/* Trademark lowercase branding wordmark */}
+                  <span class="text-2xl font-normal tracking-tight font-sans text-slate-700 leading-none lowercase">
+                    agoda
+                  </span>
+                  {/* Signature 5-dot color matrix palette */}
+                  <div class="flex gap-1 mt-1.5 justify-center">
+                    <span class="w-2 h-2 rounded-full bg-[#f43f5e]"></span>
+                    <span class="w-2 h-2 rounded-full bg-[#eab308]"></span>
+                    <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                    <span class="w-2 h-2 rounded-full bg-[#a855f7]"></span>
+                    <span class="w-2 h-2 rounded-full bg-[#0ea5e9]"></span>
+                  </div>
+                </div>
               )}
 
               {/* GOOGLE MATCH */}
