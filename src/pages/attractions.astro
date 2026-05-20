@@ -3,19 +3,88 @@
 import Layout from "../layouts/Layout.astro";
 import attractionsData from "../content/attractions.json";
 
-const attractions = Array.isArray(attractionsData) ? attractionsData : [];
+// 1. HARDCODED MASTER DATASET - The ultimate baseline shield against CMS wipeouts
+const defaultAttractions = [
+  {
+    title: "Museum of the Asian-African Conference",
+    distance: "0.9 Miles (15 Min Walk)",
+    image: "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&w=800&q=80",
+    tagline: "Gedung Merdeka Heritage Site",
+    category: "City Center",
+    description: "Located around 1.5 km from Mutiara Hotel, this cultural landmark commemorates the historic 1955 conference where leaders from 29 African and Asian countries gathered to promote cooperation, understanding, and solidarity among nations."
+  },
+  {
+    title: "Taman Balai Kota Bandung",
+    distance: "0.7 Miles (12 Min Walk)",
+    image: "https://images.unsplash.com/photo-1582234375176-338a9771a737?auto=format&fit=crop&w=800&q=80",
+    tagline: "Bandung City Hall & Historic Park",
+    category: "City Center",
+    description: "Located around 1.5 km from the hotel on Jalan Wastukencana, the administrative center of Bandung is rich in history and remarkable architecture. The building was originally a coffee warehouse in 1819 before being converted into a Dutch colonial government office in 1927."
+  },
+  {
+    title: "Braga City Walk",
+    distance: "0.5 Miles (10 Min Walk)",
+    image: "https://images.unsplash.com/photo-1569003339405-ea396a5a8a90?auto=format&fit=crop&w=800&q=80",
+    tagline: "Integrated Entertainment Zone",
+    category: "City Center",
+    description: "Located around 800 meters from Mutiara Hotel. Braga City Walk is a vibrant shopping and entertainment district featuring a diverse array of local boutiques, international brands, specialty restaurants, and multi-screen cinemas."
+  },
+  {
+    title: "23 Paskal Shopping Centre",
+    distance: "0.4 Miles (8 Min Walk)",
+    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=800&q=80",
+    tagline: "Premium Retail & Culinary Hub",
+    category: "City Center",
+    description: "Located around 750 meters from Mutiara Hotel, this premier shopping center offers an excellent blend of luxury shopping, international fashion houses, a massive food market, and entertainment spaces."
+  },
+  {
+    title: "Gedung Sate",
+    distance: "1.8 Miles (8 Min Drive)",
+    image: "https://images.unsplash.com/photo-1626245380309-906f0e6533ef?auto=format&fit=crop&w=800&q=80",
+    tagline: "Architectural Symbol of West Java",
+    category: "City Center",
+    description: "The striking neoclassical administrative center of West Java's provincial government, renowned for its heritage museum and its iconic roof ornament styled after a traditional skewered ornament."
+  },
+  {
+    title: "Kawah Putih (White Crater)",
+    distance: "28 Miles (1.5 Hr Drive)",
+    image: "https://images.unsplash.com/photo-1616431575958-88aaade00010?auto=format&fit=crop&w=800&q=80",
+    tagline: "Eerie Turquoise Volcanic Crater Lake",
+    category: "Nature Excursions",
+    description: "A striking sulfurous acid volcanic crater lake located south of Bandung in Ciwidey. The stunning milky-turquoise waters and surrounding skeletal trees offer a mystical landscape perfect for photography."
+  },
+  {
+    title: "Mount Tangruban Perahu",
+    distance: "18 Miles (55 Min Drive)",
+    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
+    tagline: "Active Volcano & Panoramic Craters",
+    category: "Nature Excursions",
+    description: "An iconic active volcano north of the city in Lembang. Visitors can hike or drive right up to the edge of the massive main crater to witness steam vents amidst beautiful mountain backdrops."
+  },
+  {
+    title: "Saung Angklung Udjo",
+    distance: "4.5 Miles (20 Min Drive)",
+    image: "https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?auto=format&fit=crop&w=800&q=80",
+    tagline: "Bamboo Culture & Musical Show",
+    category: "Cultural Heritage",
+    description: "A legendary cultural workshop and performance space dedicated to preserving traditional Sudanese art. Experience live energetic performances featuring the traditional Angklung bamboo instruments."
+  }
+];
 
-// Permanent, un-erasable image assets map matching the titles perfectly
-const fallbackImages = {
-  "Museum of the Asian-African Conference": "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&w=800&q=80",
-  "Taman Balai Kota Bandung": "https://images.unsplash.com/photo-1582234375176-338a9771a737?auto=format&fit=crop&w=800&q=80",
-  "Braga City Walk": "https://images.unsplash.com/photo-1569003339405-ea396a5a8a90?auto=format&fit=crop&w=800&q=80",
-  "23 Paskal Shopping Centre": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=800&q=80",
-  "Gedung Sate": "https://images.unsplash.com/photo-1626245380309-906f0e6533ef?auto=format&fit=crop&w=800&q=80",
-  "Kawah Putih (White Crater)": "https://images.unsplash.com/photo-1616431575958-88aaade00010?auto=format&fit=crop&w=800&q=80",
-  "Mount Tangruban Perahu": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
-  "Saung Angklung Udjo": "https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?auto=format&fit=crop&w=800&q=80"
-};
+// 2. MIXIN MERGE ENGINE - Re-populates fields with master fallbacks if CMS outputs are blank strings
+const cmsData = Array.isArray(attractionsData) && attractionsData.length > 0 ? attractionsData : [];
+
+const attractions = defaultAttractions.map((defaultItem, idx) => {
+  const cmsItem = cmsData[idx] || {};
+  return {
+    title: cmsItem.title || defaultItem.title,
+    distance: cmsItem.distance || defaultItem.distance,
+    image: cmsItem.image || defaultItem.image,
+    tagline: cmsItem.tagline || defaultItem.tagline,
+    category: cmsItem.category || defaultItem.category,
+    description: cmsItem.description || defaultItem.description
+  };
+});
 ---
 
 <Layout title="Local Attractions | Mutiara Hotel & Convention">
@@ -36,50 +105,46 @@ const fallbackImages = {
       <p id="txt-desc" class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic">"From the heritage steps of the historic city center to the dramatic volcanic craters of West Java, experience the best of Bandung right from our doorstep."</p>
     </div>
 
-    <div id="attractions-grid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {attractions.map((item, index) => {
-        // Evaluate matching fallback baseline image safely if empty string is returned from CMS
-        const displayImage = item.image || fallbackImages[item.title] || "https://images.unsplash.com/photo-1596436889106-be35e843f974?auto=format&fit=crop&w=800&q=80";
-        
-        return (
-          <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
-            
-            <div class="relative h-60 bg-gray-200 overflow-hidden shrink-0">
-              <img 
-                src={displayImage} 
-                alt={item.title} 
-                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-                loading="lazy" 
-              />
-              <div data-field="category" data-index={index} data-en={item.category} class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">{item.category}</div>
-              <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
-                <span>📍</span> <span data-field="distance" data-index={index} data-en={item.distance}>{item.distance}</span>
-              </div>
+    <div id="attractions-grid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+      {attractions.map((item, index) => (
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
+          
+          <div class="relative h-60 bg-gray-200 overflow-hidden shrink-0">
+            <img 
+              src={item.image} 
+              alt={item.title} 
+              class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+              loading="lazy" 
+            />
+            <div data-field="category" data-index={index} data-en={item.category} class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">{item.category}</div>
+            <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
+              <span>📍</span> <span data-field="distance" data-index={index} data-en={item.distance}>{item.distance}</span>
             </div>
-
-            <div class="p-6 flex-grow flex flex-col justify-between">
-              <div class="mb-6">
-                <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
-                  <span data-field="tagline" data-index={index} data-en={item.tagline}>{item.tagline}</span>
-                </span>
-                <h2 class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide min-h-[56px] flex items-center">
-                  <span data-field="title" data-index={index} data-en={item.title}>{item.title}</span>
-                </h2>
-                <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
-                <p data-field="description" data-index={index} data-en={item.description} class="text-gray-500 text-sm font-sans font-light leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-              
-              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase">
-                <span id={`region-tag-${index}`}>Bandung, IDN</span>
-                <a id={`footer-tag-${index}`} href="#" target="_blank" rel="noopener noreferrer" class="text-amber-600 font-bold hover:text-amber-700 transition-colors cursor-pointer group-hover:underline">Local Guide →</a>
-              </div>
-            </div>
-
           </div>
-        );
-      })}
+
+          <div class="p-6 flex-grow flex flex-col justify-between">
+            <div class="mb-6">
+              <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
+                <span data-field="tagline" data-index={index} data-en={item.tagline}>{item.tagline}</span>
+              </span>
+              <h2 class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide min-h-[56px] flex items-center">
+                <span data-field="title" data-index={index} data-en={item.title}>{item.title}</span>
+              </h2>
+              <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
+              
+              <p data-field="description" data-index={index} data-en={item.description} class="text-gray-500 text-sm font-sans font-light leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+            
+            <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase">
+              <span id={`region-tag-${index}`}>Bandung, IDN</span>
+              <a id={`footer-tag-${index}`} href="#" target="_blank" rel="noopener noreferrer" class="text-amber-600 font-bold hover:text-amber-700 transition-colors cursor-pointer group-hover:underline">Local Guide →</a>
+            </div>
+          </div>
+
+        </div>
+      ))}
     </div>
 
   </div>
@@ -127,8 +192,8 @@ const fallbackImages = {
     "Braga City Walk": "https://maps.google.com/?q=Braga+City+Walk",
     "23 Paskal Shopping Centre": "https://maps.google.com/?q=23+Paskal+Shopping+Centre",
     "Gedung Sate": "https://maps.google.com/?q=Gedung+Sate",
-    "Kawah Putih (White Crater)": "https://maps.google.com/?q=Kawah+Putih+Ciwidey",
-    "Mount Tangruban Perahu": "https://maps.google.com/?q=Tangkuban+Perahu",
+    "Kawah Putih (White Crater)": "https://maps.google.com/?q=Kawah+Putih",
+    "Mount Tangruban Perahu": "https://maps.google.com/?q=Mount+Tangkuban+Perahu",
     "Saung Angklung Udjo": "https://maps.google.com/?q=Saung+Angklung+Udjo"
   };
 
