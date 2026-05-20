@@ -1,26 +1,17 @@
-paths:
-  uploads: public/images
-  dam_uploads: public/images
-collections_config:
-  homepage:
-    output: true
-    
-# 1. Base Global Media Settings
+# 1. GLOBAL INPUT SCHEMAS (This tells CloudCannon how to build lists anywhere on the site)
+_inputs:
+  slideshow:
+    type: array
+    comment: "Manage your home banner sliding carousel photos"
+  slideshow[*]:
+    type: image
+
+# 2. MEDIA ROOT DIRECTORIES
 media:
   input: public/images
   output: /images
 
-# 2. FORCE SYSTEM LAYOUT ENGINE DEFENSE
-# This dictates to CloudCannon exactly how to render our slide lists globally
-_structures:
-  gallery_slides:
-    style: select
-    id_key: slide_image
-    values:
-      - value:
-          slide_image: /images/hotel-slide-1.jpg
-
-# 3. Content Collection Mappings
+# 3. CONTENT MAPPING
 content:
   - name: homepage
     label: "1. Brand & Header Setup"
@@ -40,14 +31,6 @@ content:
       - name: tagline
         label: "Sub-Header High-Impact Hook"
         type: text
-
-      - name: slideshow
-        label: "Slideshow Photos"
-        type: list
-        spec:
-          type: image
-          label: "Slide Photo"
-
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
         type: boolean
