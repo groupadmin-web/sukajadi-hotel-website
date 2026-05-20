@@ -22,10 +22,16 @@ content:
         label: "Sub-Header High-Impact Hook"
         type: text
 
-      # THIS GIVES YOU THE REAL IMAGE UPLOAD SLOT (NO TEXT BOX!)
-      - name: hero_image
-        label: "Primary Banner Photo"
-        type: image
+      # THIS SETS UP THE CAROUSEL LIST EXACTLY LIKE GUEST REVIEWS
+      - name: slideshow
+        label: "Hero Slideshow Carousel"
+        type: array
+        list: true
+        collapsed: true
+        fields:
+          - name: slide_image
+            label: "Upload / Select Slide Photo"
+            type: image
 
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
@@ -98,108 +104,4 @@ content:
         label: "Features & Amenities"
         type: array
       - name: features[*]
-        type: string
-
-  - name: events
-    label: "4. Convention & Events Spaces"
-    type: file
-    path: src/content/events.json
-    format: json
-    list: true
-    collapsed: true
-    fields:
-      - name: hall_name
-        label: "Meeting Room / Ballroom Name"
-        type: string
-      - name: capacity_theater
-        label: "Max Seating Capacity"
-        type: string
-      - name: main_feature
-        label: "Primary Facility Feature Highlight"
-        type: string
-
-  - name: features
-    label: "5. Core Experience Highlights"
-    type: file
-    path: src/content/features.json
-    format: json
-    list: true
-    collapsed: true
-    fields:
-      - name: title
-        label: "Highlight Title"
-        type: string
-      - name: description
-        label: "Short Elegant Description"
-        type: text
-
-  - name: stories
-    label: "6. Editorial Story Blocks"
-    type: file
-    path: src/content/stories.json
-    format: json
-    list: true
-    collapsed: true
-    fields:
-      - name: title
-        label: "Section Title Heading"
-        type: string
-      - name: subtitle
-        label: "Small Tagline Category"
-        type: string
-      - name: start_date
-        label: "Publishing Start Date"
-        type: date
-      - name: expiry_date
-        label: "Expiry Date"
-        type: text
-      - name: story_image
-        label: "Feature Story Photo Asset"
-        type: image
-
-  - name: badges
-    label: "7. Awards & OTA Partners"
-    type: file
-    path: src/content/badges.json
-    format: json
-    list: true
-    collapsed: true
-    fields:
-      - name: name
-        label: "Partner Name"
-        type: string
-      - name: subtitle
-        label: "Score/Label Notation"
-        type: string
-
-  - name: promotion
-    label: "8. Promotions & Offers Banner"
-    type: file
-    path: src/content/promotion.json
-    format: json
-    media:
-      input: public/images
-      output: /images
-    fields:
-      - name: banner_bg_type
-        label: "Background Mode Display Option"
-        type: select
-        options:
-          values:
-            - "Photo Background"
-            - "Exciting Sunset Gold"
-            - "Deep Premium Blue"
-        default: "Photo Background"
-      - name: banner_bg_image
-        label: "Promo Background Photo File (Applies when 'Photo Background' is selected)"
-        type: image
-        required: false
-      - name: cta_title
-        label: "Promo Headline Title"
-        type: string
-      - name: cta_desc
-        label: "Promo Offer Details Paragraph"
-        type: text
-      - name: cta_btn_text
-        label: "Promo Button Action text"
         type: string
