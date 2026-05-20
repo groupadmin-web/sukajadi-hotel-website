@@ -9,55 +9,57 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
 <Layout title="Local Attractions | Mutiara Hotel & Convention">
   <div class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
     
-    <div class="max-w-4xl mx-auto text-center mb-16 mt-8">
-      <span class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1">Explore Bandung</span>
-      <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">
+    <div class="max-w-6xl mx-auto flex justify-end gap-2 mb-8">
+      <button id="lang-en" class="px-4 py-2 text-xs font-sans font-bold uppercase tracking-wider rounded-lg border border-gray-200 shadow-sm transition-all cursor-pointer">
+        🇬🇧 English
+      </button>
+      <button id="lang-id" class="px-4 py-2 text-xs font-sans font-bold uppercase tracking-wider rounded-lg border border-gray-200 shadow-sm transition-all cursor-pointer">
+        🇮🇩 Indonesia
+      </button>
+    </div>
+
+    <div class="max-w-4xl mx-auto text-center mb-16">
+      <span id="txt-subtitle" class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1">Explore Bandung</span>
+      <h1 id="txt-title" class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">
         Destinations & Attractions
       </h1>
       <div class="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
-      <p class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic">
+      <p id="txt-desc" class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic">
         "From the heritage steps of the historic city center to the dramatic volcanic craters of West Java, experience the best of Bandung right from our doorstep."
       </p>
     </div>
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {attractions.map((item) => (
+    <div id="attractions-grid" class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {attractions.map((item, index) => (
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
           
           <div class="relative h-60 bg-gray-200 overflow-hidden">
-            <img 
-              src={item.image} 
-              alt={item.title} 
-              class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-              loading="lazy"
-            />
-            
-            <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
-              {item.category}
+            <img src={item.image} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" loading="lazy" />
+            <div data-field="category" data-index={index} data-en={item.category} class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
+              {item.category || 'City'}
             </div>
-
             <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
-              <span>📍</span> {item.distance}
+              <span>📍</span> <span data-field="distance" data-index={index} data-en={item.distance}>{item.distance}</span>
             </div>
           </div>
 
           <div class="p-6 flex-grow flex flex-col justify-between">
             <div>
-              <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
+              <span data-field="tagline" data-index={index} data-en={item.tagline} class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
                 {item.tagline}
               </span>
-              <h2 class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide line-clamp-2 min-h-[56px] flex items-center">
+              <h2 data-field="title" data-index={index} data-en={item.title} class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide line-clamp-2 min-h-[56px] flex items-center">
                 {item.title}
               </h2>
               <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
-              <p class="text-gray-500 text-sm font-sans font-light leading-relaxed line-clamp-4">
+              <p data-field="description" data-index={index} data-en={item.description} class="text-gray-500 text-sm font-sans font-light leading-relaxed line-clamp-4">
                 {item.description}
               </p>
             </div>
 
             <div class="border-t border-gray-100 pt-4 mt-6 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase">
-              <span>Bandung, IDN</span>
-              <span class="text-amber-600 font-bold">Local Guide →</span>
+              <span id={`region-tag-${index}`}>Bandung, IDN</span>
+              <span id={`footer-tag-${index}`} class="text-amber-600 font-bold">Local Guide →</span>
             </div>
           </div>
 
@@ -67,3 +69,134 @@ const attractions = Array.isArray(attractionsData) ? attractionsData : [];
 
   </div>
 </Layout>
+
+<script is:inline>
+  // Complete Uncut Translation Dictionary for all 8 items
+  const translations = {
+    "Museum of the Asian-African Conference": {
+      title: "Museum Konferensi Asia-Afrika",
+      tagline: "Situs Sejarah Gedung Merdeka",
+      category: "Pusat Kota",
+      distance: "1,5 Km (15 Menit Berjalan Kaki)",
+      description: "Berjarak sekitar 1,5 km dari Mutiara Hotel, landmark budaya bersejarah ini memperingati Konferensi Asia-Afrika tahun 1955 di mana para pemimpin dari 29 negara berkumpul untuk mempromosikan kerja sama dan solidaritas antar bangsa."
+    },
+    "Taman Balai Kota Bandung": {
+      title: "Taman Balai Kota Bandung",
+      tagline: "Balai Kota & Taman Bersejarah Bandung",
+      category: "Pusat Kota",
+      distance: "1,1 Km (12 Menit Berjalan Kaki)",
+      description: "Terletak di Jalan Wastukencana, pusat administratif kota Bandung ini kaya akan sejarah dan arsitektur yang memukau. Bangunan ini awalnya merupakan gudang kopi pada tahun 1819 sebelum dialihfungsikan menjadi kantor pemerintah kolonial Belanda pada tahun 1927."
+    },
+    "Braga City Walk": {
+      title: "Braga City Walk",
+      tagline: "Kawasan Hiburan Terpadu",
+      category: "Pusat Kota",
+      distance: "800 Meter (10 Menit Berjalan Kaki)",
+      description: "Berjarak sekitar 800 meter dari Mutiara Hotel. Braga City Walk adalah kawasan perbelanjaan dan hiburan populer yang menawarkan deretan butik lokal, jenama internasional, restoran khas, dan bioskop modern."
+    },
+    "23 Paskal Shopping Centre": {
+      title: "23 Paskal Shopping Centre",
+      tagline: "Pusat Ritel & Kuliner Premium",
+      category: "Pusat Kota",
+      distance: "750 Meter (8 Menit Berjalan Kaki)",
+      description: "Terletak hanya 750 meter dari Mutiara Hotel, pusat perbelanjaan utama ini menawarkan perpaduan ritel mode internasional yang mewah, area pusat kuliner (food court) yang masif, dan ruang hiburan keluarga."
+    },
+    "Gedung Sate": {
+      title: "Gedung Sate",
+      tagline: "Simbol Arsitektur Jawa Barat",
+      category: "Pusat Kota",
+      distance: "2,9 Km (8 Menit Berkendara)",
+      description: "Pusat administratif pemerintahan provinsi Jawa Barat yang megah bergaya neoklasik, terkenal dengan museum warisan sejarahnya dan ornamen tusuk sate ikonik di puncak atapnya."
+    },
+    "Kawah Putih (White Crater)": {
+      title: "Kawah Putih",
+      tagline: "Danau Kawah Vulkanik Berwarna Turkuas",
+      category: "Wisata Alam",
+      distance: "45 Km (1,5 Jam Berkendara)",
+      description: "Danau kawah vulkanik belerang yang memukau di selatan Bandung, Ciwidey. Airnya yang berwarna hijau turkuas susu berpadu dengan ranting pohon kering di sekitarnya menciptakan pemandangan mistis yang sangat fotogenik."
+    },
+    "Mount Tangkuban Perahu": {
+      title: "Gunung Tangkuban Parahu",
+      tagline: "Gunung Berapi Aktif & Kawah Panoramik",
+      category: "Wisata Alam",
+      distance: "29 Km (55 Menit Berkendara)",
+      description: "Gunung berapi aktif ikonik di utara kota Bandung, Lembang. Pengunjung dapat berjalan kaki atau berkendara langsung ke tepi kawah utama yang besar untuk menyaksikan kepulan asap belerang dengan latar pegunungan yang indah."
+    },
+    "Saung Angklung Udjo": {
+      title: "Saung Angklung Udjo",
+      tagline: "Kebudayaan Bambu & Pertunjukan Musik",
+      category: "Warisan Budaya",
+      distance: "7,2 Km (20 Menit Berkendara)",
+      description: "Sanggar seni budaya legendaris yang didedikasikan untuk melestarikan seni tradisional Sunda. Saksikan pertunjukan interaktif yang energik menggunakan alat musik bambu tradisional Angklung."
+    }
+  };
+
+  function getLanguagePreference() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('lang') === 'id' ? 'id' : 'en';
+  }
+
+  function applyLanguageTranslation() {
+    const lang = getLanguagePreference();
+    const btnEN = document.getElementById('lang-en');
+    const btnID = document.getElementById('lang-id');
+
+    if (!btnEN || !btnID) return;
+
+    if (lang === 'id') {
+      btnID.className = "px-4 py-2 text-xs font-sans font-bold uppercase tracking-wider rounded-lg bg-amber-600 text-white shadow-md cursor-pointer";
+      btnEN.className = "px-4 py-2 text-xs font-sans font-bold uppercase tracking-wider rounded-lg bg-white text-gray-700 border border-gray-200 shadow-sm hover:bg-gray-50 cursor-pointer";
+      
+      document.getElementById('txt-subtitle').innerText = "JELAJAHI BANDUNG";
+      document.getElementById('txt-title').innerText = "DESTINASI & ATRAKSI WISATA";
+      document.getElementById('txt-desc').innerText = '"Dari jejak sejarah pusat kota lama hingga kawah vulkanik Jawa Barat yang memukau, rasakan pesona terbaik Bandung langsung dari pintu hunian kami."';
+    } else {
+      btnEN.className = "px-4 py-2 text-xs font-sans font-bold uppercase tracking-wider rounded-lg bg-amber-600 text-white shadow-md cursor-pointer";
+      btnID.className = "px-4 py-2 text-xs font-sans font-bold uppercase tracking-wider rounded-lg bg-white text-gray-700 border border-gray-200 shadow-sm hover:bg-gray-50 cursor-pointer";
+      
+      document.getElementById('txt-subtitle').innerText = "EXPLORE BANDUNG";
+      document.getElementById('txt-title').innerText = "DESTINATIONS & ATTRACTIONS";
+      document.getElementById('txt-desc').innerText = '"From the heritage steps of the historic city center to the dramatic volcanic craters of West Java, experience the best of Bandung right from our doorstep."';
+    }
+
+    document.querySelectorAll('[data-field]').forEach(el => {
+      const field = el.getAttribute('data-field');
+      const englishTitleKey = el.getAttribute('data-field') === 'title' ? el.getAttribute('data-en') : el.closest('.flex-col, .relative').parentElement.querySelector('[data-field="title"]').getAttribute('data-en');
+      
+      const translationMatch = translations[englishTitleKey];
+
+      if (lang === 'id' && translationMatch && translationMatch[field]) {
+        el.innerText = translationMatch[field];
+      } else {
+        el.innerText = el.getAttribute('data-en');
+      }
+    });
+
+    const totalItems = document.querySelectorAll('[id^="footer-tag-"]').length;
+    for (let i = 0; i < totalItems; i++) {
+      const region = document.getElementById(`region-tag-${i}`);
+      const footer = document.getElementById(`footer-tag-${i}`);
+      if (region && footer) {
+        region.innerText = lang === 'id' ? 'Bandung, Jawa Barat' : 'Bandung, IDN';
+        footer.innerText = lang === 'id' ? 'Panduan Lokal →' : 'Local Guide →';
+      }
+    }
+  }
+
+  document.getElementById('lang-en').onclick = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', 'en');
+    window.history.pushState({}, '', url);
+    applyLanguageTranslation();
+  };
+
+  document.getElementById('lang-id').onclick = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('lang', 'id');
+    window.history.pushState({}, '', url);
+    applyLanguageTranslation();
+  };
+
+  applyLanguageTranslation();
+  document.addEventListener('astro:after-swap', applyLanguageTranslation);
+</script>
