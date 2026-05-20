@@ -24,16 +24,15 @@ const menuitems = [
       <Astronav>
         <div class="flex w-full lg:w-auto items-center justify-between">
           
-          <a href="/" class="flex items-center tracking-wider font-serif">
+          <a href="/" class="flex items-center tracking-wider font-serif group">
             {homepageData.logo_image ? (
-              /* If your staff uploads an image logo file, render it beautifully here */
               <img 
                 src={homepageData.logo_image} 
-                alt={`${homepageData.logo_text || 'Mutiara'} Logo`} 
-                class="h-8 w-auto object-contain max-w-[180px]" 
+                /* OPTIMIZED FOR SEO AND AI ENGINE BOT INDEXING */
+                alt="Mutiara Hotel & Convention Bandung Logo" 
+                class="h-16 md:h-20 w-auto object-contain max-w-[240px] transition-transform duration-300 group-hover:scale-105" 
               />
             ) : (
-              /* If no logo image exists, fallback cleanly to your editable brand text header */
               <span class="font-bold text-xl text-slate-900 uppercase">
                 {homepageData.logo_text || "MUTIARA"}
               </span>
