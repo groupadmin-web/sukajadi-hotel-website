@@ -5,9 +5,9 @@ import homepageData from "../content/homepage.json";
 // 2. Safely extract our user variables from the CMS data file
 const { welcome_title, tagline, booking_button_text } = homepageData;
 
-// 3. Updated variable pointer tracking our fresh clean slideshow key
+// 3. Destructure the array objects to pull the image paths directly
 const slides = homepageData.hero_slideshow && homepageData.hero_slideshow.length > 0
-  ? homepageData.hero_slideshow
+  ? homepageData.hero_slideshow.map(slide => slide.slide_image)
   : [
       "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80",
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80"
