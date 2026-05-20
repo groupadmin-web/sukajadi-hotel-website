@@ -144,3 +144,18 @@ content:
       - name: story_image
         label: "Feature Story Photo Asset"
         type: image
+
+  - name: badges
+    label: "7. Awards & OTA Partners"
+    type: file
+    path: src/content/badges.json
+    format: json
+    list: true
+    collapsed: true
+    fields:
+      - name: name
+        label: "Partner Name (Type exactly: Booking.com, Traveloka, Agoda, or Google)"
+        type: string
+      - name: subtitle
+        label: "Score/Label Notation (e.g., 8.7 / 10 Rating)"
+        type: string
