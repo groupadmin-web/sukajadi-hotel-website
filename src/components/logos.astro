@@ -3,20 +3,31 @@ import badgesData from "@/content/badges.json";
 
 const safeBadges = badgesData || [];
 
-// DIRECT DIRECTORY BRAND MAP (Using ultra-reliable, high-contrast flat logos)
-const globalLogoDirectory = {
-  "booking.com": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_Logo_Grey.svg/320px-Booking.com_Logo_Grey.svg.png",
-  "traveloka": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Traveloka_Logo.svg/320px-Traveloka_Logo.svg.png",
-  "agoda": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Agoda_logo.svg/320px-Agoda_logo.svg.png",
-  "google": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/320px-Google_2015_logo.svg.png"
-};
+// DIRECTORY OF VERIFIED ASSETS
+const globalLogoDirectory = [
+  {
+    searchKeyword: "booking",
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_Logo_Grey.svg/320px-Booking.com_Logo_Grey.svg.png"
+  },
+  {
+    searchKeyword: "traveloka",
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Traveloka_Logo.svg/320px-Traveloka_Logo.svg.png"
+  },
+  {
+    searchKeyword: "agoda",
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Agoda_logo.svg/320px-Agoda_logo.svg.png"
+  },
+  {
+    searchKeyword: "google",
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/320px-Google_2015_logo.svg.png"
+  }
+];
 
 const fallbackAwardIcon = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="%23b45309" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9  0v-3.375c0-.621-.503-1.125-1.125-1.125h-6.75a1.125 1.125 0 0 0-1.125 1.125v3.375m9 0M9 10.5h.008v.008H9V10.5Zm.564 4.963a8.25 8.25 0 1 1 5.872 0M15 10.5h.008v.008H15V10.5Z"/></svg>`;
 ---
 
 <div class="mt-24 mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-sans">
   
-  {/* HIGHER CONTRAST TOP TEXT */}
   <p class="text-center text-xs font-bold tracking-[0.25em] text-slate-500 uppercase mb-12">
     Official Reservation Channels & Verification Partners
   </p>
@@ -24,16 +35,20 @@ const fallbackAwardIcon = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org
   <div class="grid grid-cols-2 md:grid-cols-4 items-center justify-center gap-8 md:gap-12 lg:gap-16">
     {
       safeBadges.map((badge) => {
-        // Normalize whatever text the staff typed to lowercase to avoid match rejections
-        const lookupKey = (badge.name || "").toLowerCase().trim();
+        // 1. Clean and lowercase whatever text the staff typed in the CMS
+        const staffTypedName = (badge.name || "").toLowerCase().trim();
         
-        // Find if logo matches our direct dictionary keys
-        const automatedLogoUrl = globalLogoDirectory[lookupKey] || null;
+        // 2. SEARCH ENGINE: Find an item in our directory where the keyword is CONTAINED in the typed name
+        const matchedAsset = globalLogoDirectory.find(item => 
+          staffTypedName.includes(item.searchKeyword)
+        );
+        
+        const automatedLogoUrl = matchedAsset ? matchedAsset.url : null;
         
         return (
           <div class="flex flex-col items-center justify-center text-center group transition-all duration-300">
             
-            {/* LOGO ENGINE BOX COMPONENT CONTAINER */}
+            {/* LOGO BOX COMPONENT CONTAINER */}
             <div class="h-10 w-full max-w-[130px] flex items-center justify-center mb-3">
               {automatedLogoUrl ? (
                 /* Clear vector logo presentation track */
@@ -42,10 +57,9 @@ const fallbackAwardIcon = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org
                   alt={badge.name} 
                   class="max-h-full max-w-full object-contain filter grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
                   loading="lazy"
-                  onError="this.style.display='none'"
                 />
               ) : (
-                /* Fallback text box formatting track if name didn't match */
+                /* Fallback text box formatting if it's a completely custom award */
                 <div class="flex items-center gap-1.5 opacity-60 group-hover:opacity-100 transition-opacity">
                   <img src={fallbackAwardIcon} class="w-4 h-4 shrink-0 text-amber-700" alt="Award Accent" />
                   <span class="text-xs font-bold tracking-wider text-slate-800 uppercase font-serif truncate">{badge.name}</span>
