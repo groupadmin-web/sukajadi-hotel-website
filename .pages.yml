@@ -32,9 +32,13 @@ content:
         label: "Sub-Header High-Impact Hook"
         type: text
 
-        # The magic bridge line connecting to the global input blueprint
       - name: slideshow
         label: "Hero Slideshow Photos"
+        type: array
+        fields:
+          - name: image_path
+            label: "Upload Slide Photo"
+            type: image
         
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
