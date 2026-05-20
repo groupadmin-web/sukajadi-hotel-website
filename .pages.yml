@@ -10,13 +10,13 @@ content:
     format: json
     fields:
       - name: welcome_title
-        label: "Main Header Brand Title (Big headline text)"
+        label: "Main Header Brand Title"
         type: string
       - name: logo_text
-        label: "Navbar Brand Name (e.g., MUTIARA)"
+        label: "Navbar Brand Name"
         type: string
       - name: logo_image
-        label: "Navbar Brand Logo Image (Optional asset)"
+        label: "Navbar Brand Logo Image"
         type: image
       - name: tagline
         label: "Sub-Header High-Impact Hook"
@@ -70,7 +70,7 @@ content:
     collapsed: true
     fields:
       - name: title
-        label: "Room Type Title (e.g., Superior Twin Room)"
+        label: "Room Type Title"
         type: string
       - name: image
         label: "Room Feature Photo"
@@ -82,7 +82,7 @@ content:
         label: "Max Guest Capacity"
         type: string
       - name: size
-        label: "Room Dimensions (e.g., 24 m²)"
+        label: "Room Dimensions"
         type: string
       - name: price_start
         label: "Starting From Price Indicator"
@@ -100,7 +100,7 @@ content:
         label: "Meeting Room / Ballroom Name"
         type: string
       - name: capacity_theater
-        label: "Max Seating Capacity (Theater Style)"
+        label: "Max Seating Capacity"
         type: string
       - name: main_feature
         label: "Primary Facility Feature Highlight"
@@ -115,7 +115,7 @@ content:
     collapsed: true
     fields:
       - name: title
-        label: "Highlight Title (e.g., Boutique Comfort)"
+        label: "Highlight Title"
         type: string
       - name: description
         label: "Short Elegant Description"
@@ -133,17 +133,32 @@ content:
         label: "Section Title Heading"
         type: string
       - name: subtitle
-        label: "Small Tagline Category (e.g., SPECIAL PROMOTION)"
+        label: "Small Tagline Category"
         type: string
       - name: start_date
-        label: "Publishing Start Date (When it should start showing up)"
+        label: "Publishing Start Date"
         type: date
       - name: expiry_date
-        label: "Expiry Date (Leave blank if it never expires)"
-        type: date
-      - name: text_content
-        label: "Paragraph Narrative Text Description"
+        label: "Expiry Date"
         type: text
       - name: story_image
         label: "Feature Story Photo Asset"
+        type: image
+
+  - name: badges
+    label: "7. Awards & OTA Partners"
+    type: file
+    path: src/content/badges.json
+    format: json
+    list: true
+    collapsed: true
+    fields:
+      - name: name
+        label: "Partner / Award Title (e.g., Traveloka Excellence)"
+        type: string
+      - name: subtitle
+        label: "Score/Detail Notation (e.g., 8.6 / 10 Rating)"
+        type: string
+      - name: badge_image
+        label: "Logo Brand Asset Upload (PNG or SVG)"
         type: image
