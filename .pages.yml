@@ -3,7 +3,7 @@ media:
   output: /images
 
 content:
-  - name: homepage
+- name: homepage
     label: "1. Brand & Header Setup"
     type: file
     path: src/content/homepage.json
@@ -21,9 +21,14 @@ content:
       - name: tagline
         label: "Sub-Header High-Impact Hook"
         type: text
-      - name: background_image
-        label: "Widescreen Edge-to-Edge Hero Image"
-        type: image
+        
+      # SWAP OUT THE SINGLE IMAGE FIELD FOR THIS ARRAY MULTI-IMAGE PICKER:
+      - name: banner_slides
+        label: "Hero Slideshow Photos"
+        type: array
+        items:
+          type: image
+          
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
         type: boolean
