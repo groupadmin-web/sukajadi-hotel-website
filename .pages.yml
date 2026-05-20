@@ -10,18 +10,13 @@ content:
     format: json
     fields:
       - name: welcome_title
-        label: "Main Header Brand Title"
+        label: "Main Header Brand Title (Big banner headline text)"
         type: string
-      - name: logo_type
-        label: "Navbar Logo Style Type"
-        type: select
-        options:
-          values:
-            - "Text Logo"
-            - "Image Logo"
-        default: "Text Logo"
+      - name: logo_text
+        label: "Navbar Brand Name (e.g., MUTIARA)"
+        type: string
       - name: logo_image
-        label: "Navbar Logo Image File (Used only if Image Logo is selected)"
+        label: "Navbar Brand Logo Image (Upload an image file here to replace the text logo anytime)"
         type: image
       - name: tagline
         label: "Sub-Header High-Impact Hook (Keep under 15 words)"
