@@ -1,9 +1,7 @@
 ---
-// Import your master brand setup dataset directly to mirror the navbar logic
 import homepageData from "@/content/homepage.json";
 
 const logoImage = homepageData.logo_image;
-const brandName = homepageData.logo_text || "MUTIARA";
 ---
 
 <footer class="w-full bg-slate-950 text-slate-400 font-sans border-t border-slate-900 pt-16 pb-8 relative overflow-hidden left-0 right-0">
@@ -13,32 +11,37 @@ const brandName = homepageData.logo_text || "MUTIARA";
   {/* INTERNAL INNER GRID INNER SHIELD */}
   <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-12 border-b border-slate-900">
     
-    {/* COLUMN 1: THE REAL VERIFIED NAVBAR BRAND LOGO MIRROR */}
+    {/* COLUMN 1: PERFECT BRAND STACK WITH LOGO MARK */}
     <div class="flex flex-col gap-4">
-      <div class="flex flex-col items-start">
+      <div class="flex items-center gap-4">
         
-        {/* MIRRORED NAVBAR BRAND HUB */}
-        <a href="/" class="flex items-center group">
-          {logoImage ? (
-            /* Standard Dynamic Image Extraction Mode */
-            <img 
-              src={logoImage} 
-              alt={`${brandName} Logo`} 
-              class="h-12 md:h-16 w-auto object-contain max-w-[200px]"
-            />
-          ) : (
-            /* Clean Typography Fallback Mode */
-            <span 
-              class="text-white text-3xl tracking-wide font-medium" 
-              style="font-family: 'EB Garamond', Georgia, serif !important;"
-            >
-              {brandName}
-            </span>
-          )}
-        </a>
+        {/* THE REAL SEA-SHELL LOGO GRAPHIC MARK */}
+        {logoImage && (
+          <img 
+            src={logoImage} 
+            alt="Mutiara Hotel Logo Mark" 
+            class="h-14 w-auto object-contain brightness-110"
+          />
+        )}
+        
+        {/* PREMIUM TYPOGRAPHY STACK STRATA */}
+        <div class="flex flex-col justify-center">
+          {/* Mutiara proudly on top in pristine EB Garamond */}
+          <span 
+            class="text-white text-3xl font-medium tracking-wide leading-none" 
+            style="font-family: 'EB Garamond', Georgia, serif !important;"
+          >
+            Mutiara
+          </span>
+          {/* Hotel & Convention resting perfectly below in your favorite orange */}
+          <span class="text-[10px] text-amber-500 tracking-[0.22em] font-bold uppercase mt-1.5 whitespace-nowrap">
+            Hotel & Convention
+          </span>
+        </div>
         
       </div>
-      <p class="text-xs leading-relaxed text-slate-500 max-w-xs mt-4">
+      
+      <p class="text-xs leading-relaxed text-slate-500 max-w-xs mt-3">
         Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.
       </p>
     </div>
