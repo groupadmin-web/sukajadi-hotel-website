@@ -1,11 +1,13 @@
 ---
+// src/components/hero.astro
 import homepageData from "../content/homepage.json";
 
+// Extract content text fields safely
 const { welcome_title, tagline, booking_button_text } = homepageData;
 
-// Loop directly through the automatic suffix string list array
-const slides = homepageData.banner_image_list && homepageData.banner_image_list.length > 0
-  ? homepageData.banner_image_list
+// Unpack the image targets cleanly from the object array schema
+const slides = homepageData.slideshow && homepageData.slideshow.length > 0
+  ? homepageData.slideshow.map(item => item.slide_image)
   : [
       "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80",
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80"
@@ -63,18 +65,13 @@ const slides = homepageData.banner_image_list && homepageData.banner_image_list.
       if (!slides || slides.length <= 1) return;
 
       let currentIdx = 0;
-      const changeDelay = 5000; // Transitions images every 5 seconds
+      const changeDelay = 5000;
 
       setInterval(() => {
-        // Fade out previous image container asset
         slides[currentIdx].style.opacity = '0';
         slides[currentIdx].style.zIndex = '0';
-
-        // Advanced cycle index loop
         currentIdx = (currentIdx + 1) % slides.length;
-
-        // Fade in new target background photo smoothly
-        slides[currentIdx].style.opacity = '0.4'; // Preserves your signature layout opacity
+        slides[currentIdx].style.opacity = '0.4';
         slides[currentIdx].style.zIndex = '1';
       }, changeDelay);
     }
