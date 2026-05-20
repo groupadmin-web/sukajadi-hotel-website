@@ -23,11 +23,10 @@ content:
         type: text
 
       # 1. Declare the container key as an array field type
-      - name: banner_slides
+      - name: hero_slideshow
         label: "Hero Slideshow Photos"
         type: array
         options:
-          # This explicitly forces CloudCannon to render clean add/remove image slots
           entry_input_type: image
 
       - name: show_partners
