@@ -14,5 +14,17 @@
   {
     "name": "Google",
     "subtitle": "Top Guest Rating Stream"
+  },
+  {
+    "name": "TripAdvisor",
+    "subtitle": "4.5 / 5.0 Excellence Rank"
+  },
+  {
+    "name": "Trip.com",
+    "subtitle": "Highly Rated Choice"
+  },
+  {
+    "name": "Ctrip",
+    "subtitle": "Official Asian Network"
   }
 ]
