@@ -169,6 +169,10 @@ content:
     type: file
     path: src/content/promotion.json
     format: json
+    # Explicitly telling the uploader to put assets inside the standard hotel image cache directory:
+    media:
+      input: public/images
+      output: /images
     fields:
       - name: banner_bg_type
         label: "Background Mode Display Option"
@@ -176,7 +180,7 @@ content:
         options:
           values:
             - "Photo Background"
-            - "Luxury Solid Charcoal"
+            - "Exciting Sunset Gold"
             - "Deep Premium Blue"
         default: "Photo Background"
       - name: banner_bg_image
@@ -189,5 +193,7 @@ content:
         label: "Promo Offer Details Paragraph"
         type: text
       - name: cta_btn_text
+        label: "Promo Button Action text"
+        type: string
         label: "Promo Button Action text"
         type: string
