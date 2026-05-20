@@ -4,94 +4,92 @@ import Link from "@/components/ui/link.astro";
 import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
+// MATCHED EXACTLY TO YOUR SCREENSHOT
 const menuitems = [
   {
-    title: "Features",
-    path: "#",
-    children: [
-      { title: "Action", path: "/" },
-      { title: "Another action", path: "#" },
-      { title: "Dropdown Submenu", path: "#" },
-      { title: "404 Page", path: "/404" },
-    ],
+    title: "HOME",
+    path: "/",
   },
   {
-    title: "Pricing",
-    path: "/pricing",
+    title: "Q&A",
+    path: "#qa", // Points down to a future Q&A section anchor point
   },
   {
-    title: "About",
-    path: "/about",
+    title: "ROOM",
+    path: "#rooms",
   },
   {
-    title: "Blog",
-    path: "/blog",
+    title: "TOURIST ATTRACTIONS",
+    path: "#attractions",
   },
   {
-    title: "Contact",
-    path: "/contact",
+    title: "GALLERY",
+    path: "#gallery",
   },
   {
-    title: "Pro Version",
-    badge: true,
-    path: "https://astroship-pro.web3templates.com/",
+    title: "MEETINGS & EVENTS",
+    path: "#events",
+  },
+  {
+    title: "CONTACT",
+    path: "#contact",
   },
 ];
 ---
 
-<Container>
-  <header class="flex flex-col lg:flex-row justify-between items-center my-5">
-    <Astronav>
-      <div class="flex w-full lg:w-auto items-center justify-between">
-        <a href="/" class="text-lg"
-          ><span class="font-bold text-slate-800">Astro</span><span
-            class="text-slate-500">ship</span
-          >
-        </a>
-        <div class="block lg:hidden">
-          <MenuIcon class="w-4 h-4 text-gray-800" />
+<header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm shadow-sm transition-all border-b border-gray-100">
+  <Container>
+    <div class="flex flex-col lg:flex-row justify-between items-center py-4">
+      <Astronav>
+        <div class="flex w-full lg:w-auto items-center justify-between">
+          <a href="/" class="text-xl tracking-wider font-serif">
+            <span class="font-bold text-slate-900">MUTIARA</span>
+          </a>
+          <div class="block lg:hidden">
+            <MenuIcon class="w-5 h-5 text-gray-800" />
+          </div>
         </div>
-      </div>
-      <MenuItems class="hidden w-full lg:w-auto mt-2 lg:flex lg:mt-0">
-        <ul class="flex flex-col lg:flex-row lg:gap-3">
-          {
-            menuitems.map((item, index) => (
-              <>
-                {item.children && (
-                  <Dropdown
-                    title={item.title}
-                    children={item.children}
-                    lastItem={index === menuitems.length - 1}
-                  />
-                )}
+        
+        <MenuItems class="hidden w-full lg:w-auto mt-4 lg:flex lg:mt-0">
+          <ul class="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-2">
+            {
+              menuitems.map((item, index) => (
+                <>
+                  {item.children && (
+                    <Dropdown
+                      title={item.title}
+                      children={item.children}
+                      lastItem={index === menuitems.length - 1}
+                    />
+                  )}
 
-                {!item.children && (
-                  <li>
-                    <a
-                      href={item.path}
-                      class="flex lg:px-3 py-2 items-center text-gray-600 hover:text-gray-900">
-                      <span> {item.title}</span>
-                      {item.badge && (
-                        <span class="ml-1 px-2 py-0.5 text-[10px] animate-pulse font-semibold uppercase text-white bg-indigo-600 rounded-full">
-                          New
-                        </span>
-                      )}
-                    </a>
-                  </li>
-                )}
-              </>
-            ))
-          }
-        </ul>
-        <div class="lg:hidden flex items-center mt-3 gap-4">
-          <Link href="https://www.agoda.com/your-hotel-link" size="md" block>Book Now</Link>
-        </div>
-      </MenuItems>
-    </Astronav>
-    <div>
-      <div class="hidden lg:flex items-center gap-4">
-        <Link href="https://m.mutiarahotel.com" size="md">Book Now</Link>
+                  {!item.children && (
+                    <li>
+                      <a
+                        href={item.path}
+                        class="flex lg:px-3 py-2 items-center text-sm font-semibold tracking-wide text-slate-700 hover:text-amber-600 transition-colors uppercase">
+                        <span> {item.title}</span>
+                      </a>
+                    </li>
+                  )}
+                </>
+              ))
+            }
+          </ul>
+          
+          <div class="lg:hidden flex items-center mt-4 w-full">
+            <Link href="https://m.mutiarahotel.com" size="md" block class="bg-amber-600 hover:bg-amber-700 text-white text-center">
+              Book Now
+            </Link>
+          </div>
+        </MenuItems>
+      </Astronav>
+      
+      <div class="hidden lg:flex items-center">
+        <Link href="https://m.mutiarahotel.com" size="md" class="bg-slate-950 text-white hover:bg-slate-800 transition-all font-medium rounded-md">
+          Book Now
+        </Link>
       </div>
     </div>
-  </header>
-</Container>
+  </Container>
+</header>
