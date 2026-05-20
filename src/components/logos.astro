@@ -1,29 +1,18 @@
 ---
-// FIXED AUTOMATED PLATFORM SCHEDULER
-const trustedPartners = [
-  {
-    name: "Booking.com",
-    label: "Verified Booking Channel",
-    // Pulls directly from the official universal SVG asset repository
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/b/be/Booking.com_Logo_Grey.svg"
-  },
-  {
-    name: "Traveloka",
-    label: "Preferred Local Partner",
-    // Scaled flat logo asset file link
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Traveloka_Logo.svg/320px-Traveloka_Logo.svg.png"
-  },
-  {
-    name: "Agoda",
-    label: "Global Preferred Choice",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Agoda_logo.svg"
-  },
-  {
-    name: "Google Travel",
-    label: "Top Guest Rating Stream",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Travel_Icon.svg"
-  }
-];
+import badgesData from "@/content/badges.json";
+
+const safeBadges = badgesData || [];
+
+// AUTOMATIC LINGUISTIC DIRECTORY BRAND LOGOMAP
+const globalLogoDirectory = {
+  "booking.com": "https://upload.wikimedia.org/wikipedia/commons/b/be/Booking.com_Logo_Grey.svg",
+  "traveloka": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Traveloka_Logo.svg/320px-Traveloka_Logo.svg.png",
+  "agoda": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Agoda_logo.svg",
+  "google": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Travel_Icon.svg"
+};
+
+// Generic elegant gold badge svg fallback definition icon asset
+const fallbackAwardIcon = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="%23d97706" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9  0v-3.375c0-.621-.503-1.125-1.125-1.125h-6.75a1.125 1.125 0 0 0-1.125 1.125v3.375m9 0M9 10.5h.008v.008H9V10.5Zm.564 4.963a8.25 8.25 0 1 1 5.872 0M15 10.5h.008v.008H15V10.5Z"/></svg>`;
 ---
 
 <div class="mt-20 mb-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-sans">
@@ -34,26 +23,45 @@ const trustedPartners = [
   
   <div class="grid grid-cols-2 md:grid-cols-4 items-center justify-center gap-8 md:gap-12 lg:gap-16">
     {
-      trustedPartners.map((partner) => (
-        <div class="flex flex-col items-center justify-center text-center group transition-all duration-300">
-          
-          {/* SECURE AUTO-LOADING IMAGE CONTAINER */}
-          <div class="h-10 w-full max-w-[130px] flex items-center justify-center mb-2">
-            <img 
-              src={partner.logoUrl} 
-              alt={`${partner.name} Network Branding`} 
-              class="max-h-full max-w-full object-contain filter grayscale opacity-35 group-hover:grayscale-0 group-hover:opacity-90 transition-all duration-500"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+      safeBadges.map((badge) => {
+        // Normalize whatever text the staff typed to lowercase to avoid typo rejections
+        const lookupKey = (badge.name || "").toLowerCase().trim();
+        
+        // Check if the logo exists in our official global directory loop
+        const automatedLogoUrl = globalLogoDirectory[lookupKey] || null;
+        
+        return (
+          <div class="flex flex-col items-center justify-center text-center group transition-all duration-300">
+            
+            {/* LOGO ENGINE BOX COMPONENT CONTAINER */}
+            <div class="h-10 w-full max-w-[130px] flex items-center justify-center mb-2">
+              {automatedLogoUrl ? (
+                /* Auto-Matched Brand Logo Route */
+                <img 
+                  src={automatedLogoUrl} 
+                  alt={`${badge.name} Partner`} 
+                  class="max-h-full max-w-full object-contain filter grayscale opacity-35 group-hover:grayscale-0 group-hover:opacity-90 transition-all duration-500"
+                  loading="lazy"
+                />
+              ) : (
+                /* Custom Award Text Route with elegant placeholder badge icon */
+                <div class="flex items-center gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
+                  <img src={fallbackAwardIcon} class="w-4 h-4 shrink-0 text-amber-600" alt="Award Accent" />
+                  <span class="text-xs font-bold tracking-wider text-slate-700 uppercase font-serif truncate">{badge.name}</span>
+                </div>
+              )}
+            </div>
 
-          <span class="text-[10px] font-medium tracking-wide text-slate-400/70 group-hover:text-amber-600 transition-colors duration-300">
-            {partner.label}
-          </span>
-          
-        </div>
-      ))
+            {/* SUBTITLE ACCENT RECORDED DATA */}
+            {badge.subtitle && (
+              <span class="text-[10px] font-medium tracking-wide text-slate-400/70 group-hover:text-amber-600 transition-colors duration-300">
+                {badge.subtitle}
+              </span>
+            )}
+            
+          </div>
+        );
+      })
     }
   </div>
   
