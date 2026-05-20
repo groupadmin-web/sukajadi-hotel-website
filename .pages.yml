@@ -84,12 +84,16 @@ content:
         type: image
         
       # THIS GIVES YOU A CLEAN, REPEATABLE LIST OF EXTRA PHOTOS INSIDE EACH ROOM CARD
-      - name: room_gallery
+      - name: room_gallery1
         label: "Additional Room Gallery Photos"
-        type: array
-        options:
-          entry_input_type: image
-
+        type: image
+      - name: room_gallery2
+        label: "Additional Room Gallery Photos"
+        type: image
+      - name: room_gallery3
+        label: "Additional Room Gallery Photos"
+        type: image
+      
       - name: bed_type
         label: "Bed Configuration Setup"
         type: string
