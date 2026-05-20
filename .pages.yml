@@ -41,12 +41,12 @@ content:
         label: "Sub-Header High-Impact Hook"
         type: text
 
-# THIS WILL FINALLY TURN INTO SEPARATE BUTTONS EVERY TIME
-      - name: carousel_images
+      - name: slideshow
         label: "Slideshow Photos"
-        type: array
-        options:
-          entry_input_type: image
+        type: list
+        spec:
+          type: image
+          label: "Slide Photo"
 
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
