@@ -23,14 +23,15 @@ content:
         type: text
 
       # 1. Declare the container key as an array field type
-      - name: hero_slideshow
+      - name: slideshow_gallery
         label: "Hero Slideshow Photos"
-        type: array
-        # THE CACHE-BREAKER FIX: Force CloudCannon to read this as a structural list of objects instead of a text line
-        fields:
-          - name: slide_image
-            label: "Upload Slide Photo"
-            type: image
+        type: list
+        spec:
+          type: object
+          fields:
+            - name: slide_image
+              label: "Upload Slide Photo"
+              type: image
 
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
