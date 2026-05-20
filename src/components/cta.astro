@@ -15,7 +15,7 @@ const buttonText = homepageData.cta_btn_text || "Claim Offer Now";
 
     <div class="relative max-w-2xl mx-auto flex flex-col items-center">
       
-      {/* SHINY PROMOTIONAL BADGE CHIP */}
+      {/* PROMOTIONAL BADGE CHIP */}
       <div class="flex items-center gap-2 mb-5 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20 shadow-inner">
         <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
         <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-400">Special Promotion</span>
@@ -31,13 +31,28 @@ const buttonText = homepageData.cta_btn_text || "Claim Offer Now";
         {description}
       </p>
       
-      {/* PERFECTLY MATCHED RESERVATION BUTTON */}
+      {/* LIVE REDIRECT BOOKING ENGINE LINK */}
       <div class="mt-8">
         <a
           href="https://m.mutiarahotel.com"
-          class="inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 text-sm font-bold text-slate-910 shadow-sm hover:bg-slate-50 border border-transparent transition-all duration-300 transform hover:-translate-y-0.5 font-sans tracking-wide uppercase"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 px-7 py-3.5 text-sm font-bold text-slate-950 shadow-md transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-amber-500/20 font-sans tracking-wide uppercase group/btn select-none"
         >
-          {buttonText}
+          <span>{buttonText}</span>
+          
+          {/* EXCITING ACTION ICON */}
+          <svg 
+            class="w-4 h-4 text-slate-950 transition-transform duration-300 group-hover/btn:translate-x-1 group-hover/btn:scale-110" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2.5" 
+            stroke-linecap="round" 
+            stroke-linejoin="round"
+          >
+            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+          </svg>
         </a>
       </div>
       
