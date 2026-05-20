@@ -22,14 +22,9 @@ content:
         label: "Sub-Header High-Impact Hook"
         type: text
 
-      # Structured Object Array for Individual Image Target Modules
-      - name: slideshow
-        label: "Hero Slideshow Photos"
-        type: array
-        fields:
-          - name: slide_image
-            label: "Upload Slide Photo"
-            type: image
+      - name: hero_image
+        label: "Hero Banner Photo"
+        type: image
 
       - name: show_partners
         label: "Display Partners & Awards Row on Website?"
