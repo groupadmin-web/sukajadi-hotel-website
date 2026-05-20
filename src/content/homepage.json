@@ -3,7 +3,7 @@
   "logo_text": "MUTIARA HOTEL & CONVENTION",
   "logo_image": "/images/Logo MTR Convention.png",
   "tagline": "Our hotel blends the charm of modern hospitality and the sophistication of the colonial era boutique hotel.",
-  "carousel_images": [
+  "slideshow": [
     "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1920&q=80",
     "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1920&q=80"
   ],
