@@ -6,7 +6,6 @@ import Hero from "@/components/hero.astro";
 import Logos from "@/components/logos.astro";
 import Layout from "@/layouts/Layout.astro";
 
-// FIX: Swapped out the path alias for a reliable relative directory route
 import Rooms from "../components/rooms.astro";
 import Stories from "../components/stories.astro"; 
 import reviewsData from "../content/reviews.json";
@@ -14,6 +13,9 @@ import reviewsData from "../content/reviews.json";
 const sortedReviews = (reviewsData || []).sort((a, b) => {
   return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
 });
+
+// Carousel activates ONLY when there are strictly more than 4 items
+const isSlider = sortedReviews.length > 4;
 ---
 
 <Layout title="Mutiara Hotel & Convention">
@@ -29,15 +31,18 @@ const sortedReviews = (reviewsData || []).sort((a, b) => {
     <Cta />
   </Container>
 
-  <section class="reviews-section my-16 px-6 max-w-7xl mx-auto">
+  <section class="reviews-section my-16 px-6 max-w-7xl mx-auto overflow-hidden">
     <h2 class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
     <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-10"></div>
     
-    <div class="reviews-grid-wrapper">
-      <div class="reviews-grid">
+    <div 
+      id="carousel-viewport"
+      class={`reviews-grid-wrapper overflow-x-auto pb-4 ${isSlider ? 'cursor-grab active:cursor-grabbing scroll-smooth' : 'justify-center'}`}
+    >
+      <div id="carousel-track" class={`reviews-grid ${isSlider ? 'is-sliding' : 'is-static'}`}>
         {
           sortedReviews.map((review) => (
-            <div class="review-card">
+            <div class="review-card shrink-0">
               <div>
                 <div class="stars">
                   {review.stars?.includes("5") && "⭐⭐⭐⭐⭐"}
@@ -83,21 +88,89 @@ const sortedReviews = (reviewsData || []).sort((a, b) => {
   </section>
 </Layout>
 
+<script is:inline define:vars={{ isSlider }}>
+  if (isSlider) {
+    const viewport = document.getElementById('carousel-viewport');
+    let scrollSpeed = 0.8; 
+    let animationFrameId;
+    let isHovered = false;
+
+    function autoScroll() {
+      if (!isHovered && viewport) {
+        viewport.scrollLeft += scrollSpeed;
+        
+        // Endless loop back point
+        if (viewport.scrollLeft >= (viewport.scrollWidth - viewport.clientWidth - 4)) {
+          viewport.scrollLeft = 0;
+        }
+      }
+      animationFrameId = requestAnimationFrame(autoScroll);
+    }
+
+    viewport.addEventListener('mouseenter', () => isHovered = true);
+    viewport.addEventListener('mouseleave', () => isHovered = false);
+    
+    autoScroll();
+  }
+</script>
+
 <style>
   .reviews-section { padding: 40px 0; }
-  .reviews-grid-wrapper { width: 100%; display: flex; justify-content: center; padding: 0 20px; box-sizing: border-box; }
-  .reviews-grid { display: flex; flex-direction: column; gap: 24px; width: 100%; max-width: 1140px; justify-content: center; align-items: stretch; }
-  @media (min-width: 768px) {
-    .reviews-grid { flex-direction: row; flex-wrap: wrap; }
-    .review-card { width: 350px; flex: 0 1 350px; }
+  .reviews-grid-wrapper { 
+    width: 100%; 
+    display: flex; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
   }
+  .reviews-grid-wrapper::-webkit-scrollbar { display: none; }
+
+  /* Base flex layout row setup */
+  .reviews-grid { 
+    display: flex; 
+    flex-direction: row; 
+    gap: 24px; 
+    padding: 10px 4px;
+  }
+
+  /* Slider configuration width needs to handle content expansion bounds */
+  .reviews-grid.is-sliding {
+    width: max-content;
+  }
+
+  /* STATIC SYSTEM CONFIGURATION: Centers 1, 2, 3, or 4 cards dynamically */
+  .reviews-grid.is-static {
+    width: 100%;
+    max-width: 1200px;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+
+  /* Ensure responsive layout swipe still works cleanly on mobile if static on wide monitors */
+  @media (max-width: 1024px) {
+    .reviews-grid.is-static {
+      width: max-content;
+      justify-content: flex-start;
+    }
+    .reviews-grid-wrapper {
+      justify-content: flex-start !important;
+    }
+  }
+
   .review-card {
-    background: white; padding: 24px; border-radius: 12px;
+    background: white; 
+    padding: 24px; 
+    border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    border: 1px solid #e5e7eb; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;
+    border: 1px solid #e5e7eb; 
+    width: 270px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    box-sizing: border-box;
   }
+
   .stars { color: #fbbf24; margin-bottom: 12px; font-size: 16px; }
-  .review-card .content { color: #4b5563; font-style: italic; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+  .review-card .content { color: #4b5563; font-style: italic; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
   .author-row { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f3f4f6; padding-top: 14px; }
-  .author-name { color: #1f2937; font-size: 14px; font-weight: 500; }
+  .author-name { color: #1f2937; font-size: 13px; font-weight: 500; }
 </style>
