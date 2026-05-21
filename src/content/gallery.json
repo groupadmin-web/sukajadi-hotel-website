@@ -13,32 +13,11 @@
     "image": "https://images.unsplash.com/photo-1617957688229-2621f72d7a5d?auto=format&fit=crop&w=1200&q=80",
     "description": "Vibrant batik textiles and delicate antique pottery collected from remote corners across the Indonesian archipelago. Each piece reflects the historic artistic traditions that have shaped Java's history."
   },
-  {
-    "id": "item-3",
-    "title": "Executive Suite Layout",
-    "category": "rooms",
-    "image": "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80",
-    "description": "A close look inside our elegant Executive Room suite layout, blending the charm of modern premium hospitality with the sophisticated boutique accents of the colonial era."
-  },
-  {
-    "id": "item-4",
-    "title": "Tiara Restaurant & Poolside Bistro",
-    "category": "dining",
-    "image": "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=80",
-    "description": "An oasis in the very heart of Bandung. Guests can relax at our outdoor swimming pool lounge and indulge in authentic local Indonesian dishes served daily at Tiara Café."
-  },
-  {
+    {
     "id": "item-5",
     "title": "Traditional Art Collection for Sale",
     "category": "artifacts",
     "image": "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=1200&q=80",
     "description": "Exquisite collections of traditional oil paintings and antique collectibles available for purchase, offering guests an opportunity to take home a piece of Bandung's rich cultural heritage."
-  },
-  {
-    "id": "item-6",
-    "title": "Spacious Premium Family Suites",
-    "category": "rooms",
-    "image": "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=1200&q=80",
-    "description": "Providing ample space and ultimate comfort for relaxing stays together, featuring a spacious living area perfect for families to socialise in true boutique style."
   }
 ]
