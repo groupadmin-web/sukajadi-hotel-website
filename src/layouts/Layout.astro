@@ -137,8 +137,16 @@ const makeTitle = title
     <script is:inline>
       const baselineTextCache = new Map();
 
+      // SMART MEMORY CONFIG: Fallback checking priority: URL Parameter -> LocalStorage Memory -> English Default
       function getLanguageSetting() {
-        return new URLSearchParams(window.location.search).get('lang') === 'id' ? 'id' : 'en';
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('lang') === 'id' || urlParams.get('lang') === 'en') {
+          const target = urlParams.get('lang');
+          localStorage.setItem('mutiara_user_lang', target); // Sync url params directly to persistent memory
+          return target;
+        }
+        
+        return localStorage.getItem('mutiara_user_lang') === 'id' ? 'id' : 'en';
       }
 
       async function fetchAsyncTranslation(textString, targetLangCode) {
@@ -239,9 +247,13 @@ const makeTitle = title
         if (btnEN) {
           btnEN.onclick = (e) => {
             e.preventDefault();
+            localStorage.setItem('mutiara_user_lang', 'en'); // Permanently stamp English selection
+            
+            // Clean up any stray trailing lang params from the address bar nicely
             const url = new URL(window.location.href);
-            url.searchParams.set('lang', 'en');
+            url.searchParams.delete('lang');
             window.history.pushState({}, '', url);
+            
             executeUniversalTranslation();
           };
         }
@@ -249,19 +261,22 @@ const makeTitle = title
         if (btnID) {
           btnID.onclick = (e) => {
             e.preventDefault();
+            localStorage.setItem('mutiara_user_lang', 'id'); // Permanently stamp Indonesian selection
+            
             const url = new URL(window.location.href);
             url.searchParams.set('lang', 'id');
             window.history.pushState({}, '', url);
+            
             executeUniversalTranslation();
           };
         }
       }
 
-      // Initial running calls
+      // Initial execution sequence on load
       setupLanguageListeners();
       executeUniversalTranslation();
 
-      // Clear sync hook routines across multi-page router switches
+      // CRITICAL FIX: Re-fires execution immediately when client route transitions push new HTML elements inside layout target container
       document.addEventListener('astro:after-swap', () => {
         setupLanguageListeners();
         executeUniversalTranslation();
