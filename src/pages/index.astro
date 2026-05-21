@@ -14,7 +14,6 @@ const sortedReviews = (reviewsData || []).sort((a, b) => {
   return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
 });
 
-// Slider system triggers ONLY if strictly more than 4 items are present
 const isSlider = sortedReviews.length > 4;
 ---
 
@@ -32,7 +31,7 @@ const isSlider = sortedReviews.length > 4;
   </Container>
 
   <section class="reviews-section my-16 px-6 max-w-7xl mx-auto overflow-hidden">
-    <h2 class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
+    <h2 id="reviews-header-title" class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
     <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-10"></div>
     
     <div class="marquee-viewport">
@@ -49,7 +48,7 @@ const isSlider = sortedReviews.length > 4;
                     {review.stars && review.stars.toString().includes("3") && "⭐⭐⭐"}
                     {review.stars && !review.stars.toString().includes("5") && !review.stars.toString().includes("4") && !review.stars.toString().includes("3") && review.stars}
                   </div>
-                  <p class="content">"{review.content}"</p>
+                  <p class="content" data-review-content={review.content}>"{review.content}"</p>
                 </div>
                 
                 <div class="author-row">
@@ -80,7 +79,7 @@ const isSlider = sortedReviews.length > 4;
                   </div>
                 </div>
               </div>
-            ))
+            )
           }
         </div>
 
@@ -96,7 +95,7 @@ const isSlider = sortedReviews.length > 4;
                       {review.stars && review.stars.toString().includes("3") && "⭐⭐⭐"}
                       {review.stars && !review.stars.toString().includes("5") && !review.stars.toString().includes("4") && !review.stars.toString().includes("3") && review.stars}
                     </div>
-                    <p class="content">"{review.content}"</p>
+                    <p class="content" data-review-content={review.content}>"{review.content}"</p>
                   </div>
                   
                   <div class="author-row">
@@ -136,6 +135,80 @@ const isSlider = sortedReviews.length > 4;
     </div>
   </section>
 </Layout>
+
+<script is:inline>
+  // Dynamic Text Conversion Dictionary Lookups
+  const pageWideTranslations = {
+    id: {
+      "What Our Guests Love About Us": "Apa yang Tamu Kami Sukai dari Kami",
+      "THE MUTIARA EXPERIENCE": "PENGALAMAN MUTIARA",
+      "A Quiet Oasis of Refined Comfort": "Oasis Ketenangan dengan Kenyamanan Berkelas",
+      "Stasiun Central Hub": "Hub Sentral Stasiun",
+      "Tiara Poolside Dining": "Kuliner di Tepi Kolam Tiara",
+      "Colonial Oasis": "Oasis Kolonial",
+      "Grand Convention Halls": "Gedung Konvensi Agung",
+      "Family-First Layouts": "Tata Letak Berorientasi Keluarga",
+      "Crystalline Relaxation": "Relaksasi Kristal",
+      "THE ACCOMMODATIONS": "AKOMODASI",
+      "Timeless Colonial Boutique Lodging": "Penginapan Butik Kolonial yang Abadi",
+      "LEISURE & CALM": "REKREASI & KETENANGAN",
+      "Authentic Hospitality by the Crystalline Pool": "Keramahtamahan Otentik di Sisi Kolam Renang Kristal"
+    }
+  };
+
+  // Stores baseline text mappings safely to prevent content drops during route swaps
+  const textStorageMap = new Map();
+
+  function fetchActiveLanguage() {
+    return new URLSearchParams(window.location.search).get('lang') === 'id' ? 'id' : 'en';
+  }
+
+  function handlePageTranslationRun() {
+    const activeLanguage = fetchActiveLanguage();
+    
+    // 1. Direct Headings & Document Mapping Nodes Execution
+    const headerTitle = document.getElementById('reviews-header-title');
+    if (headerTitle) {
+      if (!textStorageMap.has(headerTitle)) textStorageMap.set(headerTitle, headerTitle.innerText.trim());
+      const baseText = textStorageMap.get(headerTitle);
+      headerTitle.innerText = (activeLanguage === 'id' && pageWideTranslations.id[baseText]) ? pageWideTranslations.id[baseText] : baseText;
+    }
+
+    // 2. RUN PURE DOM-TREE TRAVERSAL SCRAPER ACROSS NESTED CHILD COMPONENTS
+    // This looks into <Hero />, <Features />, <Stories /> etc. and replaces string values instantly.
+    const containerTags = document.querySelectorAll('h1, h2, h3, h4, span, p, button, a');
+    containerTags.forEach(node => {
+      // Security bounds to avoid changing layout flag values
+      if (node.id?.startsWith('global-') || node.closest('.fixed')) return;
+
+      const currentRawText = node.innerText?.trim();
+      if (!currentRawText) return;
+
+      if (!textStorageMap.has(node)) {
+        textStorageMap.set(node, currentRawText);
+      }
+
+      const baselineEnglish = textStorageMap.get(node);
+
+      if (activeLanguage === 'id') {
+        if (pageWideTranslations.id[baselineEnglish]) {
+          node.innerText = pageWideTranslations.id[baselineEnglish];
+        }
+      } else {
+        node.innerText = baselineEnglish;
+      }
+    });
+  }
+
+  // Bind interface execution loops directly to layout window listeners
+  window.addEventListener('globalLangChange', () => {
+    handlePageTranslationRun();
+  });
+
+  // System setup calls
+  handlePageTranslationRun();
+  document.addEventListener('astro:after-swap', handlePageTranslationRun);
+</script>
 
 <style>
   .reviews-section { padding: 40px 0; }
