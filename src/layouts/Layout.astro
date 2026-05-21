@@ -157,7 +157,6 @@ const makeTitle = title
     <script is:inline>
       const baselineTextCache = new Map();
 
-      // Fallback matching memory router matrix
       function getLanguageSetting() {
         const urlParams = new URLSearchParams(window.location.search);
         const urlLang = urlParams.get('lang');
@@ -165,7 +164,6 @@ const makeTitle = title
           localStorage.setItem('mutiara_user_lang', urlLang);
           return urlLang;
         }
-        
         return localStorage.getItem('mutiara_user_lang') || 'en';
       }
 
@@ -191,7 +189,6 @@ const makeTitle = title
         const rootContainer = document.getElementById('universal-translation-root');
         if (!rootContainer) return;
 
-        // Reset & activate flags dynamically
         const flagEN = document.getElementById('global-nav-en');
         const flagID = document.getElementById('global-nav-id');
         const flagZH = document.getElementById('global-nav-zh');
@@ -215,7 +212,6 @@ const makeTitle = title
           if (labelEl) labelEl.innerText = "SELECT LANGUAGE:";
         }
 
-        // TEXT PROCESSING TREE WALKER
         const nodesToTranslate = [];
         const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
           acceptNode: function(node) {
@@ -223,18 +219,31 @@ const makeTitle = title
               return NodeFilter.FILTER_REJECT;
             }
 
-            // BRAND SANITIZATION (Never convert brand word)
+            // BRAND REJECTION PROTECTION
             if (node.textContent.toLowerCase().includes('mutiara')) {
               return NodeFilter.FILTER_REJECT;
             }
 
-            // LINK / INTERACTIVE BLOCK INTERCEPT
+            // HARDCORE ACTION STRING PROTECTOR
+            const textClean = node.textContent.trim().toLowerCase();
+            if (
+              textClean === 'book now' || 
+              textClean === 'claim offer now' || 
+              textClean.includes('claim offer') ||
+              textClean === 'view gallery' ||
+              textClean === 'original' ||
+              textClean.includes('modus bahasa')
+            ) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            // PARENT STRUCTURAL LEVEL TAG SHIELDING
             if (
               node.parentElement.tagName === 'BUTTON' || 
               node.parentElement.tagName === 'A' ||
               node.parentElement.classList.contains('btn') ||
               node.parentElement.classList.contains('button') ||
-              node.parentElement.closest('.notranslate, .skip-translation')
+              node.parentElement.closest('.notranslate, .skip-translation, [id*="lang-"]')
             ) {
               return NodeFilter.FILTER_REJECT;
             }
@@ -247,7 +256,6 @@ const makeTitle = title
           nodesToTranslate.push(walker.currentNode);
         }
 
-        // Translate nodes loop queue
         for (const textNode of nodesToTranslate) {
           if (!baselineTextCache.has(textNode)) {
             baselineTextCache.set(textNode, textNode.textContent);
