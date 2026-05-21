@@ -1,0 +1,10 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/container.astro";
+
+// Pulls your dynamic venue records straight from the CMS flat database file
+import eventData from "../content/events.json";
+
+// Safe fallback utility to ensure your build engine never crashes if data is missing
+const events = eventData || [];
+---
