@@ -1,93 +1,107 @@
 ---
-import Container from "@/components/container.astro";
-
-// Fetch your dynamic hotel brand payload data directly from your configuration engine
 import homepageData from "@/content/homepage.json";
 
-const currentYear = new Date().getFullYear();
+// Safely pulling the live logo image path value
+const logoImage = homepageData.logo_image;
 ---
 
-{/* UNIVERSAL FOOTER TRACKER: id="footer" matches your new navbar.astro jump routing perfectly */}
-<footer id="footer" class="bg-slate-900 text-white pt-16 pb-8 border-t border-slate-800 font-sans clear-both block w-full">
-  <Container>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-12 border-b border-slate-800">
+{/* FIXED: id="footer" is now attached, matching your navbar click-handler perfectly */}
+<footer id="footer" class="w-full bg-slate-950 text-slate-400 font-sans border-t border-slate-900 pt-16 pb-8 relative overflow-hidden left-0 right-0">
+  
+  <div class="absolute bottom-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none select-none"></div>
+
+  {/* INTERNAL INNER GRID INNER SHIELD */}
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 pb-12 border-b border-slate-900">
+    
+    {/* COLUMN 1: SIDE-BY-SIDE PRECISION BRAND MATRIX */}
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-row items-center gap-4">
+        
+        {/* THE REAL SEA-SHELL LOGO GRAPHIC MARK */}
+        {logoImage && (
+          <img 
+            src={logoImage} 
+            alt="Mutiara Brand Logo" 
+            class="h-14 w-auto object-contain brightness-110 flex-shrink-0"
+            onerror="this.style.display='none';"
+          />
+        )}
+        
+        {/* THE TYPOGRAPHY BLOCK */}
+        <div class="flex flex-col justify-center">
+          {/* Custom inline style applied to widen character gaps by exactly 2% more to reach perfect flush margins */}
+          <span 
+            class="text-white text-2xl font-medium uppercase leading-none select-none" 
+            style="font-family: 'EB Garamond', Georgia, serif !important; letter-spacing: 4px !important; margin-right: -4px !important;"
+          >
+            Mutiara
+          </span>
+          {/* Subtitle baseline text perfectly balanced in orange */}
+          <span class="text-[10px] text-amber-500 tracking-[0.15em] font-bold uppercase mt-2.5 whitespace-nowrap select-none">
+            Hotel & Convention
+          </span>
+        </div>
+        
+      </div>
       
-      <div class="space-y-4">
-        <h3 class="font-serif font-bold text-xl tracking-wider text-amber-500 uppercase">
-          {homepageData.logo_text || "MUTIARA"}
-        </h3>
-        <p class="text-xs text-slate-400 leading-relaxed max-w-sm">
-          An authentic urban gateway established in the heart of Bandung, blending classic heritage architecture with sophisticated contemporary hospitality assets.
-        </p>
-      </div>
-
-      <div class="space-y-4">
-        <h4 class="text-xs font-bold tracking-widest text-slate-300 uppercase">Guest Services</h4>
-        <ul class="space-y-2.5 text-sm text-slate-400">
-          <li>
-            <a href="/rooms" class="hover:text-amber-500 transition-colors">Our Suites & Rooms</a>
-          </li>
-          <li>
-            <a href="/meetings-events" class="hover:text-amber-500 transition-colors">Convention & Meeting Venues</a>
-          </li>
-          <li>
-            <a href="/gallery" class="hover:text-amber-500 transition-colors">Historical Art Gallery</a>
-          </li>
-          <li>
-            <a href="/attractions" class="hover:text-amber-500 transition-colors">Local Sightseeing Guides</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="space-y-4">
-        <h4 class="text-xs font-bold tracking-widest text-slate-300 uppercase">Instant Desks</h4>
-        <ul class="space-y-3 text-xs text-slate-400">
-          <li class="flex items-start gap-2">
-            <span class="text-emerald-500 font-bold shrink-0 notranslate">WA:</span>
-            <a 
-              href="https://wa.me/6287722469110?text=Hi%20Mutiara%20Hotel,%20I%20would%20like%20to%20inquire%20about%20room%20availability." 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              class="hover:text-emerald-400 font-medium transition-colors"
-            >
-              +62 877-2246-9110 (Front Desk)
-            </a>
-          </li>
-          <li class="flex items-start gap-2">
-            <span class="text-amber-500 font-bold shrink-0 notranslate">WA:</span>
-            <a 
-              href="https://wa.me/6287722469110?text=Hi%20Mutiara%20Marketing,%20I%20would%20like%20to%20request%20an%20event%20proposal." 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              class="hover:text-amber-400 font-medium transition-colors"
-            >
-              +62 877-2246-9110 (Marketing Office)
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="space-y-4">
-        <h4 class="text-xs font-bold tracking-widest text-slate-300 uppercase">Location Address</h4>
-        <p class="text-xs text-slate-400 leading-relaxed notranslate">
-          Mutiara Hotel & Convention<br />
-          Jalan Kebon Kawung No. 60,<br />
-          Pasir Kaliki, Cicendo, Bandung City,<br />
-          West Java 40171, Indonesia
-        </p>
-      </div>
-
-    </div>
-
-    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-      <p class="font-sans">
-        &copy; {currentYear} Mutiara Hotel & Convention Center Bandung. All Rights Reserved.
+      <p class="text-xs leading-relaxed text-slate-500 max-w-xs mt-2">
+        Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.
       </p>
-      <div class="flex gap-6 font-sans">
-        <a href="https://m.mutiarahotel.com" class="hover:text-amber-500 transition-colors">Direct Portal Access</a>
-        <span class="text-slate-700">|</span>
-        <span class="text-slate-600 uppercase tracking-widest text-[10px]">Secure Hub Blueprint</span>
+    </div>
+
+    {/* COLUMN 2: ACCOMMODATION ANCHORS */}
+    <div>
+      <h4 class="text-white text-xs font-bold uppercase tracking-widest mb-5 border-l-2 border-amber-500 pl-2.5">
+        Accommodations
+      </h4>
+      <ul class="flex flex-col gap-3 text-xs">
+        <li><a href="#rooms" class="hover:text-amber-500 transition-colors duration-300">Executive Deluxe Rooms</a></li>
+        <li><a href="#rooms" class="hover:text-amber-500 transition-colors duration-300">Business Premier Suites</a></li>
+        <li><a href="#rooms" class="hover:text-amber-500 transition-colors duration-300">Grand Family Sanctuaries</a></li>
+        <li><a href="https://m.mutiarahotel.com" target="_blank" rel="noopener noreferrer" class="text-amber-400 font-medium hover:underline">Direct Reservation Portal →</a></li>
+      </ul>
+    </div>
+
+    {/* COLUMN 3: MICE / CONVENTION ASSETS */}
+    <div>
+      <h4 class="text-white text-xs font-bold uppercase tracking-widest mb-5 border-l-2 border-amber-500 pl-2.5">
+        Events & Conventions
+      </h4>
+      <ul class="flex flex-col gap-3 text-xs">
+        <li><a href="#events" class="hover:text-amber-500 transition-colors duration-300">Grand Ballroom</a></li>
+        <li><a href="#events" class="hover:text-amber-500 transition-colors duration-300">Corporate Boardrooms</a></li>
+        <li><a href="#events" class="hover:text-amber-500 transition-colors duration-300">MICE Infrastructure</a></li>
+      </ul>
+    </div>
+
+    {/* COLUMN 4: LOCAL CONCIERGE ACCESS COORD */}
+    <div>
+      <h4 class="text-white text-xs font-bold uppercase tracking-widest mb-5 border-l-2 border-amber-500 pl-2.5">
+        The Concierge Desk
+      </h4>
+      <div class="flex flex-col gap-3 text-xs leading-relaxed text-slate-400">
+        <p class="flex gap-2">
+          <span class="text-amber-500">📍</span>
+          <span>Jalan Kebon Kawung No. 60,<br />Bandung, West Java, Indonesia</span>
+        </p>
+        <p class="flex gap-2 mt-1">
+          <span class="text-amber-500">📞</span>
+          <a href="tel:+62224200888" class="hover:text-white transition-colors">+62 (022) 420 0888</a>
+        </p>
       </div>
     </div>
-  </Container>
+
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-slate-600 font-medium">
+    <p>
+      &copy; {new Date().getFullYear()} Mutiara Hotel & Convention Bandung. All Rights Reserved.
+    </p>
+    <div class="flex gap-6">
+      <a href="#privacy" class="hover:text-slate-400 transition-colors">Privacy Charter</a>
+      <span class="text-slate-800">|</span>
+      <p>Designed with Luxury Standards</p>
+    </div>
+  </div>
+
 </footer>
