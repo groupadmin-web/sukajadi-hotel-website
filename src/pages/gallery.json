@@ -1,0 +1,131 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/container.astro";
+
+// Pure flat file relative import pattern matching your other pages
+import galleryData from "../content/gallery.json";
+
+const uniqueCategories = ["all", ...new Set((galleryData || []).map(item => item.category))];
+---
+
+<Layout title="Gallery & Heritage Collections">
+  <div id="universal-translation-root">
+    <Container>
+      
+      <div class="text-center max-w-2xl mx-auto my-12">
+        <h1 class="text-4xl font-serif font-bold text-gray-800 mb-2">Our Gallery & Collections</h1>
+        <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-4"></div>
+        <p class="text-sm text-gray-500 font-sans">
+          Explore the visual narrative of Mutiara Hotel. From curated accommodation suite layouts to museum-grade antique artifacts and traditional decor assets spread across the premises.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center items-center gap-2 mb-12 mt-6 notranslate">
+        {uniqueCategories.map((category) => (
+          <button
+            data-filter-target={category}
+            class="gallery-filter-btn px-5 py-2 text-xs font-sans font-bold tracking-wider uppercase rounded-full border transition-all duration-300 cursor-pointer select-none outline-none bg-white border-gray-200 text-gray-500 hover:border-gray-400 hover:text-gray-800 evaluation-selector"
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div id="master-gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+        {galleryData.map((item) => (
+          <div 
+            data-item-category={item.category}
+            class="gallery-card bg-white rounded-2xl overflow-hidden border border-gray-200/60 shadow-sm transition-all duration-300 flex flex-col justify-between opacity-1 transform scale-100"
+          >
+            <div class="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
+              <img 
+                src={item.image} 
+                alt={item.title}
+                loading="lazy"
+                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105 block"
+              />
+              <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[9px] font-sans font-bold tracking-widest text-gray-700 uppercase px-3 py-1 rounded-full shadow-sm select-none notranslate">
+                {item.category}
+              </span>
+            </div>
+
+            <div class="p-6 flex-grow flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl font-serif font-bold text-gray-800 mb-2 leading-tight">
+                  {item.title}
+                </h3>
+                <p class="text-gray-500 text-sm leading-relaxed font-sans font-normal">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </Container>
+  </div>
+</Layout>
+
+<script is:inline>
+  function runGalleryEngine() {
+    const filterButtons = document.querySelectorAll('.gallery-filter-btn');
+    const galleryCards = document.querySelectorAll('.gallery-card');
+
+    if (filterButtons.length === 0 || galleryCards.length === 0) return;
+
+    // Set 'all' as active by default on load
+    filterButtons.forEach(btn => {
+      const target = btn.getAttribute('data-filter-target');
+      if (target === 'all') {
+        btn.style.backgroundColor = '#111827';
+        btn.style.borderColor = '#111827';
+        btn.style.color = '#ffffff';
+      }
+    });
+
+    filterButtons.forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        const selectedTarget = btn.getAttribute('data-filter-target');
+
+        // Reset all selector styles safely
+        filterButtons.forEach(b => {
+          b.style.backgroundColor = '#ffffff';
+          b.style.borderColor = '#e5e7eb';
+          b.style.color = '#6b7280';
+        });
+
+        // Set active highlighted item aesthetics 
+        btn.style.backgroundColor = '#111827';
+        btn.style.borderColor = '#111827';
+        btn.style.color = '#ffffff';
+
+        // Filter layout items inside grid view wrapper
+        galleryCards.forEach(card => {
+          const cardCategory = card.getAttribute('data-item-category');
+
+          if (selectedTarget === 'all' || cardCategory === selectedTarget) {
+            card.style.display = 'flex';
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'scale(1)';
+            }, 10);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 300);
+          }
+        });
+      };
+    });
+  }
+
+  // Initial runtime execute hook
+  runGalleryEngine();
+
+  // Re-bind actions correctly on Astro view transitions sweeps
+  document.addEventListener('astro:after-swap', runGalleryEngine);
+</script>
