@@ -10,6 +10,10 @@ import Rooms from "../components/rooms.astro";
 import Stories from "../components/stories.astro"; 
 import reviewsData from "../content/reviews.json";
 
+// FETCH FLAT GALLERY PAYLOAD FOR THE HOMEPAGE TEASER GRID
+import galleryData from "../content/gallery.json";
+const homeGalleryTeasers = (galleryData || []).slice(0, 3);
+
 const sortedReviews = (reviewsData || []).sort((a, b) => {
   return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
 });
@@ -19,7 +23,8 @@ const isSlider = sortedReviews.length > 4;
 
 <Layout title="Mutiara Hotel & Convention">
   
-  <div id="automated-translate-workspace">
+  <div id="universal-translation-root">
+    
     <Hero />
 
     <Features />
@@ -30,6 +35,44 @@ const isSlider = sortedReviews.length > 4;
       <Logos />
       <Cta />
     </Container>
+
+    <section class="gallery-preview-section my-20 px-6 max-w-7xl mx-auto">
+      <div class="text-center max-w-xl mx-auto mb-10">
+        <h2 class="text-3xl font-serif font-bold text-gray-800 mb-2">Our Gallery & Collections</h2>
+        <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-4"></div>
+        <p class="text-sm text-gray-500 font-sans">
+          A sneak peek at our rare antique artifacts, boutique spaces, and fine colonial heritage preserved throughout the resort premises.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        {homeGalleryTeasers.map((item) => (
+          <div class="group relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 border border-gray-200/60 shadow-sm">
+            <img 
+              src={item.image} 
+              alt={item.title} 
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 block"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex items-end">
+              <div>
+                <span class="text-[9px] font-sans font-bold text-amber-400 tracking-widest uppercase block mb-1 notranslate">{item.category}</span>
+                <h4 class="text-white font-serif font-bold text-sm leading-tight">{item.title}</h4>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="text-center">
+        <a 
+          href="/gallery" 
+          class="inline-flex items-center justify-center bg-gray-900 hover:bg-amber-600 text-white font-sans font-bold text-xs tracking-wider uppercase px-7 py-3 rounded-full shadow-md transition-all duration-300"
+        >
+          Explore Full Gallery &rarr;
+        </a>
+      </div>
+    </section>
 
     <section class="reviews-section my-16 px-6 max-w-7xl mx-auto overflow-hidden">
       <h2 class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
@@ -138,97 +181,6 @@ const isSlider = sortedReviews.length > 4;
     </section>
   </div>
 </Layout>
-
-<script is:inline>
-  const baselineTextCache = new Map();
-
-  function getTargetLanguage() {
-    return new URLSearchParams(window.location.search).get('lang') === 'id' ? 'id' : 'en';
-  }
-
-  async function fetchAsyncTranslation(textString, targetLangCode) {
-    if (!textString || textString.trim() === "" || !isNaN(textString)) return textString;
-    try {
-      const apiEndpoint = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLangCode}&dt=t&q=${encodeURIComponent(textString)}`;
-      const rawResponse = await fetch(apiEndpoint);
-      const parsedData = await rawResponse.json();
-      
-      if (parsedData && parsedData[0]) {
-        return parsedData[0].map(phrase => phrase[0]).join('');
-      }
-      return textString;
-    } catch (err) {
-      console.error("Translation stream drop:", err);
-      return textString;
-    }
-  }
-
-  async function executeAutomatedTranslationSweep() {
-    const activeLanguage = getTargetLanguage();
-    const workingWorkspace = document.getElementById('automated-translate-workspace');
-    if (!workingWorkspace) return;
-
-    const domTreeWalker = document.createTreeWalker(
-      workingWorkspace, 
-      NodeFilter.SHOW_TEXT, 
-      {
-        acceptNode: function(node) {
-          if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') {
-            return NodeFilter.FILTER_REJECT;
-          }
-          
-          if (
-            node.parentElement.tagName === 'BUTTON' || 
-            node.parentElement.tagName === 'A' || 
-            node.parentElement.classList.contains('btn') ||
-            node.parentElement.classList.contains('button') ||
-            node.parentElement.closest('.notranslate, .skip-translation, nav, footer')
-          ) {
-            return NodeFilter.FILTER_REJECT;
-          }
-
-          if (node.textContent.toLowerCase().includes('mutiara')) {
-            return NodeFilter.FILTER_REJECT;
-          }
-          
-          return node.textContent.trim().length > 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-        }
-      }
-    );
-
-    const nodesToTranslate = [];
-    while(domTreeWalker.nextNode()) {
-      nodesToTranslate.push(domTreeWalker.currentNode);
-    }
-
-    for (const textNode of nodesToTranslate) {
-      if (!baselineTextCache.has(textNode)) {
-        baselineTextCache.set(textNode, textNode.textContent);
-      }
-
-      const originalEnglishText = baselineTextCache.get(textNode);
-
-      if (activeLanguage === 'id') {
-        const convertedIndonesianText = await fetchAsyncTranslation(originalEnglishText, 'id');
-        
-        if (textNode.parentElement.classList.contains('review-content-text')) {
-          textNode.textContent = `"${convertedIndonesianText.replace(/^"|"$/g, '')}"`;
-        } else {
-          textNode.textContent = convertedIndonesianText;
-        }
-      } else {
-        textNode.textContent = originalEnglishText;
-      }
-    }
-  }
-
-  window.addEventListener('globalLangChange', () => {
-    executeAutomatedTranslationSweep();
-  });
-
-  executeAutomatedTranslationSweep();
-  document.addEventListener('astro:after-swap', executeAutomatedTranslationSweep);
-</script>
 
 <style>
   .reviews-section { padding: 40px 0; }
