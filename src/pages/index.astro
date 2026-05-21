@@ -84,7 +84,7 @@ const isSlider = sortedReviews.length > 4;
             }
           </div>
 
-          {/* TRACK LANE 2 (DUPLICATED FOR ANIMATION LOOP) */}
+          {/* TRACK LANE 2 */}
           {isSlider && (
             <div class="marquee-group" aria-hidden="true">
               {
@@ -177,7 +177,12 @@ const isSlider = sortedReviews.length > 4;
             return NodeFilter.FILTER_REJECT;
           }
           
-          if (node.parentElement.closest('.notranslate, .skip-translation')) {
+          // BUTTON EXCLUSION INTERCEPT: Drops buttons, interactive links, or explicit block classes from translating
+          if (
+            node.parentElement.tagName === 'BUTTON' || 
+            node.parentElement.tagName === 'A' || 
+            node.parentElement.closest('.notranslate, .skip-translation')
+          ) {
             return NodeFilter.FILTER_REJECT;
           }
           
@@ -201,7 +206,6 @@ const isSlider = sortedReviews.length > 4;
       if (activeLanguage === 'id') {
         const convertedIndonesianText = await fetchAsyncTranslation(originalEnglishText, 'id');
         
-        // Retain semantic block quotes on loop rendering elements
         if (textNode.parentElement.classList.contains('review-content-text')) {
           textNode.textContent = `"${convertedIndonesianText.replace(/^"|"$/g, '')}"`;
         } else {
