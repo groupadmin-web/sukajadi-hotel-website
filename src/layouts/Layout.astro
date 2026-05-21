@@ -92,6 +92,26 @@ const makeTitle = title
           </svg>
         </button>
 
+        <div class="w-[1px] h-3 bg-slate-200"></div>
+
+        <button 
+          id="global-nav-zh" 
+          type="button" 
+          class="w-5 h-5 rounded-full overflow-hidden transition-all duration-200 hover:scale-110 cursor-pointer flex items-center justify-center select-none outline-none transition-shadow aspect-square shrink-0"
+          title="Chinese (Simplified)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" preserveAspectRatio="none" class="w-full h-full object-cover block pointer-events-none">
+            <path fill="#de2110" d="M0 0h900v600H0z"/>
+            <g fill="#ffde00">
+              <path id="l" d="M150 200l29.4-90.4 77 56-95.2 3.1 29.4-90.5 40.6 81.8z"/>
+              <use href="#l" transform="matrix(.2723 -.20422 .20422 .2723 150 -100)"/>
+              <use href="#l" transform="matrix(.13615 -.31548 .31548 .13615 210 -40)"/>
+              <use href="#l" transform="matrix(.01923 -.34237 .34237 .01923 230 60)"/>
+              <use href="#l" transform="matrix(-.1118 -.32475 .32475 -.1118 190 140)"/>
+            </g>
+          </svg>
+        </button>
+
       </div>
     </div>
 
@@ -137,16 +157,16 @@ const makeTitle = title
     <script is:inline>
       const baselineTextCache = new Map();
 
-      // SMART MEMORY CONFIG: Fallback checking priority: URL Parameter -> LocalStorage Memory -> English Default
+      // Fallback matching memory router matrix
       function getLanguageSetting() {
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('lang') === 'id' || urlParams.get('lang') === 'en') {
-          const target = urlParams.get('lang');
-          localStorage.setItem('mutiara_user_lang', target); // Sync url params directly to persistent memory
-          return target;
+        const urlLang = urlParams.get('lang');
+        if (urlLang === 'id' || urlLang === 'en' || urlLang === 'zh') {
+          localStorage.setItem('mutiara_user_lang', urlLang);
+          return urlLang;
         }
         
-        return localStorage.getItem('mutiara_user_lang') === 'id' ? 'id' : 'en';
+        return localStorage.getItem('mutiara_user_lang') || 'en';
       }
 
       async function fetchAsyncTranslation(textString, targetLangCode) {
@@ -171,23 +191,31 @@ const makeTitle = title
         const rootContainer = document.getElementById('universal-translation-root');
         if (!rootContainer) return;
 
-        // Visual selection indicator logic for flags
+        // Reset & activate flags dynamically
         const flagEN = document.getElementById('global-nav-en');
         const flagID = document.getElementById('global-nav-id');
+        const flagZH = document.getElementById('global-nav-zh');
         const labelEl = document.getElementById('global-lang-label');
-        if (flagEN && flagID) {
-          if (activeLanguage === 'id') {
-            flagID.style.filter = 'none'; flagID.style.opacity = '1'; flagID.style.transform = 'scale(1.2)'; flagID.style.boxShadow = '0 0 0 2px #d97706';
-            flagEN.style.filter = 'grayscale(100%)'; flagEN.style.opacity = '0.3'; flagEN.style.transform = 'scale(0.9)'; flagEN.style.boxShadow = 'none';
-            if (labelEl) labelEl.innerText = "PILIHAN BAHASA:";
-          } else {
-            flagEN.style.filter = 'none'; flagEN.style.opacity = '1'; flagEN.style.transform = 'scale(1.2)'; flagEN.style.boxShadow = '0 0 0 2px #d97706';
-            flagID.style.filter = 'grayscale(100%)'; flagID.style.opacity = '0.3'; flagID.style.transform = 'scale(0.9)'; flagID.style.boxShadow = 'none';
-            if (labelEl) labelEl.innerText = "SELECT LANGUAGE:";
+        
+        const allFlags = [flagEN, flagID, flagZH];
+        allFlags.forEach(f => {
+          if (f) {
+            f.style.filter = 'grayscale(100%)'; f.style.opacity = '0.3'; f.style.transform = 'scale(0.9)'; f.style.boxShadow = 'none';
           }
+        });
+
+        if (activeLanguage === 'id') {
+          if (flagID) { flagID.style.filter = 'none'; flagID.style.opacity = '1'; flagID.style.transform = 'scale(1.2)'; flagID.style.boxShadow = '0 0 0 2px #d97706'; }
+          if (labelEl) labelEl.innerText = "PILIHAN BAHASA:";
+        } else if (activeLanguage === 'zh') {
+          if (flagZH) { flagZH.style.filter = 'none'; flagZH.style.opacity = '1'; flagZH.style.transform = 'scale(1.2)'; flagZH.style.boxShadow = '0 0 0 2px #d97706'; }
+          if (labelEl) labelEl.innerText = "选择语言:";
+        } else {
+          if (flagEN) { flagEN.style.filter = 'none'; flagEN.style.opacity = '1'; flagEN.style.transform = 'scale(1.2)'; flagEN.style.boxShadow = '0 0 0 2px #d97706'; }
+          if (labelEl) labelEl.innerText = "SELECT LANGUAGE:";
         }
 
-        // UNIVERSAL TREE SCANNER: Gathers textual content safely across any routed page body
+        // TEXT PROCESSING TREE WALKER
         const nodesToTranslate = [];
         const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
           acceptNode: function(node) {
@@ -195,12 +223,12 @@ const makeTitle = title
               return NodeFilter.FILTER_REJECT;
             }
 
-            // BRAND SYSTEM EXCLUSION: Never translate corporate identifiers
+            // BRAND SANITIZATION (Never convert brand word)
             if (node.textContent.toLowerCase().includes('mutiara')) {
               return NodeFilter.FILTER_REJECT;
             }
 
-            // INTERACTIVE COMPONENT LAYER EXCLUSION (Keeps buttons/links pristine English)
+            // LINK / INTERACTIVE BLOCK INTERCEPT
             if (
               node.parentElement.tagName === 'BUTTON' || 
               node.parentElement.tagName === 'A' ||
@@ -219,7 +247,7 @@ const makeTitle = title
           nodesToTranslate.push(walker.currentNode);
         }
 
-        // Send strings through API channels asynchronously
+        // Translate nodes loop queue
         for (const textNode of nodesToTranslate) {
           if (!baselineTextCache.has(textNode)) {
             baselineTextCache.set(textNode, textNode.textContent);
@@ -227,8 +255,8 @@ const makeTitle = title
 
           const originalText = baselineTextCache.get(textNode);
 
-          if (activeLanguage === 'id') {
-            const convertedText = await fetchAsyncTranslation(originalText, 'id');
+          if (activeLanguage !== 'en') {
+            const convertedText = await fetchAsyncTranslation(originalText, activeLanguage);
             if (textNode.parentElement.classList.contains('review-content-text')) {
               textNode.textContent = `"${convertedText.replace(/^"|"$/g, '')}"`;
             } else {
@@ -243,17 +271,13 @@ const makeTitle = title
       function setupLanguageListeners() {
         const btnEN = document.getElementById('global-nav-en');
         const btnID = document.getElementById('global-nav-id');
+        const btnZH = document.getElementById('global-nav-zh');
 
         if (btnEN) {
           btnEN.onclick = (e) => {
             e.preventDefault();
-            localStorage.setItem('mutiara_user_lang', 'en'); // Permanently stamp English selection
-            
-            // Clean up any stray trailing lang params from the address bar nicely
-            const url = new URL(window.location.href);
-            url.searchParams.delete('lang');
-            window.history.pushState({}, '', url);
-            
+            localStorage.setItem('mutiara_user_lang', 'en');
+            const url = new URL(window.location.href); url.searchParams.delete('lang'); window.history.pushState({}, '', url);
             executeUniversalTranslation();
           };
         }
@@ -261,22 +285,25 @@ const makeTitle = title
         if (btnID) {
           btnID.onclick = (e) => {
             e.preventDefault();
-            localStorage.setItem('mutiara_user_lang', 'id'); // Permanently stamp Indonesian selection
-            
-            const url = new URL(window.location.href);
-            url.searchParams.set('lang', 'id');
-            window.history.pushState({}, '', url);
-            
+            localStorage.setItem('mutiara_user_lang', 'id');
+            const url = new URL(window.location.href); url.searchParams.set('lang', 'id'); window.history.pushState({}, '', url);
+            executeUniversalTranslation();
+          };
+        }
+
+        if (btnZH) {
+          btnZH.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem('mutiara_user_lang', 'zh');
+            const url = new URL(window.location.href); url.searchParams.set('lang', 'zh'); window.history.pushState({}, '', url);
             executeUniversalTranslation();
           };
         }
       }
 
-      // Initial execution sequence on load
       setupLanguageListeners();
       executeUniversalTranslation();
 
-      // CRITICAL FIX: Re-fires execution immediately when client route transitions push new HTML elements inside layout target container
       document.addEventListener('astro:after-swap', () => {
         setupLanguageListeners();
         executeUniversalTranslation();
