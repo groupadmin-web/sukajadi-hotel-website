@@ -2,10 +2,14 @@
 import Layout from "@/layouts/Layout.astro";
 import Container from "@/components/container.astro";
 
-// Pure flat file relative import pattern matching your other pages
+// Flat database import pattern matching your other pages exactly
 import galleryData from "../content/gallery.json";
 
-const uniqueCategories = ["all", ...new Set((galleryData || []).map(item => item.category))];
+// STRICT GUARDFENCE: Force the engine to ONLY render items classified as pure art heritage artifacts
+const artifactOnlyData = (galleryData || []).filter(item => item.category === "artifacts");
+
+// Set up the unique categories array strictly based on your filtered art data
+const uniqueCategories = ["all", ...new Set(artifactOnlyData.map(item => item.category).filter(Boolean))];
 ---
 
 <Layout title="Gallery & Heritage Collections">
