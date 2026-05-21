@@ -235,7 +235,7 @@ content:
         type: text
 
   - name: gallery
-    label: "10. Dynamic Gallery & Collections"
+    label: "10. Dynamic Art Gallery"
     type: file
     path: src/content/gallery.json
     format: json
@@ -246,14 +246,11 @@ content:
         label: "Unique Item Identification Code"
         type: string
       - name: title
-        label: "Collection Asset Title"
-        type: string
-      - name: category
-        label: "Filter Category Group (e.g., artifacts, rooms, dining)"
+        label: "Artwork or Antique Name"
         type: string
       - name: image
-        label: "Gallery Showcase Photo"
+        label: "Showcase Photo Asset"
         type: image
       - name: description
-        label: "Artistic / Layout Description Paragraph"
+        label: "Historical / Curated Description Paragraph"
         type: text
