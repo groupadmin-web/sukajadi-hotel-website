@@ -187,7 +187,6 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
 
 <script is:inline>
   function initSplitGalleryPopups() {
-    // Open Actions
     document.querySelectorAll('[data-open-modal]').forEach(btn => {
       btn.onclick = (e) => {
         e.preventDefault();
@@ -201,7 +200,6 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
       };
     });
 
-    // Close Actions
     document.querySelectorAll('[data-close-modal]').forEach(btn => {
       btn.onclick = (e) => {
         e.preventDefault();
@@ -215,7 +213,6 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
       };
     });
 
-    // Thumbnail Switch Actions
     document.querySelectorAll('[data-thumb-switch]').forEach(thumb => {
       thumb.onclick = (e) => {
         e.preventDefault();
@@ -240,7 +237,6 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
     });
   }
 
-  window.addEventListener('DOMContentLoaded', initSplitGalleryPopups);
-  window.addEventListener('astro:after-swap', initSplitGalleryPopups);
   initSplitGalleryPopups();
+  document.addEventListener('astro:after-swap', initSplitGalleryPopups);
 </script>
