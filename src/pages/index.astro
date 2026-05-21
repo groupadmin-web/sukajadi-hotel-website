@@ -79,7 +79,7 @@ const isSlider = sortedReviews.length > 4;
                   </div>
                 </div>
               </div>
-            )
+            ))
           }
         </div>
 
@@ -137,7 +137,6 @@ const isSlider = sortedReviews.length > 4;
 </Layout>
 
 <script is:inline>
-  // Dynamic Text Conversion Dictionary Lookups
   const pageWideTranslations = {
     id: {
       "What Our Guests Love About Us": "Apa yang Tamu Kami Sukai dari Kami",
@@ -156,7 +155,6 @@ const isSlider = sortedReviews.length > 4;
     }
   };
 
-  // Stores baseline text mappings safely to prevent content drops during route swaps
   const textStorageMap = new Map();
 
   function fetchActiveLanguage() {
@@ -166,7 +164,6 @@ const isSlider = sortedReviews.length > 4;
   function handlePageTranslationRun() {
     const activeLanguage = fetchActiveLanguage();
     
-    // 1. Direct Headings & Document Mapping Nodes Execution
     const headerTitle = document.getElementById('reviews-header-title');
     if (headerTitle) {
       if (!textStorageMap.has(headerTitle)) textStorageMap.set(headerTitle, headerTitle.innerText.trim());
@@ -174,11 +171,8 @@ const isSlider = sortedReviews.length > 4;
       headerTitle.innerText = (activeLanguage === 'id' && pageWideTranslations.id[baseText]) ? pageWideTranslations.id[baseText] : baseText;
     }
 
-    // 2. RUN PURE DOM-TREE TRAVERSAL SCRAPER ACROSS NESTED CHILD COMPONENTS
-    // This looks into <Hero />, <Features />, <Stories /> etc. and replaces string values instantly.
     const containerTags = document.querySelectorAll('h1, h2, h3, h4, span, p, button, a');
     containerTags.forEach(node => {
-      // Security bounds to avoid changing layout flag values
       if (node.id?.startsWith('global-') || node.closest('.fixed')) return;
 
       const currentRawText = node.innerText?.trim();
@@ -200,12 +194,10 @@ const isSlider = sortedReviews.length > 4;
     });
   }
 
-  // Bind interface execution loops directly to layout window listeners
   window.addEventListener('globalLangChange', () => {
     handlePageTranslationRun();
   });
 
-  // System setup calls
   handlePageTranslationRun();
   document.addEventListener('astro:after-swap', handlePageTranslationRun);
 </script>
