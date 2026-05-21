@@ -2,9 +2,82 @@
 import Layout from "@/layouts/Layout.astro";
 import Container from "@/components/container.astro";
 
-// Pulls your dynamic venue records straight from the CMS flat database file
+// Pure flat file relative import pattern matching PitchAI's data models exactly
 import eventData from "../content/events.json";
 
-// Safe fallback utility to ensure your build engine never crashes if data is missing
 const events = eventData || [];
 ---
+
+<Layout title="Conventions, Meetings & Events Spaces">
+  <div id="universal-translation-root">
+    <Container>
+      
+      <div class="text-center max-w-3xl mx-auto my-16">
+        <span class="text-xs font-sans font-bold tracking-widest text-amber-600 uppercase block mb-2">Venues & Celebrations</span>
+        <h1 class="text-4xl font-serif font-bold text-gray-800 mb-3">Mutiara Convention Center</h1>
+        <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-5"></div>
+        <p class="text-sm text-gray-500 font-sans leading-relaxed">
+          Host your premium corporate galas, executive board meetings, grand weddings, or social banquets in the heart of Bandung. Discover our multi-functional halls featuring top-tier audio-visual amenities, high-speed Wi-Fi network arrays, and fine catering workflows.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+        {events.map((event) => (
+          <div class="bg-white rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-md">
+            
+            {/* CONTENT AREA */}
+            <div class="p-8">
+              <div class="flex items-start justify-between mb-4">
+                <div>
+                  <h3 class="text-2xl font-serif font-bold text-gray-800 mb-1 leading-tight">
+                    {event.hall_name}
+                  </h3>
+                  <span class="inline-block bg-amber-50 border border-amber-100/60 text-amber-700 text-[10px] px-3 py-1 rounded-full font-sans uppercase tracking-wider mt-1">
+                    Premium Space Assets
+                  </span>
+                </div>
+              </div>
+
+              {/* FACILITIES SPECS DETAIL PANEL */}
+              <div class="space-y-3 my-6 border-t border-b border-gray-100 py-5">
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-400 font-sans">Primary Facility Highlight:</span>
+                  <span class="text-gray-700 font-sans font-semibold text-right max-w-[200px] line-clamp-1">{event.main_feature}</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-gray-400 font-sans">Layout Configuration Mode:</span>
+                  <span class="text-gray-700 font-sans font-semibold">Theater Seating Setup</span>
+                </div>
+              </div>
+            </div>
+
+            {/* CAPACITY SUMMARY FOOTER BADGE */}
+            <div class="bg-gray-50 px-8 py-4 border-t border-gray-100 flex items-center justify-between font-sans text-xs uppercase tracking-wider text-gray-400">
+              <span>Maximum Seating Load Capacity:</span>
+              <span class="font-bold text-gray-800 text-sm notranslate">{event.capacity_theater} Pax</span>
+            </div>
+
+          </div>
+        ))}
+      </div>
+
+      {/* CALL TO ACTION ROW */}
+      <div class="bg-amber-900 rounded-2xl text-white p-8 md:p-12 text-center max-w-4xl mx-auto mb-24 relative overflow-hidden shadow-md">
+        <span class="text-xs font-sans font-bold tracking-widest text-amber-400 uppercase block mb-3">Plan Your Next Gathering</span>
+        <h2 class="text-3xl font-serif font-bold mb-4">Book a Dedicated Event Space</h2>
+        <p class="text-slate-200 text-sm leading-relaxed max-w-xl mx-auto mb-8">
+          Get in touch with our professional corporate events planning desk today to schedule a site tour, lock in specific dates, or request custom menu configurations.
+        </p>
+        <a 
+          href="https://wa.me/6287722469110" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="bg-white hover:bg-slate-50 text-gray-900 font-sans font-bold text-xs tracking-wider uppercase px-8 py-3.5 rounded-md shadow-md transition-all inline-block"
+        >
+          Inquire via WhatsApp Desk &rarr;
+        </a>
+      </div>
+
+    </Container>
+  </div>
+</Layout>
