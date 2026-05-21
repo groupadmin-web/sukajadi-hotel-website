@@ -11,9 +11,8 @@ const menuitems = [
   { title: "HOME", path: "/" },
   { title: "ROOMS", path: "/rooms" },
   { title: "TOURIST ATTRACTIONS", path: "/attractions" },
-  // UPDATED LINK TARGET: Pointing directly to your clean dedicated subpage route
   { title: "GALLERY", path: "/gallery" },
-  { title: "MEETINGS & EVENTS", path: "#events" },
+  { title: "MEETINGS & EVENTS", path: "/meetings-events" },
   { title: "Q&A", path: "#qa" },
   { title: "CONTACT", path: "#contact" },
 ];
@@ -108,8 +107,11 @@ const menuitems = [
     const links = document.querySelectorAll('[data-nav-link]');
     const currentPath = window.location.pathname;
 
-    // 1. SMART URL PATH CHECKER: Lights up active subpage headers smoothly
-    if (currentPath.includes('/rooms') || currentPath.includes('/attractions') || currentPath.includes('/gallery')) {
+    // 1. SMART URL PATH CHECKER: Locks down active header illumination patterns for dedicated pages
+    const pathTriggers = ['/rooms', '/attractions', '/gallery', '/meetings-events'];
+    const hasMatch = pathTriggers.some(trigger => currentPath.includes(trigger));
+
+    if (hasMatch) {
       links.forEach((link) => {
         const href = link.getAttribute('href');
         let shouldHighlight = false;
@@ -120,8 +122,10 @@ const menuitems = [
         if (currentPath.includes('/attractions') && (href === '/attractions' || href.includes('attractions'))) {
           shouldHighlight = true;
         }
-        // ADDED VALIDATION RULE: Locks active highlight state when browser sits on the gallery route
         if (currentPath.includes('/gallery') && (href === '/gallery' || href.includes('gallery'))) {
+          shouldHighlight = true;
+        }
+        if (currentPath.includes('/meetings-events') && (href === '/meetings-events' || href.includes('meetings-events'))) {
           shouldHighlight = true;
         }
 
@@ -159,10 +163,11 @@ const menuitems = [
         const href = link.getAttribute('href');
         let shouldHighlight = false;
 
-        // Skip standalone deep subpage links inside homepage logic cycles
+        // Skip static full-page links during scroll listener evaluation checks
         if (href === '/rooms' || href.includes('rooms')) return;
         if (href === '/attractions' || href.includes('attractions')) return;
         if (href === '/gallery' || href.includes('gallery')) return;
+        if (href === '/meetings-events' || href.includes('meetings-events')) return;
 
         if (isAtBottom) {
           shouldHighlight = (href === '#contact');
