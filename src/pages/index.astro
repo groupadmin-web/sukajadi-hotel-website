@@ -9,14 +9,16 @@ import Layout from "@/layouts/Layout.astro";
 import Rooms from "../components/rooms.astro";
 import Stories from "../components/stories.astro"; 
 
-// FIXED DATA PAYLOAD ENGINES: Utilizing your core shorthand alias macros to clear compile gates
+// DYNAMIC SITE DATA PAYLOAD ENGINES
 import reviewsData from "@/content/reviews.json";
 import galleryData from "@/content/gallery.json";
 import eventData from "@/content/events.json";
 
+// Isolate top items for homepage sneak peeks
 const homeGalleryTeasers = (galleryData || []).slice(0, 3);
 const homeEventItems = eventData || [];
 
+// Sort client review structures chronologically
 const sortedReviews = (reviewsData || []).sort((a, b) => {
   return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
 });
@@ -43,8 +45,8 @@ const isSlider = sortedReviews.length > 4;
       <div class="text-center max-w-xl mx-auto mb-10">
         <h2 class="text-3xl font-serif font-bold text-gray-800 mb-2">Our Gallery & Collections</h2>
         <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-4"></div>
-        <p class="text-sm text-gray-500 font-sans">
-          A sneak peek at our rare antique artifacts, boutique spaces, and fine colonial heritage preserved throughout the resort premises.
+        <p class="text-sm text-gray-500 font-sans leading-relaxed">
+          A sneak peek at our rare antique artifacts, boutique layouts, and curated heritage treasures preserved throughout the hotel premises.
         </p>
       </div>
 
@@ -81,7 +83,7 @@ const isSlider = sortedReviews.length > 4;
         <div class="text-center max-w-xl mx-auto mb-12">
           <h2 class="text-3xl font-serif font-bold text-gray-800 mb-2">Meetings & Events</h2>
           <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-4"></div>
-          <p class="text-sm text-gray-500 font-sans">
+          <p class="text-sm text-gray-500 font-sans leading-relaxed">
             Discover our sophisticated convention setups and multi-functional hall spaces custom tailored for corporate programs and gatherings.
           </p>
         </div>
@@ -219,6 +221,7 @@ const isSlider = sortedReviews.length > 4;
         </div>
       </div>
     </section>
+
   </div>
 </Layout>
 
