@@ -21,10 +21,11 @@ const menuitems = [
 {/* NAVBAR BACKDROP FIX */}
 <header class="sticky top-0 z-50 w-full bg-white shadow-sm transition-all border-b border-gray-100">
   <Container>
-    <div class="flex flex-col lg:flex-row justify-between items-center py-4">
+    {/* FIXED: Added a custom minimum height (min-h-[90px] md:min-h-0) on mobile to ensure the white navbar background expands to comfortably enclose the stacked icons */}
+    <div class="flex flex-col lg:flex-row justify-between items-center py-4 w-full min-h-[90px] lg:min-h-0">
       <Astronav>
-        {/* REMOVED the pr-36 from this row wrapper so the logo stays normally on the left edge */}
-        <div class="flex w-full lg:w-auto items-center justify-between">
+        {/* FIXED: The parent row container is now forced to be relative so we can map absolute coordinates to sub-elements */}
+        <div class="flex w-full lg:w-auto items-center justify-between relative">
           
           <a href="/" class="flex items-center tracking-wider font-serif group">
             {homepageData.logo_image ? (
@@ -40,14 +41,14 @@ const menuitems = [
             )}
           </a>
           
-          {/* FIXED POSITION ENGINE: Moves the burger directly beneath the bubble on mobile, resets on desktop */}
-          <div class="block lg:hidden relative z-50 text-slate-950 hover:text-amber-600 transition-all cursor-pointer p-2 translate-y-12 -translate-x-6 lg:translate-y-0 lg:translate-x-0">
+          {/* FIXED ABSOLUTE ENGINE: Pins the burger lines mathematically inside the white navbar canvas, right beneath the bubble space */}
+          <div class="block lg:hidden absolute top-12 right-2 z-50 text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-1">
             <MenuIcon class="w-6 h-6" />
           </div>
         </div>
         
         <MenuItems class="hidden w-full lg:w-auto mt-4 lg:flex lg:mt-0">
-          <ul class="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-2">
+          <ul class="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-2 w-full">
             {
               menuitems.map((item, index) => (
                 <>
@@ -60,7 +61,7 @@ const menuitems = [
                   )}
 
                   {!item.children && (
-                    <li>
+                    <li class="w-full lg:w-auto">
                       <a
                         href={item.path}
                         data-nav-link
