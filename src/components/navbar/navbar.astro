@@ -14,7 +14,7 @@ const menuitems = [
   { title: "GALLERY", path: "/gallery" },
   { title: "MEETINGS & EVENTS", path: "/meetings-events" },
   { title: "Q&A", path: "#qa" },
-  { title: "CONTACT", path: "/#footer" }, // INSTANT SCROLL DIRECTION ROUTED TO FOOTER GLOBALLY
+  { title: "CONTACT", path: "/#footer" }, 
 ];
 ---
 
@@ -23,8 +23,8 @@ const menuitems = [
   <Container>
     <div class="flex flex-col lg:flex-row justify-between items-center py-4">
       <Astronav>
-        {/* FIXED: Responsive padding boundary clears the mobile floating language toggle pill container */}
-        <div class="flex w-full lg:w-auto items-center justify-between pr-36 lg:pr-0">
+        {/* REMOVED pr-36: Normal layout rows snap back to full width */}
+        <div class="flex w-full lg:w-auto items-center justify-between">
           
           <a href="/" class="flex items-center tracking-wider font-serif group">
             {homepageData.logo_image ? (
@@ -40,7 +40,7 @@ const menuitems = [
             )}
           </a>
           
-          {/* FIXED: Z-indexing layer depth and deep contrast color anchors make the menu button fully interactive */}
+          {/* THE BURGER ICON: Restored to the classic right-hand edge position */}
           <div class="block lg:hidden relative z-50 text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-2">
             <MenuIcon class="w-6 h-6" />
           </div>
@@ -75,10 +75,27 @@ const menuitems = [
             }
           </ul>
           
-          <div class="lg:hidden flex items-center mt-4 w-full">
+          {/* MOBILE EXPANDED UTILITY ROW: ONLY VISIBLE WHEN BURGER IS CLICKED */}
+          <div class="lg:hidden flex flex-col gap-4 mt-6 pt-4 border-t border-gray-100 w-full">
+            
+            {/* INTEGRATED CLEAN REPLICATED LANGUAGE SELECTOR ROW */}
+            <div class="flex items-center justify-center gap-6 py-2 bg-slate-50 rounded-xl border border-slate-100">
+              <button onclick="window.gtranslate&&gtranslate('en|en')" class="flex items-center gap-1.5 text-xs font-bold text-slate-800 tracking-wider">
+                <span class="text-sm">🇬🇧</span> EN
+              </button>
+              <span class="text-slate-300">|</span>
+              <button onclick="window.gtranslate&&gtranslate('en|id')" class="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 tracking-wider">
+                <span class="text-sm">🇮🇩</span> ID
+              </button>
+              <span class="text-slate-300">|</span>
+              <button onclick="window.gtranslate&&gtranslate('en|zh-CN')" class="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 tracking-wider">
+                <span class="text-sm">🇨🇳</span> 中文
+              </button>
+            </div>
+
             <a 
               href="https://m.mutiarahotel.com" 
-              class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-base py-3 rounded-md shadow-md transition-all flex items-center justify-center gap-2 tracking-wide"
+              class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-base py-3 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 tracking-wide"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-amber-100">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
@@ -104,12 +121,26 @@ const menuitems = [
   </Container>
 </header>
 
+{/* INJECTED GLOBAL CSS SQUASH TO FORCE THIRD-PARTY CAPSULE TO ONLY DISPLAY ON DESKTOP OVERLAY */}
+<style is:global>
+  @media (max-width: 1023px) {
+    /* Targets common translate widgets (gtranslate, google translate wrapper frames, etc.) */
+    .gtranslate_wrapper, 
+    #google_translate_element,
+    .skiptranslate {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+  }
+</style>
+
 <script is:inline>
   function initScrollTracking() {
     const links = document.querySelectorAll('[data-nav-link]');
     const currentPath = window.location.pathname;
 
-    // 1. SMART URL PATH CHECKER
     const pathTriggers = ['/rooms', '/attractions', '/gallery', '/meetings-events'];
     const hasMatch = pathTriggers.some(trigger => currentPath.includes(trigger));
 
@@ -134,7 +165,6 @@ const menuitems = [
       return;
     }
 
-    // 2. HOMEPAGE SCROLL SPY ENGINE
     function checkActiveSection() {
       if (document.body.style.overflow === 'hidden') return;
 
