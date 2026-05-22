@@ -14,23 +14,24 @@ const menuitems = [
   { title: "GALLERY", path: "/gallery" },
   { title: "MEETINGS & EVENTS", path: "/meetings-events" },
   { title: "Q&A", path: "#qa" },
-  { title: "CONTACT", path: "/#footer" }, 
+  { title: "CONTACT", path: "/#footer" }, // INSTANT SCROLL DIRECTION ROUTED TO FOOTER GLOBALLY
 ];
 ---
 
 {/* NAVBAR BACKDROP FIX */}
 <header class="sticky top-0 z-50 w-full bg-white shadow-sm transition-all border-b border-gray-100">
   <Container>
-    <div class="flex flex-col lg:flex-row justify-between items-center py-4 w-full">
+    <div class="flex flex-col lg:flex-row justify-between items-center py-4">
       <Astronav>
-        <div class="flex w-full lg:w-auto items-center justify-between">
+        {/* FIXED: Responsive padding boundary clears the mobile floating language toggle pill container */}
+        <div class="flex w-full lg:w-auto items-center justify-between pr-36 lg:pr-0">
           
           <a href="/" class="flex items-center tracking-wider font-serif group">
             {homepageData.logo_image ? (
               <img 
                 src={homepageData.logo_image} 
                 alt="Mutiara Hotel & Convention Bandung Logo" 
-                class="h-12 md:h-16 w-auto object-contain max-w-[200px] transition-transform duration-300 group-hover:scale-105" 
+                class="h-12 md:h-16 w-auto object-contain max-w-[160px] md:max-w-[200px] transition-transform duration-300 group-hover:scale-105" 
               />
             ) : (
               <span class="font-bold text-xl text-slate-900 uppercase">
@@ -39,9 +40,9 @@ const menuitems = [
             )}
           </a>
           
-          {/* INITIAL LOGIC RESTORED: Added simple right margin padding (pr-28) on mobile to clear the language switcher capsule safely */}
-          <div class="block lg:hidden text-slate-800 hover:text-amber-600 transition-colors cursor-pointer p-2 pr-28 sm:pr-32 relative z-50">
-            <MenuIcon class="w-5 h-5 text-gray-800" />
+          {/* FIXED: Z-indexing layer depth and deep contrast color anchors make the menu button fully interactive */}
+          <div class="block lg:hidden relative z-50 text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-2">
+            <MenuIcon class="w-6 h-6" />
           </div>
         </div>
         
@@ -108,6 +109,7 @@ const menuitems = [
     const links = document.querySelectorAll('[data-nav-link]');
     const currentPath = window.location.pathname;
 
+    // 1. SMART URL PATH CHECKER
     const pathTriggers = ['/rooms', '/attractions', '/gallery', '/meetings-events'];
     const hasMatch = pathTriggers.some(trigger => currentPath.includes(trigger));
 
@@ -122,44 +124,70 @@ const menuitems = [
         if (currentPath.includes('/meetings-events') && (href === '/meetings-events' || href.includes('meetings-events'))) shouldHighlight = true;
 
         if (shouldHighlight) {
-          link.classList.add('text-amber-600');
+          link.classList.add('text-amber-600', 'after:scale-x-100');
           link.classList.remove('text-slate-700');
         } else {
-          link.classList.remove('text-amber-600');
+          link.classList.remove('text-amber-600', 'after:scale-x-100');
           link.classList.add('text-slate-700');
         }
       });
       return;
     }
 
+    // 2. HOMEPAGE SCROLL SPY ENGINE
     function checkActiveSection() {
       if (document.body.style.overflow === 'hidden') return;
+
       const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50;
       let currentActiveId = '';
       const scrollPosition = window.scrollY + 250;
 
       document.querySelectorAll('section[id]').forEach((section) => {
-        if (scrollPosition >= section.offsetTop && scrollPosition < section.offsetTop + section.offsetHeight) {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
           currentActiveId = section.getAttribute('id');
         }
       });
 
       links.forEach((link) => {
         const href = link.getAttribute('href');
-        let shouldHighlight = isAtBottom ? (href === '#footer') : (href === `#${currentActiveId}`);
+
+        if (href === '/rooms' || href.includes('rooms')) return;
+        if (href === '/attractions' || href.includes('attractions')) return;
+        if (href === '/gallery' || href.includes('gallery')) return;
+        if (href === '/meetings-events' || href.includes('meetings-events')) return;
+        if (href === '/#footer') return;
+
+        let shouldHighlight = false;
+        if (isAtBottom) {
+          const checkTarget = link.getAttribute('href');
+          if (checkTarget === '/#footer') {
+            link.classList.add('text-amber-600', 'after:scale-x-100');
+            link.classList.remove('text-slate-700');
+            return;
+          }
+        } else if (currentActiveId) {
+          shouldHighlight = (href === `#${currentActiveId}`);
+        } else {
+          shouldHighlight = (href === '/' || href === '#');
+        }
+
         if (shouldHighlight) {
-          link.classList.add('text-amber-600');
+          link.classList.add('text-amber-600', 'after:scale-x-100');
           link.classList.remove('text-slate-700');
         } else {
-          link.classList.remove('text-amber-600');
+          link.classList.remove('text-amber-600', 'after:scale-x-100');
           link.classList.add('text-slate-700');
         }
       });
     }
 
     window.addEventListener('scroll', checkActiveSection, { passive: true });
+    window.addEventListener('resize', checkActiveSection, { passive: true });
     checkActiveSection();
   }
+
   window.addEventListener('DOMContentLoaded', initScrollTracking);
   window.addEventListener('astro:after-swap', initScrollTracking);
 </script>
