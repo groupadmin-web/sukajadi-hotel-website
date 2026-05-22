@@ -2,7 +2,7 @@
 import Container from "@/components/container.astro";
 import Link from "@/components/ui/link.astro";
 import Dropdown from "./dropdown.astro";
-import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
+import { Astronav, MenuItems } from "astro-navbar";
 
 // Fetch your dynamic brand data from your header setup file
 import homepageData from "@/content/homepage.json";
@@ -21,10 +21,9 @@ const menuitems = [
 {/* NAVBAR BACKDROP FIX */}
 <header class="sticky top-0 z-50 w-full bg-white shadow-sm transition-all border-b border-gray-100">
   <Container>
-    <div class="flex flex-col lg:flex-row justify-between items-center py-4">
+    <div class="flex flex-col lg:flex-row justify-between items-center py-4 w-full">
       <Astronav>
-        {/* REMOVED pr-36: Normal layout rows snap back to full width */}
-        <div class="flex w-full lg:w-auto items-center justify-between">
+        <div class="flex w-full lg:w-auto items-center justify-between relative">
           
           <a href="/" class="flex items-center tracking-wider font-serif group">
             {homepageData.logo_image ? (
@@ -40,14 +39,20 @@ const menuitems = [
             )}
           </a>
           
-          {/* THE BURGER ICON: Restored to the classic right-hand edge position */}
-          <div class="block lg:hidden relative z-50 text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-2">
-            <MenuIcon class="w-6 h-6" />
-          </div>
+          {/* FIXED: Native interactive button trigger guarantees visibility and high touch targeting */}
+          <button 
+            id="astronav-menu" 
+            aria-label="Toggle Menu" 
+            class="block lg:hidden text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-2 focus:outline-none"
+          >
+            <svg class="w-6 h-6 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
         </div>
         
         <MenuItems class="hidden w-full lg:w-auto mt-4 lg:flex lg:mt-0">
-          <ul class="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-2">
+          <ul class="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-2 w-full">
             {
               menuitems.map((item, index) => (
                 <>
@@ -60,7 +65,7 @@ const menuitems = [
                   )}
 
                   {!item.children && (
-                    <li>
+                    <li class="w-full lg:w-auto">
                       <a
                         href={item.path}
                         data-nav-link
@@ -75,20 +80,20 @@ const menuitems = [
             }
           </ul>
           
-          {/* MOBILE EXPANDED UTILITY ROW: ONLY VISIBLE WHEN BURGER IS CLICKED */}
+          {/* MOBILE DRAWER ROW CONTENT STACK */}
           <div class="lg:hidden flex flex-col gap-4 mt-6 pt-4 border-t border-gray-100 w-full">
             
-            {/* INTEGRATED CLEAN REPLICATED LANGUAGE SELECTOR ROW */}
-            <div class="flex items-center justify-center gap-6 py-2 bg-slate-50 rounded-xl border border-slate-100">
-              <button onclick="window.gtranslate&&gtranslate('en|en')" class="flex items-center gap-1.5 text-xs font-bold text-slate-800 tracking-wider">
+            {/* MOBILE LANGUAGE SELECTOR BUTTON ARRAY */}
+            <div class="flex items-center justify-center gap-6 py-3 bg-slate-50 rounded-xl border border-slate-100">
+              <button onclick="window.gtranslate && window.gtranslate('en|en')" class="flex items-center gap-1.5 text-xs font-bold text-slate-800 tracking-wider">
                 <span class="text-sm">🇬🇧</span> EN
               </button>
               <span class="text-slate-300">|</span>
-              <button onclick="window.gtranslate&&gtranslate('en|id')" class="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 tracking-wider">
+              <button onclick="window.gtranslate && window.gtranslate('en|id')" class="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 tracking-wider">
                 <span class="text-sm">🇮🇩</span> ID
               </button>
               <span class="text-slate-300">|</span>
-              <button onclick="window.gtranslate&&gtranslate('en|zh-CN')" class="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 tracking-wider">
+              <button onclick="window.gtranslate && window.gtranslate('en|zh-CN')" class="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 tracking-wider">
                 <span class="text-sm">🇨🇳</span> 中文
               </button>
             </div>
@@ -124,10 +129,10 @@ const menuitems = [
 {/* INJECTED GLOBAL CSS SQUASH TO FORCE THIRD-PARTY CAPSULE TO ONLY DISPLAY ON DESKTOP OVERLAY */}
 <style is:global>
   @media (max-width: 1023px) {
-    /* Targets common translate widgets (gtranslate, google translate wrapper frames, etc.) */
     .gtranslate_wrapper, 
     #google_translate_element,
-    .skiptranslate {
+    .skiptranslate,
+    div[class*="gtranslate"] {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
