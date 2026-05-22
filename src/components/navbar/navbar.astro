@@ -23,14 +23,15 @@ const menuitems = [
   <Container>
     <div class="flex flex-col lg:flex-row justify-between items-center py-4">
       <Astronav>
-        <div class="flex w-full lg:w-auto items-center justify-between">
+        {/* FIXED: Responsive padding boundary clears the mobile floating language toggle pill container */}
+        <div class="flex w-full lg:w-auto items-center justify-between pr-36 lg:pr-0">
           
           <a href="/" class="flex items-center tracking-wider font-serif group">
             {homepageData.logo_image ? (
               <img 
                 src={homepageData.logo_image} 
                 alt="Mutiara Hotel & Convention Bandung Logo" 
-                class="h-12 md:h-16 w-auto object-contain max-w-[200px] transition-transform duration-300 group-hover:scale-105" 
+                class="h-12 md:h-16 w-auto object-contain max-w-[160px] md:max-w-[200px] transition-transform duration-300 group-hover:scale-105" 
               />
             ) : (
               <span class="font-bold text-xl text-slate-900 uppercase">
@@ -39,8 +40,9 @@ const menuitems = [
             )}
           </a>
           
-          <div class="block lg:hidden">
-            <MenuIcon class="w-5 h-5 text-gray-800" />
+          {/* FIXED: Z-indexing layer depth and deep contrast color anchors make the menu button fully interactive */}
+          <div class="block lg:hidden relative z-50 text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-2">
+            <MenuIcon class="w-6 h-6" />
           </div>
         </div>
         
@@ -98,7 +100,6 @@ const menuitems = [
           <span>Book Now</span>
         </a>
       </div>
-
     </div>
   </Container>
 </header>
@@ -151,15 +152,21 @@ const menuitems = [
 
       links.forEach((link) => {
         const href = link.getAttribute('href');
-        let shouldHighlight = false;
 
         if (href === '/rooms' || href.includes('rooms')) return;
         if (href === '/attractions' || href.includes('attractions')) return;
         if (href === '/gallery' || href.includes('gallery')) return;
         if (href === '/meetings-events' || href.includes('meetings-events')) return;
+        if (href === '/#footer') return;
 
+        let shouldHighlight = false;
         if (isAtBottom) {
-          shouldHighlight = (href === '#footer');
+          const checkTarget = link.getAttribute('href');
+          if (checkTarget === '/#footer') {
+            link.classList.add('text-amber-600', 'after:scale-x-100');
+            link.classList.remove('text-slate-700');
+            return;
+          }
         } else if (currentActiveId) {
           shouldHighlight = (href === `#${currentActiveId}`);
         } else {
