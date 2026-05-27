@@ -21,12 +21,7 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {rooms.map((room, index) => {
-        // PARSER: Safely reads the array structure that your CMS is forcing into rooms.json
-        const amenityArray = Array.isArray(room.features)
-          ? room.features.map(item => String(item).trim()).filter(Boolean)
-          : typeof room.features === 'string'
-            ? room.features.split(',').map(item => item.trim()).filter(Boolean)
-            : [];
+        const amenityArray = Array.isArray(room.features) ? room.features : [];
 
         return (
           <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 flex flex-col justify-between">
@@ -68,29 +63,44 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
   </div>
 
   {rooms.map((room, index) => {
-    const modalAmenityArray = Array.isArray(room.features)
-      ? room.features.map(item => String(item).trim()).filter(Boolean)
-      : typeof room.features === 'string'
-        ? room.features.split(',').map(item => item.trim()).filter(Boolean)
-        : [];
+    const modalAmenityArray = Array.isArray(room.features) ? room.features : [];
+    
+    // Gathers your cover image and both gallery images into a list
+    const galleryImages = [room.image, room.room_gallery1, room.room_gallery2, room.room_gallery3].filter(Boolean);
 
     return (
       <div id={`gallery-modal-${index}`} class="gallery-modal fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] hidden items-center justify-center p-4" data-open="false">
         <div class="bg-white rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row relative max-h-[85vh]">
           <button type="button" data-close-modal={index} class="absolute top-4 right-4 z-[100100] bg-white text-gray-700 border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-md cursor-pointer">✕</button>
           
-          <div class="md:w-7/12 bg-slate-900 relative min-h-[250px]">
-            <img id={`modal-display-img-${index}`} src={room.image} class="w-full h-full object-cover absolute inset-0" alt="" />
-            <div class="absolute bottom-4 left-4 bg-slate-950/70 text-white text-xs tracking-widest px-3 py-1.5 rounded-md uppercase">{room.view}</div>
+          {/* Main Visual Display Frame */}
+          <div class="md:w-7/12 bg-slate-900 relative flex flex-col justify-between p-4 min-h-[400px]">
+            <div class="w-full flex-grow relative overflow-hidden rounded-xl bg-slate-800">
+              <img id={`modal-display-img-${index}`} src={room.image} class="w-full h-full object-cover absolute inset-0 transition-all duration-300" alt="" />
+            </div>
+            
+            {/* Clickable Image Slider Strip (This displays your gallery images!) */}
+            <div class="flex gap-2 mt-4 overflow-x-auto py-2 z-10 bg-slate-950/40 p-2 rounded-xl">
+              {galleryImages.map((imgUrl) => (
+                <button 
+                  type="button" 
+                  class="w-20 h-14 rounded-lg overflow-hidden border-2 border-transparent hover:border-amber-500 focus:border-amber-500 flex-shrink-0 cursor-pointer transition bg-slate-800"
+                  onclick={`document.getElementById('modal-display-img-${index}').src='${imgUrl}'`}
+                >
+                  <img src={imgUrl} class="w-full h-full object-cover" alt="thumbnail" />
+                </button>
+              ))}
+            </div>
           </div>
 
+          {/* Description Sidebar */}
           <div class="md:w-5/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-white">
             <div>
               <h3 class="text-2xl font-serif font-bold text-gray-900 mb-4 uppercase">{room.title}</h3>
               <p class="text-gray-600 text-sm font-light mb-6">{room.description}</p>
               <div class="flex flex-wrap gap-2 mb-4">
                 {modalAmenityArray.map((feature) => (
-                  <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded border border-slate-200 whitespace-nowrap">
+                  <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded border border-slate-200">
                     {feature}
                   </span>
                 ))}
