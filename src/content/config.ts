@@ -31,8 +31,29 @@ const teamCollection = defineCollection({
   }),
 });
 
+// INJECTED: Flexible rooms collection layout to handle mock placeholder text links flawlessly
+const roomsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional().nullable(),
+    // Set to simple strings so text like "/images/placeholder.jpg" passes validation
+    image: z.string().optional().nullable(),
+    capacity: z.string().optional().nullable(),
+    bed_type: z.string().optional().nullable(),
+    view: z.string().optional().nullable(),
+    // Allows features to be either an array of text strings OR a single comma-separated sentence
+    features: z.union([z.array(z.string()), z.string()]).optional().nullable(),
+    // Structural hooks for the gallery popups so mock names don't trigger errors
+    room_gallery1: z.string().optional().nullable(),
+    room_gallery2: z.string().optional().nullable(),
+    room_gallery3: z.string().optional().nullable(),
+  }),
+});
+
 // 3. Export a single `collections` object to register your collection(s)
 export const collections = {
   'blog': blogCollection,
   'team': teamCollection,
+  'rooms': roomsCollection, // REGISTERED: Connects the new schema to your content folder
 };
