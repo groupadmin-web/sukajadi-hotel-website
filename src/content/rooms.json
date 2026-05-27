@@ -9,13 +9,7 @@
     "bed_type": "Twin Beds",
     "capacity": "2 People",
     "view": "Standard View",
-    "features": [
-      "Air Conditioning",
-      "Private Bathroom",
-      "Essential Toiletries",
-      "Free Wi-Fi",
-      "Shower, Sink & Toilet"
-    ]
+    "features": "Air Conditioning, Private Bathroom, Essential Toiletries, Free Wi-Fi, Shower, Sink & Toilet"
   },
   {
     "title": "Standard Room",
@@ -27,13 +21,7 @@
     "bed_type": "Standard Twin Beds",
     "capacity": "2 People",
     "view": "Courtyard View",
-    "features": [
-      "Air Conditioning",
-      "Work Desk & Mirror",
-      "Spacious Wardrobe",
-      "Free Wi-Fi",
-      "Essential Amenities"
-    ]
+    "features": "Air Conditioning, Work Desk & Mirror, Spacious Wardrobe, Free Wi-Fi, Essential Amenities"
   },
   {
     "title": "Superior Room",
@@ -45,13 +33,7 @@
     "bed_type": "Double Bed, Twin Beds, or Quarto (4 Beds)",
     "capacity": "2 - 4 People",
     "view": "City View",
-    "features": [
-      "Air Conditioning",
-      "Modern Amenities",
-      "Flexible Bed Setups",
-      "Free Wi-Fi",
-      "Comfortable Bathroom"
-    ]
+    "features": "Air Conditioning, Modern Amenities, Flexible Bed Setups, Free Wi-Fi, Comfortable Bathroom"
   },
   {
     "title": "Executive Room",
@@ -63,13 +45,7 @@
     "bed_type": "King-Size Bed or Executive Quad (4 Beds)",
     "capacity": "2 - 4 People",
     "view": "Premium Panoramic View",
-    "features": [
-      "Air Conditioning",
-      "Sumptuous Bedding",
-      "Refined Modern Decor",
-      "Spacious Layout",
-      "Impeccable Clean Bathroom"
-    ]
+    "features": "Air Conditioning, Sumptuous Bedding, Refined Modern Decor, Spacious Layout, Impeccable Clean Bathroom"
   },
   {
     "title": "Family Room",
@@ -81,12 +57,6 @@
     "bed_type": "Multiple King & Queen Bed Configurations",
     "capacity": "4 People",
     "view": "Scenic View",
-    "features": [
-      "Air Conditioning",
-      "Spacious Living Area",
-      "Relaxing Bathtub",
-      "Flat-screen TV",
-      "Rejuvenating Bathroom Layout"
-    ]
+    "features": "Air Conditioning, Spacious Living Area, Relaxing Bathtub, Flat-screen TV, Rejuvenating Bathroom Layout"
   }
 ]
