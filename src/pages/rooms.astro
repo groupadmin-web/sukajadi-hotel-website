@@ -14,62 +14,41 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
   </style>
 
   <div class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-    
     <div class="max-w-4xl mx-auto text-center mb-16 mt-8">
-      <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">
-        Our Rooms & Suites
-      </h1>
+      <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">Our Rooms & Suites</h1>
       <div class="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
-      <p class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic">
-        "Experience ultimate comfort in our rooms blending modern luxury with classic colonial charm."
-      </p>
     </div>
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {rooms.map((room, index) => {
-        // FIXED DATA PARSER: Safely checks if features is a text string or an array, splits by comma, and cleans spaces
-        const amenityArray = typeof room.features === 'string' 
-          ? room.features.split(',').map(item => item.trim()).filter(Boolean)
-          : Array.isArray(room.features) ? room.features : [];
+        const amenityArray = Array.isArray(room.features)
+          ? room.features.map(item => String(item).trim()).filter(Boolean)
+          : typeof room.features === 'string'
+            ? room.features.split(',').map(item => item.trim()).filter(Boolean)
+            : [];
 
         return (
-          <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 transition-all duration-300">
-            
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 flex flex-col justify-between">
             <div class="relative h-64 bg-gray-200 overflow-hidden">
-              <img 
-                src={room.image || "/images/slide-1.jpg"} 
-                alt={room.title} 
-                class="w-full h-full object-cover"
-              />
-              <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium">
+              <img src={room.image || "/images/slide-1.jpg"} alt={room.title} class="w-full h-full object-cover" />
+              <div class="absolute top-4 right-4 bg-gray-900/80 text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans">
                 {room.view || "Standard View"}
               </div>
             </div>
 
             <div class="p-6 flex-grow flex flex-col justify-between">
               <div>
-                <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide">
-                  {room.title}
-                </h2>
-                <p class="text-gray-500 text-sm font-sans mb-6 font-light leading-relaxed line-clamp-3">
-                  {room.description}
-                </p>
+                <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide">{room.title}</h2>
+                <p class="text-gray-500 text-sm font-sans mb-6 font-light leading-relaxed line-clamp-3">{room.description}</p>
               </div>
 
-              <div class="border-t border-b border-gray-100 py-4 my-2 grid grid-cols-2 gap-2 text-[11px] uppercase font-sans tracking-wider text-gray-500 font-medium">
-                <div class="flex items-center gap-2">
-                  <span class="text-slate-400 text-base">🛏️</span>
-                  <span>{room.bed_type || "Twin Beds"}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-slate-400 text-base">👤</span>
-                  <span>MAX {room.capacity || "2 PEOPLE"} GUEST</span>
-                </div>
+              <div class="border-t border-b border-gray-100 py-4 my-2 grid grid-cols-2 gap-2 text-[11px] uppercase font-sans tracking-wider text-gray-500">
+                <div class="flex items-center gap-2"><span>🛏️</span><span>{room.bed_type}</span></div>
+                <div class="flex items-center gap-2"><span>👤</span><span>MAX {room.capacity}</span></div>
               </div>
             </div>
 
             <div class="px-6 pb-6 pt-2">
-              {/* FIXED PREVIEW ZONE: Now uses amenityArray instead of room.features to avoid crashing on flat strings */}
               <div class="flex flex-wrap gap-1.5 mb-6 min-h-[52px]">
                 {amenityArray.slice(0, 3).map((feature) => (
                   <span class="bg-amber-50/70 text-amber-800 text-[10px] tracking-wider uppercase px-2.5 py-1.5 rounded-md font-semibold font-sans whitespace-nowrap">
@@ -77,12 +56,7 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
                   </span>
                 ))}
               </div>
-
-              <button 
-                type="button"
-                data-open-modal={index}
-                class="block w-full bg-amber-600 hover:bg-amber-700 text-white text-center font-bold font-sans text-sm py-3.5 rounded-lg shadow-md hover:shadow-lg transition-all tracking-wider uppercase cursor-pointer"
-              >
+              <button type="button" data-open-modal={index} class="block w-full bg-amber-600 hover:bg-amber-700 text-white text-center font-bold text-sm py-3.5 rounded-lg tracking-wider uppercase cursor-pointer shadow-md">
                 View Gallery
               </button>
             </div>
@@ -93,108 +67,35 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
   </div>
 
   {rooms.map((room, index) => {
-    // FIXED MODAL ZONE PARSER: Keeps the interior gallery data processing safe too
-    const modalAmenityArray = typeof room.features === 'string' 
-      ? room.features.split(',').map(item => item.trim()).filter(Boolean)
-      : Array.isArray(room.features) ? room.features : [];
+    const modalAmenityArray = Array.isArray(room.features)
+      ? room.features.map(item => String(item).trim()).filter(Boolean)
+      : typeof room.features === 'string'
+        ? room.features.split(',').map(item => item.trim()).filter(Boolean)
+        : [];
 
     return (
-      <div 
-        id={`gallery-modal-${index}`} 
-        class="gallery-modal fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] hidden items-center justify-center p-4 sm:p-6 md:p-10 pointer-events-auto"
-        data-open="false"
-        style="position: fixed !important;"
-      >
-        <div class="bg-white rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row relative h-auto max-h-[85vh] z-[100000]">
+      <div id={`gallery-modal-${index}`} class="gallery-modal fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] hidden items-center justify-center p-4" data-open="false">
+        <div class="bg-white rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row relative max-h-[85vh]">
+          <button type="button" data-close-modal={index} class="absolute top-4 right-4 z-[100100] bg-white text-gray-700 border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-md cursor-pointer">✕</button>
           
-          <button 
-            type="button"
-            data-close-modal={index} 
-            class="absolute top-4 right-4 z-[100100] bg-white hover:bg-gray-100 text-gray-700 border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold shadow-md cursor-pointer transition-all"
-          >
-            ✕
-          </button>
-
-          <div class="md:w-7/12 bg-slate-900 relative flex items-center justify-center min-h-[250px] md:min-h-full">
-            <img 
-              id={`modal-display-img-${index}`}
-              src={room.image} 
-              class="w-full h-full object-cover absolute inset-0" 
-              alt="Current showcase display view"
-            />
-            <div class="absolute bottom-4 left-4 bg-slate-950/70 backdrop-blur-sm text-white text-xs tracking-widest px-3 py-1.5 rounded-md uppercase font-sans z-20">
-              {room.view}
-            </div>
-
-            <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-white/10 backdrop-blur-md p-1.5 rounded-lg border border-white/20 z-30">
-              <button type="button" data-thumb-switch={room.image} data-target-modal={index} class="w-12 h-8 rounded overflow-hidden opacity-100 border-2 border-amber-500 flex-shrink-0 cursor-pointer">
-                <img src={room.image} class="w-full h-full object-cover" />
-              </button>
-              {room.room_gallery1 && (
-                <button type="button" data-thumb-switch={room.room_gallery1} data-target-modal={index} class="w-12 h-8 rounded overflow-hidden opacity-60 hover:opacity-100 transition-all border border-transparent flex-shrink-0 cursor-pointer">
-                  <img src={room.room_gallery1} class="w-full h-full object-cover" />
-                </button>
-              )}
-              {room.room_gallery2 && (
-                <button type="button" data-thumb-switch={room.room_gallery2} data-target-modal={index} class="w-12 h-8 rounded overflow-hidden opacity-60 hover:opacity-100 transition-all border border-transparent flex-shrink-0 cursor-pointer">
-                  <img src={room.room_gallery2} class="w-full h-full object-cover" />
-                </button>
-              )}
-              {room.room_gallery3 && (
-                <button type="button" data-thumb-switch={room.room_gallery3} data-target-modal={index} class="w-12 h-8 rounded overflow-hidden opacity-60 hover:opacity-100 transition-all border border-transparent flex-shrink-0 cursor-pointer">
-                  <img src={room.room_gallery3} class="w-full h-full object-cover" />
-                </button>
-              )}
-            </div>
+          <div class="md:w-7/12 bg-slate-900 relative min-h-[250px]">
+            <img id={`modal-display-img-${index}`} src={room.image} class="w-full h-full object-cover absolute inset-0" alt="" />
+            <div class="absolute bottom-4 left-4 bg-slate-950/70 text-white text-xs tracking-widest px-3 py-1.5 rounded-md uppercase">{room.view}</div>
           </div>
 
-          <div class="md:w-5/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto max-h-[50vh] md:max-h-[85vh] bg-white">
+          <div class="md:w-5/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-white">
             <div>
-              <span class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold">Accommodation</span>
-              <h3 class="text-2xl md:text-3xl font-serif font-bold text-gray-900 mt-1 mb-4 uppercase tracking-wide">{room.title}</h3>
-              <div class="w-12 h-0.5 bg-amber-600 mb-6"></div>
-              
-              <p class="text-gray-600 font-sans text-sm font-light leading-relaxed mb-6">
-                {room.description}
-              </p>
-
-              <h4 class="text-xs tracking-wider uppercase font-sans font-bold text-gray-400 mb-3">Room Highlights</h4>
-              <div class="space-y-4 mb-6 text-sm font-sans text-gray-700">
-                <div class="flex items-start gap-3">
-                  <span class="text-base">👥</span>
-                  <div>
-                    <strong class="block text-xs font-bold text-gray-900 uppercase tracking-wide">Guests Capacity</strong>
-                    <span class="text-xs text-gray-500 font-light">Accommodates {room.capacity}</span>
-                  </div>
-                </div>
-                <div class="flex items-start gap-3">
-                  <span class="text-base">🛏️</span>
-                  <div>
-                    <strong class="block text-xs font-bold text-gray-900 uppercase tracking-wide">Bed Layout Configuration</strong>
-                    <span class="text-xs text-gray-500 font-light">{room.bed_type}</span>
-                  </div>
-                </div>
-                <div class="flex items-start gap-3">
-                  <span class="text-base">📍</span>
-                  <div>
-                    <strong class="block text-xs font-bold text-gray-900 uppercase tracking-wide">Premium Location</strong>
-                    <span class="text-xs text-gray-500 font-light">Features a {room.view} aspect</span>
-                  </div>
-                </div>
-              </div>
-
-              <h4 class="text-xs tracking-wider uppercase font-sans font-bold text-gray-400 mb-3">Included Amenities</h4>
-              {/* FIXED MODAL MAP: Pulls directly from our converted modalAmenityArray string processor */}
+              <h3 class="text-2xl font-serif font-bold text-gray-900 mb-4 uppercase">{room.title}</h3>
+              <p class="text-gray-600 text-sm font-light mb-6">{room.description}</p>
               <div class="flex flex-wrap gap-2 mb-4">
                 {modalAmenityArray.map((feature) => (
-                  <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded font-medium font-sans border border-slate-200 whitespace-nowrap">
+                  <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded border border-slate-200 whitespace-nowrap">
                     {feature}
                   </span>
                 ))}
               </div>
             </div>
           </div>
-
         </div>
       </div>
     );
@@ -204,9 +105,7 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
 <script is:inline>
   function initSplitGalleryPopups() {
     document.querySelectorAll('[data-open-modal]').forEach(btn => {
-      btn.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      btn.onclick = () => {
         const idx = btn.getAttribute('data-open-modal');
         const modal = document.getElementById(`gallery-modal-${idx}`);
         if (modal) {
@@ -215,11 +114,8 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
         }
       };
     });
-
     document.querySelectorAll('[data-close-modal]').forEach(btn => {
-      btn.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      btn.onclick = () => {
         const idx = btn.getAttribute('data-close-modal');
         const modal = document.getElementById(`gallery-modal-${idx}`);
         if (modal) {
@@ -228,31 +124,7 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
         }
       };
     });
-
-    document.querySelectorAll('[data-thumb-switch]').forEach(thumb => {
-      thumb.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const newSrc = thumb.getAttribute('data-thumb-switch');
-        const idx = thumb.getAttribute('data-target-modal');
-        const targetHeroImage = document.getElementById(`modal-display-img-${idx}`);
-        
-        if (targetHeroImage) {
-          targetHeroImage.src = newSrc;
-        }
-
-        thumb.parentElement.querySelectorAll('[data-thumb-switch]').forEach(b => {
-          b.classList.remove('border-amber-500');
-          b.classList.add('border-transparent');
-          b.style.opacity = "0.6";
-        });
-        thumb.classList.add('border-amber-500');
-        thumb.classList.remove('border-transparent');
-        thumb.style.opacity = "1";
-      };
-    });
   }
-
   initSplitGalleryPopups();
   document.addEventListener('astro:after-swap', initSplitGalleryPopups);
 </script>
