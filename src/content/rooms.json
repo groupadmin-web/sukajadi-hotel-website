@@ -74,6 +74,10 @@
   {
     "title": "Family Room",
     "description": "The perfect sanctuary for family travelers, providing a warm, inviting atmosphere and an exceptionally spacious living area designed to relax, socialize, and spend quality time together.",
+    "image": "/images/2ldrff2ldrff2ldr.png",
+    "room_gallery1": "/images/KAMAR M 3.jpg",
+    "room_gallery2": "/images/KAMAR M 6.jpg",
+    "room_gallery3": "/images/KAMAR M 2.jpg",
     "bed_type": "Multiple King & Queen Bed Configurations",
     "capacity": "4 People",
     "view": "Scenic View",
