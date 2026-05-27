@@ -31,9 +31,22 @@ const teamCollection = defineCollection({
   }),
 });
 
-// 3. Export a single `collections` object to register your collection(s)
-// REMOVED 'rooms' from this block completely so it reads directly from your source JSON layout records
+const roomsCollection = defineCollection({
+  type: "data",
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    bed_type: z.string(),
+    capacity: z.string(),
+    view: z.string(),
+    features: z.array(z.string()).default([]),
+    image: z.string().optional(),
+    gallery: z.array(z.string()).optional(),
+  }),
+});
+
 export const collections = {
   'blog': blogCollection,
   'team': teamCollection,
+  'rooms': roomsCollection,
 };
