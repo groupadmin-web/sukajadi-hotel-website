@@ -21,7 +21,7 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {rooms.map((room, index) => {
-        // BULLETPROOF PARSER: Safely reads arrays or strings so your build never breaks
+        // PARSER: Safely reads the array structure that your CMS is forcing into rooms.json
         const amenityArray = Array.isArray(room.features)
           ? room.features.map(item => String(item).trim()).filter(Boolean)
           : typeof room.features === 'string'
