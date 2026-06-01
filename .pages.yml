@@ -152,6 +152,9 @@ content:
       - name: subtitle
         label: "Small Tagline Category"
         type: string
+      - name: description
+        label: "Detailed Descriptive Paragraph"
+        type: text
       - name: start_date
         label: "Publishing Start Date"
         type: date
