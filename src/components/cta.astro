@@ -10,10 +10,10 @@ const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
 
 <div class="relative max-w-5xl mx-auto my-16 px-4 sm:px-6">
   
-  {/* THE MAIN BOX HOOK */}
-  <div class="relative max-w-4xl mx-auto p-12 md:p-20 text-center group rounded-3xl overflow-hidden min-h-[450px] flex items-center justify-center">
+  {/* MAIN CONTROLLER WRAPPER */}
+  <div class="relative max-w-4xl mx-auto p-12 md:p-20 text-center group rounded-3xl overflow-hidden min-h-[480px] flex items-center justify-center bg-slate-950 shadow-2xl border border-slate-900">
     
-    {/* MODE 1: Standard generic photo background view layer */}
+    {/* MODE 1: PHOTO BACKGROUND MODE (Only triggers if chosen) */}
     {bgMode === 'Photo Background' && (
       <div class="absolute inset-0 z-0">
         <img 
@@ -21,39 +21,85 @@ const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
           alt="Promotion Background" 
           class="w-full h-full object-cover opacity-35"
         />
-        <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950 border border-slate-800 rounded-3xl"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950"></div>
       </div>
     )}
 
-    {/* MODE 2: Exciting Sunset Gold Ornate Luxury Base Wrapper */}
+    {/* MODE 2: EXCITING SUNSET GOLD CANVAS */}
     {bgMode === 'Exciting Sunset Gold' && (
-      <div class="absolute inset-0 z-0 pointer-events-none select-none mix-blend-lighten">
-        <img 
-          src="/images/frame-gold.png" 
-          alt="Gold Baroque Luxury Frame" 
-          class="w-full h-full object-fill drop-shadow-2xl"
-        />
+      <div class="absolute inset-0 z-0 bg-gradient-to-br from-amber-950 via-yellow-900 to-amber-950 opacity-95">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(20,10,0,0.6))]"></div>
+        {/* Fine gold mesh lines overlay pattern */}
+        <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#fbbf24_1px,transparent_1px),linear-gradient(to_bottom,#fbbf24_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
     )}
 
-    {/* MODE 3: Deep Premium Blue Ornate Luxury Base Wrapper */}
+    {/* MODE 3: DEEP PREMIUM BLUE CANVAS */}
     {bgMode === 'Deep Premium Blue' && (
-      <div class="absolute inset-0 z-0 pointer-events-none select-none mix-blend-lighten">
-        <img 
-          src="/images/frame-blue.png" 
-          alt="Blue Baroque Luxury Frame" 
-          class="w-full h-full object-fill drop-shadow-2xl"
-        />
+      <div class="absolute inset-0 z-0 bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 opacity-95">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,5,20,0.6))]"></div>
+        {/* Fine blue mesh lines overlay pattern */}
+        <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#3b82f6_1px,transparent_1px),linear-gradient(to_bottom,#3b82f6_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       </div>
     )}
 
-    {/* RADIANT AMBIENT LIGHT EFFECT (Sits behind text to make it extremely readable) */}
-    <div class="absolute inset-12 z-10 bg-amber-950/40 rounded-full blur-3xl pointer-events-none"></div>
+    {/* INTERACTIVE VECTOR BORDER SHIELD */}
+    {bgMode !== 'Photo Background' && (
+      <div class="absolute inset-0 z-10 pointer-events-none p-4 md:p-6 opacity-85 group-hover:opacity-100 transition-opacity duration-500">
+        <svg viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]">
+          {/* Main Structural Border Track */}
+          <path 
+            d="M 50,70 C 50,40 80,40 120,40 L 320,40 C 350,45 380,55 400,55 C 420,55 450,45 480,40 L 680,40 C 720,40 750,40 750,70 L 750,180 C 745,210 735,235 735,250 C 735,265 745,290 750,320 L 750,430 C 750,460 720,460 680,460 L 480,460 C 450,455 420,445 400,445 C 480,445 350,455 320,460 L 120,460 C 80,460 50,460 50,430 L 50,320 C 55,290 65,265 65,250 C 65,235 55,210 50,180 Z" 
+            stroke={bgMode === 'Exciting Sunset Gold' ? '#d97706' : '#3b82f6'} 
+            stroke-width="6" 
+            stroke-linejoin="round"
+          />
+          {/* Accent Innertrack Dotted Detailing */}
+          <path 
+            d="M 58,78 C 58,52 84,48 122,48 L 318,48 C 352,53 378,61 400,61 C 422,61 448,53 482,48 L 678,48 C 716,48 742,52 742,78 L 742,178 C 737,208 727,232 727,250 C 727,268 737,292 742,322 L 742,422 C 742,448 716,452 678,452 L 482,452 C 448,447 422,439 400,439 C 378,439 352,447 318,452 L 122,452 C 84,452 58,448 58,422 L 58,322 C 63,292 73,268 73,250 C 73,232 63,208 58,178 Z" 
+            stroke={bgMode === 'Exciting Sunset Gold' ? '#fef08a' : '#93c5fd'} 
+            stroke-width="1.5" 
+            stroke-dasharray="6,4"
+            opacity="0.6"
+          />
+          
+          {/* CORNER ACCENT MEDALLIONS */}
+          {/* Top Left */}
+          <g transform="translate(65, 65)">
+            <circle cx="0" cy="0" r="10" fill={bgMode === 'Exciting Sunset Gold' ? '#b45309' : '#1d4ed8'} stroke={bgMode === 'Exciting Sunset Gold' ? '#fbbf24' : '#60a5fa'} stroke-width="2"/>
+            <circle cx="0" cy="0" r="3" fill="#ffffff" />
+          </g>
+          {/* Top Right */}
+          <g transform="translate(735, 65)">
+            <circle cx="0" cy="0" r="10" fill={bgMode === 'Exciting Sunset Gold' ? '#b45309' : '#1d4ed8'} stroke={bgMode === 'Exciting Sunset Gold' ? '#fbbf24' : '#60a5fa'} stroke-width="2"/>
+            <circle cx="0" cy="0" r="3" fill="#ffffff" />
+          </g>
+          {/* Bottom Left */}
+          <g transform="translate(65, 435)">
+            <circle cx="0" cy="0" r="10" fill={bgMode === 'Exciting Sunset Gold' ? '#b45309' : '#1d4ed8'} stroke={bgMode === 'Exciting Sunset Gold' ? '#fbbf24' : '#60a5fa'} stroke-width="2"/>
+            <circle cx="0" cy="0" r="3" fill="#ffffff" />
+          </g>
+          {/* Bottom Right */}
+          <g transform="translate(735, 435)">
+            <circle cx="0" cy="0" r="10" fill={bgMode === 'Exciting Sunset Gold' ? '#b45309' : '#1d4ed8'} stroke={bgMode === 'Exciting Sunset Gold' ? '#fbbf24' : '#60a5fa'} stroke-width="2"/>
+            <circle cx="0" cy="0" r="3" fill="#ffffff" />
+          </g>
 
-    {/* TEXT & ACTION CONTENT BLOCK CONTROLLERS */}
+          {/* APEX EMBLEMS */}
+          <g transform="translate(400, 48)">
+            <polygon points="0,-12 10,4 -10,4" fill={bgMode === 'Exciting Sunset Gold' ? '#fbbf24' : '#60a5fa'} />
+          </g>
+          <g transform="translate(400, 452) rotate(180)">
+            <polygon points="0,-12 10,4 -10,4" fill={bgMode === 'Exciting Sunset Gold' ? '#fbbf24' : '#60a5fa'} />
+          </g>
+        </svg>
+      </div>
+    )}
+
+    {/* TEXT & CONTENT CONTAINER */}
     <div class="relative z-20 max-w-xl mx-auto space-y-6 py-4 px-6">
       
-      {/* Small Dynamic Upper Tagline Badge */}
+      {/* Promo Badge */}
       <div class={`inline-flex items-center gap-2 border text-[10px] font-sans font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full backdrop-blur-sm
         ${bgMode === 'Exciting Sunset Gold' ? 'bg-amber-500/10 border-amber-400/30 text-amber-400' : ''}
         ${bgMode === 'Deep Premium Blue' ? 'bg-blue-500/10 border-blue-400/30 text-blue-400' : ''}
@@ -65,24 +111,24 @@ const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
         SPECIAL PROMOTION
       </div>
 
-      {/* Headline Header string input mapping */}
+      {/* Main Headline */}
       <h2 class="font-serif text-2xl md:text-4xl text-white tracking-wide leading-tight drop-shadow-md">
         {promo.cta_title || "Exclusive Seasonal Promotion"}
       </h2>
 
-      {/* Decorative Divider Accent */}
+      {/* Elegant Divider */}
       <div class={`flex items-center justify-center gap-4 ${bgMode === 'Exciting Sunset Gold' ? 'text-amber-500/40' : 'text-slate-500/40'}`}>
         <div class="w-12 h-px bg-current"></div>
         <span class="text-xs">✦</span>
         <div class="w-12 h-px bg-current"></div>
       </div>
 
-      {/* Core Paragraph description text context box mapping */}
+      {/* Description Text */}
       <p class="text-slate-200 text-xs md:text-sm leading-relaxed font-light tracking-wide max-w-md mx-auto drop-shadow">
         {promo.cta_desc || "Book directly through our website to unlock premium perks..."}
       </p>
 
-      {/* Booking Redirect Action Link Button Path */}
+      {/* Button Action */}
       <div class="pt-2">
         <a
           href="https://direct-reservation.mutiarahotel.com"
