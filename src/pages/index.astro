@@ -36,7 +36,7 @@ const isSlider = sortedReviews.length > 4;
 
     <Stories /> 
 
-    {/* 1. REORDERED LAYER: Guest Reviews display right after main description blocks */}
+    {/* GUEST REVIEWS SECTION: Shifted directly above the Gallery component */}
     <section class="reviews-section my-16 px-6 max-w-7xl mx-auto overflow-hidden">
       <h2 class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
       <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-10"></div>
@@ -143,7 +143,7 @@ const isSlider = sortedReviews.length > 4;
       </div>
     </section>
 
-    {/* 2. Mutiara Experience: Heritage Artifact Grid Layout Section */}
+    {/* GALLERY SECTION: Now cleanly targets the grid layer below your reviews banner */}
     <section class="gallery-preview-section my-20 px-6 max-w-7xl mx-auto">
       <div class="text-center max-w-xl mx-auto mb-10">
         <h2 class="text-3xl font-serif font-bold text-gray-800 mb-2">Our Gallery & Collections</h2>
@@ -220,7 +220,7 @@ const isSlider = sortedReviews.length > 4;
       </div>
     </section>
 
-    {/* 3. REORDERED LAYER: Official reservation block functions as bottom footer anchor layout */}
+    {/* Official reservation path / CTA Banners */}
     <Container>
       <Logos />
       <Cta />
