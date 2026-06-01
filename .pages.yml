@@ -260,3 +260,28 @@ content:
       - name: description
         label: "Historical / Curated Description Paragraph"
         type: text
+  - name: qna_section
+    label: "7. Frequently Asked Questions (Q&A)"
+    type: file
+    path: src/content/qna.json
+    format: json
+    fields:
+      - name: section_title
+        label: "Section Heading Title"
+        type: string
+        default: "Frequently Asked Questions"
+      - name: section_subtitle
+        label: "Section Subtitle Context Hook"
+        type: text
+        default: "Find quick answers about our luxury accommodations, boutique booking terms, and heritage convention spaces."
+      - name: faqs
+        label: "Manage Question & Answer List Entries"
+        type: list
+        minimize: true
+        fields:
+          - name: question
+            label: "Guest Question Text String"
+            type: string
+          - name: answer
+            label: "Detailed Answer Response text block"
+            type: text
