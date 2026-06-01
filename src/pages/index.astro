@@ -1,5 +1,4 @@
 ---
-// src/pages/index.astro
 import Container from "@/components/container.astro";
 import Cta from "@/components/cta.astro";
 import Features from "@/components/features.astro";
@@ -9,7 +8,7 @@ import Layout from "@/layouts/Layout.astro";
 
 import Rooms from "../components/rooms.astro";
 import Stories from "../components/stories.astro"; 
-import Archive from "../components/archive.astro"; // <--- Added your new archive component entry
+import Archive from "../components/archive.astro"; 
 
 // DYNAMIC SITE DATA PAYLOAD ENGINES
 import reviewsData from "@/content/reviews.json";
@@ -36,12 +35,7 @@ const isSlider = sortedReviews.length > 4;
 
     <Features />
 
-    <Stories /> 
-
-    {/* Past Events & Announcements Accordion Row */}
-    <Archive />
-
-    {/* GUEST REVIEWS MARQUEE SECTION: Now perfectly positioned directly below the Archive, above Gallery */}
+    {/* GUEST REVIEWS MARQUEE SECTION: Placed directly above the Stories block */}
     <section class="reviews-section my-16 px-6 max-w-7xl mx-auto overflow-hidden">
       <h2 class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
       <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-10"></div>
@@ -123,7 +117,7 @@ const isSlider = sortedReviews.length > 4;
                       <div class="platform-logo-wrapper">
                         {review.platform === "Google Review" && (
                           <div class="flex items-center gap-1 text-xs text-gray-500 font-semibold">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92(3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
                             <span>Google</span>
                           </div>
                         )}
@@ -148,116 +142,13 @@ const isSlider = sortedReviews.length > 4;
       </div>
     </section>
 
-    {/* GALLERY SECTION: The Mutiara Experience Grid */}
+    {/* Active Editorial Content Cards */}
+    <Stories /> 
+
+    {/* Past Archived Event Expansions */}
+    <Archive />
+
+    {/* Gallery Section: The Mutiara Experience Grid */}
     <section class="gallery-preview-section my-20 px-6 max-w-7xl mx-auto">
       <div class="text-center max-w-xl mx-auto mb-10">
-        <h2 class="text-3xl font-serif font-bold text-gray-800 mb-2">Our Gallery & Collections</h2>
-        <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-4"></div>
-        <p class="text-sm text-gray-500 font-sans leading-relaxed">
-          A sneak peek at our rare antique artifacts, boutique layouts, and curated heritage treasures preserved throughout the hotel premises.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        {homeGalleryTeasers.map((item) => (
-          <div class="group relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 border border-gray-200/60 shadow-sm">
-            <img 
-              src={item.image} 
-              alt={item.title} 
-              loading="lazy"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 block"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex items-end">
-              <div>
-                <h4 class="text-white font-serif font-bold text-sm leading-tight">{item.title}</h4>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div class="text-center">
-        <a 
-          href="/gallery" 
-          class="inline-flex items-center justify-center bg-gray-900 hover:bg-amber-600 text-white font-sans font-bold text-xs tracking-wider uppercase px-7 py-3 rounded-full shadow-md transition-all duration-300"
-        >
-          Explore Full Gallery &rarr;
-        </a>
-      </div>
-    </section>
-
-    {/* Convention Spaces Event Container */}
-    <section id="events" class="meetings-preview-section my-24 py-16 bg-slate-50 border-y border-slate-100">
-      <div class="px-6 max-w-7xl mx-auto">
-        <div class="text-center max-w-xl mx-auto mb-12">
-          <h2 class="text-3xl font-serif font-bold text-gray-800 mb-2">Meetings & Events</h2>
-          <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-4"></div>
-          <p class="text-sm text-gray-500 font-sans leading-relaxed">
-            Discover our sophisticated convention setups and multi-functional hall spaces custom tailored for corporate programs and gatherings.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-          {homeEventItems.slice(0, 3).map((event) => (
-            <div class="bg-white p-6 rounded-2xl border border-gray-200/50 shadow-sm flex flex-col justify-between">
-              <div>
-                <h3 class="text-xl font-serif font-bold text-gray-800 mb-2 leading-tight">{event.hall_name}</h3>
-                <p class="text-xs text-slate-500 font-sans leading-relaxed">
-                  Key Facility Feature: <span class="text-slate-700 font-medium">{event.main_feature}</span>
-                </p>
-              </div>
-              <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-[11px] font-sans uppercase tracking-wider text-gray-400">
-                <span>Max Capacity</span>
-                <span class="font-bold text-slate-800 notranslate">{event.capacity_theater} Pax</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div class="text-center">
-          <a 
-            href="/meetings-events" 
-            class="inline-flex items-center justify-center bg-transparent border-2 border-gray-900 hover:bg-gray-900 hover:text-white text-gray-900 font-sans font-bold text-xs tracking-wider uppercase px-7 py-3 rounded-full transition-all duration-300"
-          >
-            View Space Configurations &rarr;
-          </a>
-        </div>
-      </div>
-    </section>
-
-    {/* Official reservation path / CTA Banners */}
-    <Container>
-      <Logos />
-      <Cta />
-    </Container>
-
-  </div>
-</Layout>
-
-<style>
-  .reviews-section { padding: 40px 0; }
-  .marquee-viewport { width: 100%; overflow: hidden; position: relative; padding: 14px 0; }
-  .marquee-track { display: flex; flex-direction: row; width: max-content; }
-  .marquee-group { display: flex; flex-direction: row; gap: 24px; padding: 0 12px; shrink: 0; }
-  .animate-marquee { animation: marqueeAnimation 25s linear infinite; }
-  .animate-marquee:hover { animation-play-state: paused; }
-  @keyframes marqueeAnimation {
-    0% { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
-  }
-  .marquee-track:not(.animate-marquee) { width: 100%; max-width: 1200px; margin: 0 auto; justify-content: center; }
-  @media (max-width: 1024px) {
-    .marquee-viewport { overflow-x: auto; scrollbar-width: none; }
-    .marquee-viewport::-webkit-scrollbar { display: none; }
-    .marquee-track:not(.animate-marquee) { width: max-content; justify-content: flex-start; margin: 0; }
-  }
-  .review-card {
-    background: white; padding: 24px; border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    border: 1px solid #e5e7eb; width: 275px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;
-  }
-  .stars { color: #fbbf24; margin-bottom: 12px; font-size: 16px; }
-  .review-card .content { color: #4b5563; font-style: italic; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
-  .author-row { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f3f4f6; padding-top: 14px; }
-  .author-name { color: #1f2937; font-size: 13px; font-weight: 500; }
-</style>
+        <h2 class="
