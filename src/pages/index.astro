@@ -11,9 +11,14 @@ import Stories from "../components/stories.astro";
 import Archive from "../components/archive.astro"; 
 
 // DYNAMIC SITE DATA PAYLOAD ENGINES
+import homepageData from "@/content/homepage.json";
 import reviewsData from "@/content/reviews.json";
 import galleryData from "@/content/gallery.json";
 import eventData from "@/content/events.json";
+
+// Safely evaluate master configuration visibility parameters
+const homeConfig = homepageData || {};
+const displayPromoBanner = homeConfig.show_promotion !== false; // Defaults to true if untouched
 
 // Isolate top items for homepage sneak peeks
 const homeGalleryTeasers = (galleryData || []).slice(0, 3);
@@ -34,7 +39,7 @@ const isSlider = sortedReviews.length > 4;
     {/* 1. Main Welcome Landing Screen Banner */}
     <Hero />
 
-    {/* 2. POSITIONED SECURELY: Reviews Carousel Slider sits exactly between Hero & Features */}
+    {/* 2. Reviews Carousel Slider */}
     <section class="reviews-section my-16 px-6 max-w-7xl mx-auto overflow-hidden">
       <h2 class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
       <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-10"></div>
@@ -141,13 +146,13 @@ const isSlider = sortedReviews.length > 4;
       </div>
     </section>
 
-    {/* 3. The Mutiara Experience 01-06 Feature points layout grid */}
+    {/* 3. The Mutiara Experience 01-06 Feature Points Grid */}
     <Features />
 
     {/* 4. Alternate Layout Editorial Story Blocks */}
     <Stories /> 
 
-    {/* 5. Past Archived Event Accordion dropdown selectors list */}
+    {/* 5. Past Archived Event Accordion Dropdowns List */}
     <Archive />
 
     {/* Gallery Section: Images Grid */}
@@ -230,7 +235,8 @@ const isSlider = sortedReviews.length > 4;
     {/* Official reservation path / CTA Banners */}
     <Container>
       <Logos />
-      <Cta />
+      {/* MASTER CONDITIONAL SWITCH: Listens to the toggle option from Brand & Header Setup */}
+      {displayPromoBanner && <Cta />}
     </Container>
 
   </div>
