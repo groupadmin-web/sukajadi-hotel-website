@@ -160,7 +160,7 @@ content:
         type: date
       - name: expiry_date
         label: "Expiry Date"
-        type: text
+        type: date
       - name: story_image
         label: "Feature Story Photo Asset"
         type: image
