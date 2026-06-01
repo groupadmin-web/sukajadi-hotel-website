@@ -21,6 +21,7 @@ const archivedStories = rawStories.filter(story => {
 
 <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-sans overflow-hidden" id="smart-story-section">
   
+  {/* Active Stories Layout Section */}
   <div class="space-y-20 md:space-y-28">
     {
       activeStories.map((story, index) => {
@@ -40,9 +41,8 @@ const archivedStories = rawStories.filter(story => {
               )}
             </div>
             
-            {/* TEXT COMPONENT FRAME - CLEANED OF LOCAL TOGGLE PILLS */}
+            {/* TEXT COMPONENT FRAME */}
             <div class={`lg:col-span-7 flex flex-col justify-center py-2 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-              
               <div class="story-text-container">
                 {story.subtitle && (
                   <span class="text-xs font-semibold tracking-[0.22em] text-amber-600 uppercase mb-2.5 block">
@@ -64,32 +64,52 @@ const archivedStories = rawStories.filter(story => {
     }
   </div>
 
+  {/* NEW: Compact, Horizontal List Row Archive Layout Section */}
   {archivedStories.length > 0 && (
-    <div class="mt-28 pt-16 border-t border-slate-100">
-      <div class="text-center mb-12">
+    <div class="mt-24 pt-12 border-t border-slate-200">
+      <div class="mb-10">
         <h4 class="font-serif text-2xl text-slate-800 font-normal">Past Events & Announcements</h4>
-        <p class="text-sm text-slate-400 mt-1">A historical log of Mutiara corporate features and seasonal gatherings</p>
+        <div class="w-12 h-0.5 bg-slate-300 mt-2"></div>
       </div>
       
-      <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div class="max-w-4xl space-y-6">
         {archivedStories.map(story => (
-          <div class="story-card-node bg-slate-50/50 rounded-xl p-4 border border-slate-100 opacity-80 hover:opacity-100 transition-opacity flex flex-col justify-between h-full">
-            <div>
-              <div class="aspect-video w-full rounded-lg overflow-hidden bg-slate-200 mb-4">
-                {story.story_image && <img src={story.story_image} alt={story.title} class="w-full h-full object-cover grayscale" />}
-              </div>
-
-              <div class="story-text-container">
-                <span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase block mb-1">{story.subtitle || "ARCHIVE"}</span>
-                <h5 class="font-serif text-base text-slate-800 font-medium mb-2 leading-snug">{story.title}</h5>
-                <p class="text-slate-500 text-xs leading-relaxed font-light line-clamp-3">{story.text_content}</p>
-              </div>
+          <div class="story-card-node flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 bg-slate-50/60 rounded-xl border border-slate-100/80 hover:bg-slate-50 transition-colors duration-200">
+            
+            {/* Medium Size Thumbnail Image */}
+            <div class="w-full sm:w-32 h-24 sm:h-20 shrink-0 rounded-lg overflow-hidden bg-slate-200">
+              {story.story_image && (
+                <img 
+                  src={story.story_image} 
+                  alt={story.title} 
+                  class="w-full h-full object-cover grayscale opacity-90 transition-transform duration-300 hover:scale-105" 
+                />
+              )}
             </div>
-            {story.expiry_date && (
-              <span class="text-[10px] text-amber-600/70 font-sans mt-4 block border-t border-slate-200/60 pt-2 font-medium">
-                Concluded on: {new Date(story.expiry_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-              </span>
-            )}
+
+            {/* Collapsed Text Details Panel */}
+            <div class="flex-grow min-w-0">
+              <div class="flex flex-wrap items-baseline gap-x-3 mb-1">
+                <span class="text-[9px] font-bold tracking-wider text-slate-400 uppercase">
+                  {story.subtitle || "PAST EVENT"}
+                </span>
+                {story.expiry_date && (
+                  <span class="text-[10px] text-slate-400/80 font-sans font-light">
+                    • Concluded {new Date(story.expiry_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                  </span>
+                )}
+              </div>
+              
+              <h5 class="font-serif text-base text-slate-800 font-medium mb-1 leading-snug truncate">
+                {story.title}
+              </h5>
+              
+              {/* Collapsed content layer limited strictly to two clean lines */}
+              <p class="text-slate-500 text-xs leading-relaxed font-light line-clamp-2 md:line-clamp-1 pr-4">
+                {story.text_content}
+              </p>
+            </div>
+
           </div>
         ))}
       </div>
