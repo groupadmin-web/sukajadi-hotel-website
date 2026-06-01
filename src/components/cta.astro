@@ -8,16 +8,21 @@ const bgMode = promo.banner_bg_type || "Photo Background";
 const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
 ---
 
-<div class="relative max-w-4xl mx-auto my-12 px-4 sm:px-6">
+<div class="relative max-w-4xl mx-auto my-16 px-4 sm:px-6">
   
-  {/* OUTER CONTAINER: Alternates backgrounds based on choices selected in your dashboard schema */}
-  <div class={`relative p-8 md:p-12 rounded-[2rem] shadow-2xl overflow-hidden text-center group border transition-all duration-500
-    ${bgMode === 'Exciting Sunset Gold' ? 'bg-gradient-to-br from-amber-950 via-yellow-900 to-amber-950 border-amber-500/50' : ''}
-    ${bgMode === 'Deep Premium Blue' ? 'bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border-blue-500/30' : ''}
-    ${bgMode === 'Photo Background' ? 'bg-slate-900 border-slate-700/50' : ''}
-  `}>
+  {/* THE BADGE SCULPTOR CONTAINER 
+    Uses 'clip-path' referencing our custom inline vector path geometry (#promo-badge-mask)
+  */}
+  <div 
+    style="clip-path: url(#promo-badge-mask);"
+    class={`relative p-12 md:p-16 text-center group transition-all duration-500 shadow-2xl
+      ${bgMode === 'Exciting Sunset Gold' ? 'bg-gradient-to-br from-amber-950 via-yellow-900 to-amber-950' : ''}
+      ${bgMode === 'Deep Premium Blue' ? 'bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900' : ''}
+      ${bgMode === 'Photo Background' ? 'bg-slate-900' : ''}
+    `}
+  >
 
-    {/* PHOTO BACKGROUND ENGINE OVERLAY LAYER (Pulls your actual custom user upload image) */}
+    {/* PHOTO BACKGROUND ENGINE OVERLAY LAYER */}
     {bgMode === 'Photo Background' && (
       <div class="absolute inset-0 z-0">
         <img 
@@ -29,36 +34,22 @@ const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
       </div>
     )}
 
-    {/* ORNATE GOLD LINE SVG CORNER FRAMES (Hides on standard generic photo view mode) */}
-    {bgMode !== 'Photo Background' && (
-      <>
-        <div class={`absolute top-0 left-0 w-24 h-24 pointer-events-none transition-transform duration-500 group-hover:scale-110 
-          ${bgMode === 'Exciting Sunset Gold' ? 'text-amber-400/50' : 'text-blue-400/40'}`}>
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-            <path d="M4 30V4H30" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-            <path d="M12 20V12H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="6" cy="6" r="2" fill="currentColor"/>
-          </svg>
-        </div>
-        <div class={`absolute bottom-0 right-0 w-24 h-24 pointer-events-none transition-transform duration-500 group-hover:scale-110 rotate-180
-          ${bgMode === 'Exciting Sunset Gold' ? 'text-amber-400/50' : 'text-blue-400/40'}`}>
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-            <path d="M4 30V4H30" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-            <path d="M12 20V12H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="6" cy="6" r="2" fill="currentColor"/>
-          </svg>
-        </div>
-      </>
-    )}
+    {/* LUXURY DECORATIVE INNER ACCENT OUTLINE FRAME */}
+    <div 
+      style="clip-path: url(#promo-badge-mask); inset: 6px;"
+      class={`absolute z-10 pointer-events-none border-2 border-dashed opacity-30 transition-opacity duration-300 group-hover:opacity-60
+        ${bgMode === 'Exciting Sunset Gold' ? 'border-amber-400' : 'border-blue-400'}
+      `}
+    ></div>
 
-    {/* GRADIENT AMBIENT LIGHT LAYER EFFECTS */}
-    <div class={`absolute -top-24 -left-24 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-40
-      ${bgMode === 'Exciting Sunset Gold' ? 'bg-amber-400/20' : 'bg-blue-500/20'}`}></div>
-    <div class={`absolute -bottom-24 -right-24 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-40
-      ${bgMode === 'Exciting Sunset Gold' ? 'bg-amber-400/20' : 'bg-blue-500/20'}`}></div>
+    {/* BACKGROUND GRADIENT LUMINOUS GLOW LAYERS */}
+    <div class={`absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-46 rounded-full blur-3xl pointer-events-none opacity-30
+      ${bgMode === 'Exciting Sunset Gold' ? 'bg-amber-400' : 'bg-blue-500'}`}></div>
+    <div class={`absolute -bottom-24 left-1/2 -translate-x-1/2 w-96 h-46 rounded-full blur-3xl pointer-events-none opacity-30
+      ${bgMode === 'Exciting Sunset Gold' ? 'bg-yellow-500' : 'bg-indigo-500'}`}></div>
     
     {/* TEXT & ACTION CONTENT BLOCK CONTROLLERS */}
-    <div class="relative z-10 max-w-2xl mx-auto space-y-6">
+    <div class="relative z-20 max-w-2xl mx-auto space-y-6 py-4">
       
       {/* Dynamic Small Upper Tagline Badge */}
       <div class={`inline-flex items-center gap-2 border text-[10px] font-sans font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full backdrop-blur-sm
@@ -111,3 +102,35 @@ const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
     </div>
   </div>
 </div>
+
+{/* VIRTUAL MASK DEFINITION FACTORY
+  This vector math definition reshapes the container corners into standard responsive 
+  vintage badge lines without ruining performance.
+*/}
+<svg class="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
+  <defs>
+    <clipPath id="promo-badge-mask" clipPathUnits="objectBoundingBox">
+      <path d="M 0,0.15 
+               C 0,0.05 0.05,0 0.15,0 
+               L 0.35,0 
+               C 0.4,0.03 0.45,0.05 0.5,0.05 
+               C 0.55,0.05 0.6,0.03 0.65,0 
+               L 0.85,0 
+               C 0.95,0 1,0.05 1,0.15 
+               L 1,0.35 
+               C 0.97,0.4 0.95,0.45 0.95,0.5 
+               C 0.95,0.55 0.97,0.6 1,0.65 
+               L 1,0.85 
+               C 1,0.95 0.95,1 0.85,1 
+               L 0.65,1 
+               C 0.6,0.97 0.55,0.95 0.5,0.95 
+               C 0.45,0.95 0.4,0.97 0.35,1 
+               L 0.15,1 
+               C 0.05,1 0,0.95 0,0.85 
+               L 0,0.65 
+               C 0.03,0.6 0.05,0.55 0.05,0.5 
+               C 0.05,0.45 0.03,0.4 0,0.35 
+               Z" />
+    </clipPath>
+  </defs>
+</svg>
