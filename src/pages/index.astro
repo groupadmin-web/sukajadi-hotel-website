@@ -1,4 +1,5 @@
 ---
+// src/pages/index.astro
 import Container from "@/components/container.astro";
 import Cta from "@/components/cta.astro";
 import Features from "@/components/features.astro";
@@ -8,6 +9,7 @@ import Layout from "@/layouts/Layout.astro";
 
 import Rooms from "../components/rooms.astro";
 import Stories from "../components/stories.astro"; 
+import Archive from "../components/archive.astro"; // <--- Added your new archive component entry
 
 // DYNAMIC SITE DATA PAYLOAD ENGINES
 import reviewsData from "@/content/reviews.json";
@@ -36,7 +38,10 @@ const isSlider = sortedReviews.length > 4;
 
     <Stories /> 
 
-    {/* GUEST REVIEWS SECTION: Shifted directly above the Gallery component */}
+    {/* Past Events & Announcements Accordion Row */}
+    <Archive />
+
+    {/* GUEST REVIEWS MARQUEE SECTION: Now perfectly positioned directly below the Archive, above Gallery */}
     <section class="reviews-section my-16 px-6 max-w-7xl mx-auto overflow-hidden">
       <h2 class="text-center text-3xl font-bold mb-2 text-gray-800">What Our Guests Love About Us</h2>
       <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-10"></div>
@@ -143,7 +148,7 @@ const isSlider = sortedReviews.length > 4;
       </div>
     </section>
 
-    {/* GALLERY SECTION: Now cleanly targets the grid layer below your reviews banner */}
+    {/* GALLERY SECTION: The Mutiara Experience Grid */}
     <section class="gallery-preview-section my-20 px-6 max-w-7xl mx-auto">
       <div class="text-center max-w-xl mx-auto mb-10">
         <h2 class="text-3xl font-serif font-bold text-gray-800 mb-2">Our Gallery & Collections</h2>
