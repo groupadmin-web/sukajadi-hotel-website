@@ -2,25 +2,20 @@
   {
     "title": "Timeless Colonial Boutique Lodging",
     "subtitle": "THE ACCOMMODATIONS",
-    "start_date": "2026-01-01",
-    "expiry_date": "",
-    "text_content": "With 112 beautifully arranged rooms stretching across 6 floors, Mutiara Hotel & Convention pairs authentic tiled floors and classic woodwork layouts with modern comforts. From cozy budget stays to sprawling multi-room family suites, every space is fully soundproofed and air-conditioned to serve as your private sanctuary.",
-    "story_image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80"
+    "text_content": "With 112 thoughtfully arranged rooms across six floors, Hotel Mutiara blends colonial‑inspired charm - authentic tiled floors, warm woodwork, and timeless layouts—with modern comfort. Guests can choose from cozy Classic Rooms to spacious multi‑bed Family Suites, each designed to offer a calm, private retreat in the heart of Bandung, complete with air‑conditioning and essential amenities for a restful stay.",
+    "start_date": "2026-01-01"
   },
   {
     "title": "Authentic Hospitality by the Crystalline Pool",
     "subtitle": "LEISURE & CALM",
-    "start_date": "2026-01-01",
-    "expiry_date": "",
     "text_content": "Escape the bustle of Pasirkaliki inside our peaceful courtyard garden. Spend your mornings enjoying a hearty breakfast at Tiara Restaurant with direct views of the water, or lounge on our premium poolside sun chairs while our 24-hour concierge and guest service desk takes care of your every travel requirement.",
-    "story_image": "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1000&q=80"
+    "start_date": "2026-01-01"
   },
   {
     "title": "Ramadhan Kareem Iftar Culinary Gathering",
     "subtitle": "EXPIRED EVENT",
-    "start_date": "2026-03-01",
-    "expiry_date": "2026-04-15",
     "text_content": "Celebrate blessings with family and colleagues inside our Grand Ballroom. Our special Sundanese-Arabian fusion buffet menu featured over 40 traditional dishes, custom ice carving stations, and live music presentations to elevate your breaking-of-the-fast moments.",
-    "story_image": "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=1000&q=80"
+    "start_date": "2026-03-01",
+    "expiry_date": "2026-04-15"
   }
 ]
