@@ -8,50 +8,52 @@ const bgMode = promo.banner_bg_type || "Photo Background";
 const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
 ---
 
-<div class="relative max-w-4xl mx-auto my-16 px-4 sm:px-6">
+<div class="relative max-w-5xl mx-auto my-16 px-4 sm:px-6">
   
-  {/* THE BADGE SCULPTOR CONTAINER 
-    Uses 'clip-path' referencing our custom inline vector path geometry (#promo-badge-mask)
-  */}
-  <div 
-    style="clip-path: url(#promo-badge-mask);"
-    class={`relative p-12 md:p-16 text-center group transition-all duration-500 shadow-2xl
-      ${bgMode === 'Exciting Sunset Gold' ? 'bg-gradient-to-br from-amber-950 via-yellow-900 to-amber-950' : ''}
-      ${bgMode === 'Deep Premium Blue' ? 'bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900' : ''}
-      ${bgMode === 'Photo Background' ? 'bg-slate-900' : ''}
-    `}
-  >
-
-    {/* PHOTO BACKGROUND ENGINE OVERLAY LAYER */}
+  {/* THE MAIN BOX HOOK */}
+  <div class="relative max-w-4xl mx-auto p-12 md:p-20 text-center group rounded-3xl overflow-hidden min-h-[450px] flex items-center justify-center">
+    
+    {/* MODE 1: Standard generic photo background view layer */}
     {bgMode === 'Photo Background' && (
       <div class="absolute inset-0 z-0">
         <img 
           src={uploadedBgImage} 
           alt="Promotion Background" 
-          class="w-full h-full object-cover opacity-25 mix-blend-luminosity"
+          class="w-full h-full object-cover opacity-35"
         />
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/90 to-slate-950"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/90 to-slate-950 border border-slate-800 rounded-3xl"></div>
       </div>
     )}
 
-    {/* LUXURY DECORATIVE INNER ACCENT OUTLINE FRAME */}
-    <div 
-      style="clip-path: url(#promo-badge-mask); inset: 6px;"
-      class={`absolute z-10 pointer-events-none border-2 border-dashed opacity-30 transition-opacity duration-300 group-hover:opacity-60
-        ${bgMode === 'Exciting Sunset Gold' ? 'border-amber-400' : 'border-blue-400'}
-      `}
-    ></div>
+    {/* MODE 2: Exciting Sunset Gold Ornate Luxury Base Wrapper */}
+    {bgMode === 'Exciting Sunset Gold' && (
+      <div class="absolute inset-0 z-0 pointer-events-none select-none mix-blend-lighten">
+        <img 
+          src="/images/frame-gold.png" 
+          alt="Gold Baroque Luxury Frame" 
+          class="w-full h-full object-fill drop-shadow-2xl"
+        />
+      </div>
+    )}
 
-    {/* BACKGROUND GRADIENT LUMINOUS GLOW LAYERS */}
-    <div class={`absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-46 rounded-full blur-3xl pointer-events-none opacity-30
-      ${bgMode === 'Exciting Sunset Gold' ? 'bg-amber-400' : 'bg-blue-500'}`}></div>
-    <div class={`absolute -bottom-24 left-1/2 -translate-x-1/2 w-96 h-46 rounded-full blur-3xl pointer-events-none opacity-30
-      ${bgMode === 'Exciting Sunset Gold' ? 'bg-yellow-500' : 'bg-indigo-500'}`}></div>
-    
+    {/* MODE 3: Deep Premium Blue Ornate Luxury Base Wrapper */}
+    {bgMode === 'Deep Premium Blue' && (
+      <div class="absolute inset-0 z-0 pointer-events-none select-none mix-blend-lighten">
+        <img 
+          src="/images/frame-blue.png" 
+          alt="Blue Baroque Luxury Frame" 
+          class="w-full h-full object-fill drop-shadow-2xl"
+        />
+      </div>
+    )}
+
+    {/* RADIANT AMBIENT LIGHT EFFECT (Sits behind text to make it extremely readable) */}
+    <div class="absolute inset-12 z-10 bg-amber-950/40 rounded-full blur-3xl pointer-events-none"></div>
+
     {/* TEXT & ACTION CONTENT BLOCK CONTROLLERS */}
-    <div class="relative z-20 max-w-2xl mx-auto space-y-6 py-4">
+    <div class="relative z-20 max-w-xl mx-auto space-y-6 py-4 px-6">
       
-      {/* Dynamic Small Upper Tagline Badge */}
+      {/* Small Dynamic Upper Tagline Badge */}
       <div class={`inline-flex items-center gap-2 border text-[10px] font-sans font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full backdrop-blur-sm
         ${bgMode === 'Exciting Sunset Gold' ? 'bg-amber-500/10 border-amber-400/30 text-amber-400' : ''}
         ${bgMode === 'Deep Premium Blue' ? 'bg-blue-500/10 border-blue-400/30 text-blue-400' : ''}
@@ -63,21 +65,20 @@ const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
         SPECIAL PROMOTION
       </div>
 
-      {/* Editable Header Heading string input mapping */}
-      <h2 class="font-serif text-3xl md:text-4xl text-white tracking-wide leading-tight">
+      {/* Headline Header string input mapping */}
+      <h2 class="font-serif text-2xl md:text-4xl text-white tracking-wide leading-tight drop-shadow-md">
         {promo.cta_title || "Exclusive Seasonal Promotion"}
       </h2>
 
       {/* Decorative Divider Accent */}
-      <div class={`flex items-center justify-center gap-4 
-        ${bgMode === 'Exciting Sunset Gold' ? 'text-amber-500/40' : 'text-slate-500/40'}`}>
+      <div class={`flex items-center justify-center gap-4 ${bgMode === 'Exciting Sunset Gold' ? 'text-amber-500/40' : 'text-slate-500/40'}`}>
         <div class="w-12 h-px bg-current"></div>
         <span class="text-xs">✦</span>
         <div class="w-12 h-px bg-current"></div>
       </div>
 
       {/* Core Paragraph description text context box mapping */}
-      <p class="text-slate-300 text-sm md:text-base leading-relaxed font-light tracking-wide max-w-xl mx-auto">
+      <p class="text-slate-200 text-xs md:text-sm leading-relaxed font-light tracking-wide max-w-md mx-auto drop-shadow">
         {promo.cta_desc || "Book directly through our website to unlock premium perks..."}
       </p>
 
@@ -102,35 +103,3 @@ const uploadedBgImage = promo.banner_bg_image || "/images/pool-night-bg.jpg";
     </div>
   </div>
 </div>
-
-{/* VIRTUAL MASK DEFINITION FACTORY
-  This vector math definition reshapes the container corners into standard responsive 
-  vintage badge lines without ruining performance.
-*/}
-<svg class="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
-  <defs>
-    <clipPath id="promo-badge-mask" clipPathUnits="objectBoundingBox">
-      <path d="M 0,0.15 
-               C 0,0.05 0.05,0 0.15,0 
-               L 0.35,0 
-               C 0.4,0.03 0.45,0.05 0.5,0.05 
-               C 0.55,0.05 0.6,0.03 0.65,0 
-               L 0.85,0 
-               C 0.95,0 1,0.05 1,0.15 
-               L 1,0.35 
-               C 0.97,0.4 0.95,0.45 0.95,0.5 
-               C 0.95,0.55 0.97,0.6 1,0.65 
-               L 1,0.85 
-               C 1,0.95 0.95,1 0.85,1 
-               L 0.65,1 
-               C 0.6,0.97 0.55,0.95 0.5,0.95 
-               C 0.45,0.95 0.4,0.97 0.35,1 
-               L 0.15,1 
-               C 0.05,1 0,0.95 0,0.85 
-               L 0,0.65 
-               C 0.03,0.6 0.05,0.55 0.05,0.5 
-               C 0.05,0.45 0.03,0.4 0,0.35 
-               Z" />
-    </clipPath>
-  </defs>
-</svg>
