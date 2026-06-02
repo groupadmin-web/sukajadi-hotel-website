@@ -1,4 +1,104 @@
-{/* Icon-only round-square frames with permanent brand colors and subtle brightness shifting on hover */}
+---
+// src/components/footer.astro
+import homepageData from "../content/homepage.json";
+
+// Safely pull the brand logo asset
+const logoImage = homepageData?.logo_image;
+
+// FIXED: Define the variable configuration frame out here in the global script scope
+let footer = {
+  footer_slogan: "Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.",
+  concierge_address: "Jalan Kebon Kawung No. 60, Bandung, West Java, Indonesia",
+  concierge_phone: "+62 (022) 420 0888",
+  concierge_phone_raw: "+62224200888",
+  concierge_email: "info@mutiarahotel.com",
+  instagram_url: "#",
+  facebook_url: "#",
+  youtube_url: "https://www.youtube.com/@hotelmutiarabandung"
+};
+
+try {
+  const cmsData = await import("../content/footer.json");
+  if (cmsData && cmsData.default) {
+    // Re-assign the variable securely without re-declaring it with 'let'
+    footer = cmsData.default;
+  }
+} catch (e) {
+  // Silent fallback stays fully functional if footer.json isn't present yet
+}
+---
+
+<footer id="footer" class="w-full bg-slate-950 text-slate-400 font-sans border-t border-slate-900 py-8 relative overflow-hidden left-0 right-0" style="padding-top: 2rem !important; padding-bottom: 1.5rem !important;">
+  
+  <div class="absolute bottom-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none select-none"></div>
+
+  {/* THREE COLUMN GRID */}
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 pb-5 border-b border-slate-900 text-left">
+    
+    {/* COLUMN 1: BRAND LOGO BLOCKS & SLOGAN */}
+    <div class="flex flex-col gap-2 md:col-span-1">
+      <div class="flex flex-row items-center gap-3">
+        {logoImage && (
+          <img 
+            src={logoImage} 
+            alt="Mutiara Brand Logo" 
+            class="h-10 w-auto object-contain brightness-110 flex-shrink-0"
+            onerror="this.style.display='none';"
+          />
+        )}
+        <div class="flex flex-col justify-center">
+          <span 
+            class="text-white text-lg font-medium uppercase leading-none select-none" 
+            style="font-family: 'EB Garamond', Georgia, serif !important; letter-spacing: 3px !important; margin-right: -4px !important;"
+          >
+            Mutiara
+          </span>
+          <span class="text-[9px] text-amber-500 tracking-[0.12em] font-bold uppercase mt-1.5 whitespace-nowrap select-none">
+            Hotel & Convention
+          </span>
+        </div>
+      </div>
+      <p class="text-[11px] leading-relaxed text-slate-500 max-w-sm">
+        {footer.footer_slogan}
+      </p>
+    </div>
+
+    {/* COLUMN 2: GEOGRAPHIC & CONTACT COORDINATES */}
+    <div>
+      <h4 class="text-white text-[11px] font-bold uppercase tracking-widest mb-2.5 border-l-2 border-amber-500 pl-2">
+        The Concierge Desk
+      </h4>
+      <div class="flex flex-col gap-1.5 text-[11px] leading-relaxed text-slate-400">
+        <p class="flex gap-2">
+          <span class="text-amber-500 shrink-0">📍</span>
+          <span>{footer.concierge_address}</span>
+        </p>
+        <p class="flex gap-2">
+          <span class="text-amber-500 shrink-0">📞</span>
+          <a href={`tel:${footer.concierge_phone_raw}`} class="hover:text-white transition-colors">
+            {footer.concierge_phone}
+          </a>
+        </p>
+        {footer.concierge_email && (
+          <p class="flex gap-2">
+            <span class="text-amber-500 shrink-0">✉️</span>
+            <a href={`mailto:${footer.concierge_email}`} class="hover:text-white transition-colors">
+              {footer.concierge_email}
+            </a>
+          </p>
+        )}
+      </div>
+    </div>
+
+    {/* COLUMN 3: CONNECTIVITY WITH PERMANENTLY COLOURED ICONS */}
+    <div>
+      <h4 class="text-white text-[11px] font-bold uppercase tracking-widest mb-2.5 border-l-2 border-amber-500 pl-2">
+        Follow Our Journey
+      </h4>
+      <p class="text-[11px] text-slate-500 mb-3 max-w-xs leading-relaxed">
+        Stay updated with our latest stay packages and venue offerings.
+      </p>
+      
       <div class="flex items-center gap-3 flex-wrap">
         {footer.instagram_url && (
           <a 
@@ -36,3 +136,20 @@
           </a>
         )}
       </div>
+    </div>
+
+  </div>
+
+  {/* BOTTOM BASELINE COPYRIGHT STRIP */}
+  <div class="max-w-7xl mx-auto px-6 pt-3 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] text-slate-600 font-medium">
+    <p>
+      &copy; {new Date().getFullYear()} Mutiara Hotel & Convention Bandung. All Rights Reserved.
+    </p>
+    <div class="flex gap-4">
+      <a href="#privacy" class="hover:text-slate-400 transition-colors">Privacy Charter</a>
+      <span class="text-slate-800">|</span>
+      <p>Direct Booking Guarantee Enabled</p>
+    </div>
+  </div>
+
+</footer>
