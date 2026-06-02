@@ -214,238 +214,244 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
       }
     </style>
 
-<script is:inline>
-      const baselineTextCache = new Map();
-
-      // INTERCEPT RIGHT-CLICKS ON VISUAL ASSETS
-      document.addEventListener('contextmenu', (event) => {
-        if (event.target.tagName === 'IMG') {
-          event.preventDefault();
-        }
-      }, { capture: true });
-
-      // ON-DEMAND EMAIL COMPILER HOOK (Zero Loops, Completely Safe)
-      function initEmailClickInterceptor() {
-        const conciergeBtn = document.getElementById("direct-concierge-action");
-        if (!conciergeBtn) return;
-
-        // Strip any default actions to ensure seamless tab transitions
-        conciergeBtn.onclick = (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          const username = "info";
-          const domain = "mutiarahotel.com";
-          
-          // Launches your user's desktop email application immediately
-          window.open("mailto:" + username + "@" + domain, "_blank");
-        };
-      }
-
-      document.addEventListener("DOMContentLoaded", () => {
-        // Mount our passive listener
-        initEmailClickInterceptor();
-
-        // WhatsApp Widget Handler
-        const waWidget = document.getElementById("secure-whatsapp-widget");
-        if (waWidget) {
-          const pfx = waWidget.getAttribute("data-prefix");
-          const cc = waWidget.getAttribute("data-country");
-          const num = waWidget.getAttribute("data-dial");
-          waWidget.href = `https://${pfx}/${cc}${num}`;
-        }
-      });
-
-      function getLanguageSetting() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlLang = urlParams.get('lang');
-        if (urlLang === 'id' || urlLang === 'en' || urlLang === 'zh') {
-          localStorage.setItem('mutiara_user_lang', urlLang);
-          return urlLang;
-        }
-        const savedLanguage = localStorage.getItem('mutiara_user_lang');
-        if (savedLanguage) return savedLanguage;
-        
-        const systemLocale = (navigator.language || navigator.languages[0] || 'en').toLowerCase();
-        if (systemLocale.startsWith('id') || systemLocale.startsWith('ms')) {
-          localStorage.setItem('mutiara_user_lang', 'id');
-          return 'id';
-        } else if (systemLocale.startsWith('zh') || systemLocale.startsWith('zho') || systemLocale.startsWith('cmn')) {
-          localStorage.setItem('mutiara_user_lang', 'zh');
-          return 'zh';
-        }
-        localStorage.setItem('mutiara_user_lang', 'en');
-        return 'en';
-      }
-
-      async function fetchSingleNodeTranslation(textString, targetLangCode) {
-        if (!textString || textString.trim() === "" || !isNaN(textString)) return textString;
-        try {
-          const apiEndpoint = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLangCode}&dt=t&q=${encodeURIComponent(textString)}`;
-          const rawResponse = await fetch(apiEndpoint);
-          const parsedData = await rawResponse.json();
-          if (parsedData && parsedData[0]) {
-            return parsedData[0].map(phrase => phrase[0]).join('');
+    <script is:inline>
+        const baselineTextCache = new Map();
+  
+        // INTERCEPT RIGHT-CLICKS ON VISUAL ASSETS
+        document.addEventListener('contextmenu', (event) => {
+          if (event.target.tagName === 'IMG') {
+            event.preventDefault();
           }
-          return textString;
-        } catch (err) {
-          return textString;
-        }
-      }
-
-      async function executeUniversalTranslation() {
-        const activeLanguage = getLanguageSetting();
-        const rootContainer = document.getElementById('universal-translation-root');
-        if (!rootContainer) return;
-
-        let protectedRoomTitles = [];
-        try {
-          const rawCmsData = rootContainer.getAttribute('data-cms-rooms');
-          if (rawCmsData) {
-            protectedRoomTitles = JSON.parse(rawCmsData);
-          }
-        } catch(e) {
-          protectedRoomTitles = ["budget room", "standard room", "superior room", "deluxe room"];
-        }
-
-        const flagEN = document.getElementById('global-nav-en');
-        const flagID = document.getElementById('global-nav-id');
-        const flagZH = document.getElementById('global-nav-zh');
-        const textZH = document.getElementById('label-zh-text');
-        const labelEl = document.getElementById('global-lang-label');
-        
-        const allFlags = [flagEN, flagID, flagZH];
-        allFlags.forEach(f => {
-          if (f) {
-            f.style.filter = 'grayscale(100%)'; f.style.opacity = '0.4'; f.style.transform = 'scale(1)'; f.style.color = '#94a3b8';
-          }
-        });
-        if (flagEN) flagEN.querySelector('span').style.color = '#94a3b8';
-        if (flagID) flagID.querySelector('span').style.color = '#94a3b8';
-        if (textZH) textZH.style.color = '#94a3b8';
-
-        if (activeLanguage === 'id') {
-          if (flagID) { flagID.style.filter = 'none'; flagID.style.opacity = '1'; flagID.style.transform = 'scale(1.08)'; flagID.querySelector('span').style.color = '#1e293b'; }
-          if (labelEl) labelEl.innerText = "PILIHAN BAHASA:";
-        } else if (activeLanguage === 'zh') {
-          if (flagZH) { flagZH.style.filter = 'none'; flagZH.style.opacity = '1'; flagZH.style.transform = 'scale(1.08)'; if (textZH) textZH.style.color = '#de2110'; }
-          if (labelEl) labelEl.innerText = "选择语言:";
-        } else {
-          if (flagEN) { flagEN.style.filter = 'none'; flagEN.style.opacity = '1'; flagEN.style.transform = 'scale(1.08)'; flagEN.querySelector('span').style.color = '#1e293b'; }
-          if (labelEl) labelEl.innerText = "SELECT LANGUAGE:";
-        }
-
-        rootContainer.querySelectorAll('.ai-translated-notice').forEach(el => el.remove());
-
-        const elementsToProcess = [];
-        const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
-          acceptNode: function(node) {
-            if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') {
-              return NodeFilter.FILTER_REJECT;
-            }
-            const textClean = node.textContent.trim().toLowerCase();
-            if (protectedRoomTitles.includes(textClean)) return NodeFilter.FILTER_REJECT;
-            if (node.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]')) return NodeFilter.FILTER_REJECT;
-            if (node.textContent.toLowerCase().includes('mutiara') && textClean.length < 40) return NodeFilter.FILTER_REJECT;
-            if (textClean === 'book now' || textClean === 'claim offer now' || textClean.includes('claim offer') || textClean === 'view gallery' || textClean === 'original' || textClean.includes('modus bahasa') || textClean === '中文') return NodeFilter.FILTER_REJECT;
-            if (node.parentElement.tagName === 'BUTTON' || node.parentElement.tagName === 'A' || node.parentElement.classList.contains('btn') || node.parentElement.classList.contains('button') || node.parentElement.closest('.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')) return NodeFilter.FILTER_REJECT;
-            return node.textContent.trim().length > 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-          }
-        });
-
-        while (walker.nextNode()) {
-          elementsToProcess.push(walker.currentNode);
-        }
-
-        const reviewElements = rootContainer.querySelectorAll('.review-content-text');
-        reviewElements.forEach(el => {
-          if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
-            const innerClean = el.firstChild.textContent.trim().toLowerCase();
-            if (!elementsToProcess.includes(el.firstChild) && !el.closest('.notranslate, .skiptranslate, [translate="no"]') && !protectedRoomTitles.includes(innerClean)) {
-              elementsToProcess.push(el.firstChild);
-            }
-          }
-        });
-
-        for (const textNode of elementsToProcess) {
-          const currentClean = textNode.textContent.trim().toLowerCase();
-          if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(currentClean)) continue;
-          
-          const isReviewBox = textNode.parentElement.classList.contains('review-content-text');
-          if (!baselineTextCache.has(textNode)) {
-            baselineTextCache.set(textNode, isReviewBox ? textNode.textContent.replace(/^"|"$/g, '') : textNode.textContent);
-          }
-          const originalValue = baselineTextCache.get(textNode);
-          if (activeLanguage === 'en') {
-            textNode.textContent = originalValue;
-            continue;
-          }
-
-          let convertedText = await fetchSingleNodeTranslation(originalValue, activeLanguage);
-          const postClean = textNode.textContent.trim().toLowerCase();
-          if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(postClean)) {
-            textNode.textContent = originalValue; 
-            continue;
-          }
-
-          convertedText = convertedText.replace(/Hotel Mutiara & Konvensi/gi, 'Mutiara Hotel & Convention');
-          convertedText = convertedText.replace(/Hotel Mutiara/gi, 'Mutiara Hotel');
-          convertedText = convertedText.replace(/珍珠酒店及会议中心/g, 'Mutiara Hotel & Convention');
-          convertedText = convertedText.replace(/珍珠酒店/g, 'Mutiara Hotel');
-
-          if (isReviewBox) {
-            textNode.textContent = `"${convertedText.trim()}"`;
-            const noticeLabel = document.createElement('span');
-            noticeLabel.className = 'ai-translated-notice';
-            if (activeLanguage === 'id') noticeLabel.innerText = '✨ Diterjemahkan Otomatis';
-            else if (activeLanguage === 'zh') noticeLabel.innerText = '✨ 自动翻译';
-            else noticeLabel.innerText = '✨ Automatically Translated';
-            textNode.parentElement.appendChild(noticeLabel);
-          } else {
-            textNode.textContent = convertedText.replace(/\*\*/g, '').replace(/__/g, '');
-          }
-        }
-      }
-
-      function setupLanguageListeners() {
-        const btnEN = document.getElementById('global-nav-en');
-        const btnID = document.getElementById('global-nav-id');
-        const btnZH = document.getElementById('global-nav-zh');
-
-        if (btnEN) {
-          btnEN.onclick = (e) => {
+        }, { capture: true });
+  
+        // PASSIVE CLICK EMULATOR (Zero Loops, Never Freezes)
+        function initEmailActionHandler() {
+          const conciergeBtn = document.getElementById("direct-concierge-action");
+          if (!conciergeBtn) return;
+  
+          conciergeBtn.onclick = (e) => {
             e.preventDefault();
-            localStorage.setItem('mutiara_user_lang', 'en');
-            const url = new URL(window.location.href); url.searchParams.delete('lang'); window.history.pushState({}, '', url);
-            executeUniversalTranslation();
+            e.stopPropagation();
+  
+            const user = "info";
+            const domain = "mutiarahotel.com";
+            
+            // Launches default system email application cleanly in a background process
+            const mailWindow = window.open("mailto:" + user + "@" + domain, "_blank");
+            
+            // Safely tidy up background resource links
+            if (mailWindow && mailWindow.open && !mailWindow.closed) {
+              setTimeout(() => { mailWindow.close(); }, 300);
+            }
           };
         }
-        if (btnID) {
-          btnID.onclick = (e) => {
-            e.preventDefault();
+  
+        // Initialize instantly on script parse
+        initEmailActionHandler();
+  
+        document.addEventListener("DOMContentLoaded", () => {
+          initEmailActionHandler();
+  
+          // WhatsApp Widget Handler
+          const waWidget = document.getElementById("secure-whatsapp-widget");
+          if (waWidget) {
+            const pfx = waWidget.getAttribute("data-prefix");
+            const cc = waWidget.getAttribute("data-country");
+            const num = waWidget.getAttribute("data-dial");
+            waWidget.href = `https://${pfx}/${cc}${num}`;
+          }
+        });
+  
+        function getLanguageSetting() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const urlLang = urlParams.get('lang');
+          if (urlLang === 'id' || urlLang === 'en' || urlLang === 'zh') {
+            localStorage.setItem('mutiara_user_lang', urlLang);
+            return urlLang;
+          }
+          const savedLanguage = localStorage.getItem('mutiara_user_lang');
+          if (savedLanguage) return savedLanguage;
+          
+          const systemLocale = (navigator.language || navigator.languages[0] || 'en').toLowerCase();
+          if (systemLocale.startsWith('id') || systemLocale.startsWith('ms')) {
             localStorage.setItem('mutiara_user_lang', 'id');
-            const url = new URL(window.location.href); url.searchParams.set('lang', 'id'); window.history.pushState({}, '', url);
-            executeUniversalTranslation();
-          };
-        }
-        if (btnZH) {
-          btnZH.onclick = (e) => {
-            e.preventDefault();
+            return 'id';
+          } else if (systemLocale.startsWith('zh') || systemLocale.startsWith('zho') || systemLocale.startsWith('cmn')) {
             localStorage.setItem('mutiara_user_lang', 'zh');
-            const url = new URL(window.location.href); url.searchParams.set('lang', 'zh'); window.history.pushState({}, '', url);
-            executeUniversalTranslation();
-          };
+            return 'zh';
+          }
+          localStorage.setItem('mutiara_user_lang', 'en');
+          return 'en';
         }
-      }
-
-      setupLanguageListeners();
-      executeUniversalTranslation();
-
-      document.addEventListener('astro:after-swap', () => {
+  
+        async function fetchSingleNodeTranslation(textString, targetLangCode) {
+          if (!textString || textString.trim() === "" || !isNaN(textString)) return textString;
+          try {
+            const apiEndpoint = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLangCode}&dt=t&q=${encodeURIComponent(textString)}`;
+            const rawResponse = await fetch(apiEndpoint);
+            const parsedData = await rawResponse.json();
+            if (parsedData && parsedData[0]) {
+              return parsedData[0].map(phrase => phrase[0]).join('');
+            }
+            return textString;
+          } catch (err) {
+            return textString;
+          }
+        }
+  
+        async function executeUniversalTranslation() {
+          const activeLanguage = getLanguageSetting();
+          const rootContainer = document.getElementById('universal-translation-root');
+          if (!rootContainer) return;
+  
+          let protectedRoomTitles = [];
+          try {
+            const rawCmsData = rootContainer.getAttribute('data-cms-rooms');
+            if (rawCmsData) {
+              protectedRoomTitles = JSON.parse(rawCmsData);
+            }
+          } catch(e) {
+            protectedRoomTitles = ["budget room", "standard room", "superior room", "deluxe room"];
+          }
+  
+          const flagEN = document.getElementById('global-nav-en');
+          const flagID = document.getElementById('global-nav-id');
+          const flagZH = document.getElementById('global-nav-zh');
+          const textZH = document.getElementById('label-zh-text');
+          const labelEl = document.getElementById('global-lang-label');
+          
+          const allFlags = [flagEN, flagID, flagZH];
+          allFlags.forEach(f => {
+            if (f) {
+              f.style.filter = 'grayscale(100%)'; f.style.opacity = '0.4'; f.style.transform = 'scale(1)'; f.style.color = '#94a3b8';
+            }
+          });
+          if (flagEN) flagEN.querySelector('span').style.color = '#94a3b8';
+          if (flagID) flagID.querySelector('span').style.color = '#94a3b8';
+          if (textZH) textZH.style.color = '#94a3b8';
+  
+          if (activeLanguage === 'id') {
+            if (flagID) { flagID.style.filter = 'none'; flagID.style.opacity = '1'; flagID.style.transform = 'scale(1.08)'; flagID.querySelector('span').style.color = '#1e293b'; }
+            if (labelEl) labelEl.innerText = "PILIHAN BAHASA:";
+          } else if (activeLanguage === 'zh') {
+            if (flagZH) { flagZH.style.filter = 'none'; flagZH.style.opacity = '1'; flagZH.style.transform = 'scale(1.08)'; if (textZH) textZH.style.color = '#de2110'; }
+            if (labelEl) labelEl.innerText = "选择语言:";
+          } else {
+            if (flagEN) { flagEN.style.filter = 'none'; flagEN.style.opacity = '1'; flagEN.style.transform = 'scale(1.08)'; flagEN.querySelector('span').style.color = '#1e293b'; }
+            if (labelEl) labelEl.innerText = "SELECT LANGUAGE:";
+          }
+  
+          rootContainer.querySelectorAll('.ai-translated-notice').forEach(el => el.remove());
+  
+          const elementsToProcess = [];
+          const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
+            acceptNode: function(node) {
+              if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') {
+                return NodeFilter.FILTER_REJECT;
+              }
+              const textClean = node.textContent.trim().toLowerCase();
+              if (protectedRoomTitles.includes(textClean)) return NodeFilter.FILTER_REJECT;
+              if (node.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]')) return NodeFilter.FILTER_REJECT;
+              if (node.textContent.toLowerCase().includes('mutiara') && textClean.length < 40) return NodeFilter.FILTER_REJECT;
+              if (textClean === 'book now' || textClean === 'claim offer now' || textClean.includes('claim offer') || textClean === 'view gallery' || textClean === 'original' || textClean.includes('modus bahasa') || textClean === '中文') return NodeFilter.FILTER_REJECT;
+              if (node.parentElement.tagName === 'BUTTON' || node.parentElement.tagName === 'A' || node.parentElement.classList.contains('btn') || node.parentElement.classList.contains('button') || node.parentElement.closest('.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')) return NodeFilter.FILTER_REJECT;
+              return node.textContent.trim().length > 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+            }
+          });
+  
+          while (walker.nextNode()) {
+            elementsToProcess.push(walker.currentNode);
+          }
+  
+          const reviewElements = rootContainer.querySelectorAll('.review-content-text');
+          reviewElements.forEach(el => {
+            if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
+              const innerClean = el.firstChild.textContent.trim().toLowerCase();
+              if (!elementsToProcess.includes(el.firstChild) && !el.closest('.notranslate, .skiptranslate, [translate="no"]') && !protectedRoomTitles.includes(innerClean)) {
+                elementsToProcess.push(el.firstChild);
+              }
+            }
+          });
+  
+          for (const textNode of elementsToProcess) {
+            const currentClean = textNode.textContent.trim().toLowerCase();
+            if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(currentClean)) continue;
+            
+            const isReviewBox = textNode.parentElement.classList.contains('review-content-text');
+            if (!baselineTextCache.has(textNode)) {
+              baselineTextCache.set(textNode, isReviewBox ? textNode.textContent.replace(/^"|"$/g, '') : textNode.textContent);
+            }
+            const originalValue = baselineTextCache.get(textNode);
+            if (activeLanguage === 'en') {
+              textNode.textContent = originalValue;
+              continue;
+            }
+  
+            let convertedText = await fetchSingleNodeTranslation(originalValue, activeLanguage);
+            const postClean = textNode.textContent.trim().toLowerCase();
+            if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(postClean)) {
+              textNode.textContent = originalValue; 
+              continue;
+            }
+  
+            convertedText = convertedText.replace(/Hotel Mutiara & Konvensi/gi, 'Mutiara Hotel & Convention');
+            convertedText = convertedText.replace(/Hotel Mutiara/gi, 'Mutiara Hotel');
+            convertedText = convertedText.replace(/珍珠酒店及会议中心/g, 'Mutiara Hotel & Convention');
+            convertedText = convertedText.replace(/珍珠酒店/g, 'Mutiara Hotel');
+  
+            if (isReviewBox) {
+              textNode.textContent = `"${convertedText.trim()}"`;
+              const noticeLabel = document.createElement('span');
+              noticeLabel.className = 'ai-translated-notice';
+              if (activeLanguage === 'id') noticeLabel.innerText = '✨ Diterjemahkan Otomatis';
+              else if (activeLanguage === 'zh') noticeLabel.innerText = '✨ 自动翻译';
+              else noticeLabel.innerText = '✨ Automatically Translated';
+              textNode.parentElement.appendChild(noticeLabel);
+            } else {
+              textNode.textContent = convertedText.replace(/\*\*/g, '').replace(/__/g, '');
+            }
+          }
+        }
+  
+        function setupLanguageListeners() {
+          const btnEN = document.getElementById('global-nav-en');
+          const btnID = document.getElementById('global-nav-id');
+          const btnZH = document.getElementById('global-nav-zh');
+  
+          if (btnEN) {
+            btnEN.onclick = (e) => {
+              e.preventDefault();
+              localStorage.setItem('mutiara_user_lang', 'en');
+              const url = new URL(window.location.href); url.searchParams.delete('lang'); window.history.pushState({}, '', url);
+              executeUniversalTranslation();
+            };
+          }
+          if (btnID) {
+            btnID.onclick = (e) => {
+              e.preventDefault();
+              localStorage.setItem('mutiara_user_lang', 'id');
+              const url = new URL(window.location.href); url.searchParams.set('lang', 'id'); window.history.pushState({}, '', url);
+              executeUniversalTranslation();
+            };
+          }
+          if (btnZH) {
+            btnZH.onclick = (e) => {
+              e.preventDefault();
+              localStorage.setItem('mutiara_user_lang', 'zh');
+              const url = new URL(window.location.href); url.searchParams.set('lang', 'zh'); window.history.pushState({}, '', url);
+              executeUniversalTranslation();
+            };
+          }
+        }
+  
         setupLanguageListeners();
         executeUniversalTranslation();
-        initEmailClickInterceptor();
-      });
-    </script>
+  
+        document.addEventListener('astro:after-swap', () => {
+          setupLanguageListeners();
+          executeUniversalTranslation();
+          initEmailActionHandler();
+        });
+      </script>
   </body>
 </html>
