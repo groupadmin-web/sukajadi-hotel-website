@@ -210,7 +210,6 @@ const makeTitle = title
       async function fetchSingleNodeTranslation(textString, targetLangCode) {
         if (!textString || textString.trim() === "" || !isNaN(textString)) return textString;
         try {
-          // sl=auto tells Google's servers to automatically identify whether the block is English or Indonesian!
           const apiEndpoint = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLangCode}&dt=t&q=${encodeURIComponent(textString)}`;
           const rawResponse = await fetch(apiEndpoint);
           const parsedData = await rawResponse.json();
@@ -266,6 +265,13 @@ const makeTitle = title
               return NodeFilter.FILTER_REJECT;
             }
 
+            // FIXED: Look up the DOM tree hierarchy to see if this text node is inside any element flagged to bypass translation!
+            if (
+              node.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]')
+            ) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
             const textClean = node.textContent.trim().toLowerCase();
 
             if (node.textContent.toLowerCase().includes('mutiara') && textClean.length < 40) {
@@ -289,7 +295,7 @@ const makeTitle = title
               node.parentElement.tagName === 'A' ||
               node.parentElement.classList.contains('btn') ||
               node.parentElement.classList.contains('button') ||
-              node.parentElement.closest('.notranslate, .skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')
+              node.parentElement.closest('.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')
             ) {
               return NodeFilter.FILTER_REJECT;
             }
@@ -305,7 +311,8 @@ const makeTitle = title
         const reviewElements = rootContainer.querySelectorAll('.review-content-text');
         reviewElements.forEach(el => {
           if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
-            if (!elementsToProcess.includes(el.firstChild)) {
+            // FIXED: Make sure review elements also honor our parent exclusion rules before processing
+            if (!elementsToProcess.includes(el.firstChild) && !el.closest('.notranslate, .skiptranslate, [translate="no"]')) {
               elementsToProcess.push(el.firstChild);
             }
           }
