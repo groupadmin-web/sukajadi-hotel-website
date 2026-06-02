@@ -46,17 +46,16 @@ try {
             onerror="this.style.display='none';"
           />
         )}
-        {/* FIXED ALIGNMENT: flex-1 ensures it fills available space; letters auto-distribute to flush left/right bounds */}
-        <div class="flex flex-col justify-center flex-1 min-w-0 select-none">
+        {/* FIXED ALIGNMENT: Swapped problematic justification out for natural, elegant typography tracking */}
+        <div class="flex flex-col justify-center select-none">
           <span 
             class="text-white text-xl font-medium uppercase leading-none block" 
-            style="font-family: 'EB Garamond', Georgia, serif !important; letter-spacing: 5px; text-align-last: justify;"
+            style="font-family: 'EB Garamond', Georgia, serif !important; letter-spacing: 4px;"
           >
             Mutiara
           </span>
           <span 
-            class="text-[9px] text-amber-500 font-bold uppercase mt-1.5 block"
-            style="letter-spacing: 0.5px; text-align-last: justify;"
+            class="text-[9px] text-amber-500 font-bold uppercase mt-1.5 block tracking-[0.14em]"
           >
             Hotel & Convention
           </span>
@@ -103,7 +102,6 @@ try {
         Stay updated with our latest stay packages and venue offerings.
       </p>
       
-      {/* Icon-only layouts utilizing direct CSS inject tokens with hover scale properties */}
       <div class="flex items-center gap-3 flex-wrap">
         {footer.instagram_url && (
           <a 
