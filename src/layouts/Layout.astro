@@ -27,7 +27,7 @@ const makeTitle = title
   ? title + " | " + "Mutiara Hotel"
   : "Mutiara Hotel - Premium Accommodations";
 
-// Pull BOTH the "title" and the "view" fields dynamically from your CMS JSON payload
+// CODESYNC: Pull BOTH the "title" and the "view" fields dynamically from your CMS JSON payload
 const showcaseItems = Array.isArray(roomsData) ? roomsData : [];
 
 const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
@@ -142,6 +142,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
     <Navbar />
 
+    {/* Dynamic Data Bridge for Translation Layer */}
     <main id="universal-translation-root" data-cms-rooms={JSON.stringify(protectedCmsStrings)}>
       <slot />
     </main>
@@ -165,7 +166,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
       </svg>
     </a>
 
-    {/* GLOBAL CSS ANTI-THEFT AND ANTI-DRAG DIRECTIVES */}
+    {/* GLOBAL CSS ANTI-THEFT AND LAYOUT RULES */}
     <style is:global>
       img { 
         content-visibility: auto; 
@@ -216,71 +217,89 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
     <script is:inline>
       const baselineTextCache = new Map();
 
-      // INTERCEPT RIGHT-CLICKS ON VISUAL ASSETS
+      // INTERCEPT RIGHT-CLICKS ON IMAGE ASSETS
       document.addEventListener('contextmenu', (event) => {
         if (event.target.tagName === 'IMG') {
           event.preventDefault();
         }
       }, { capture: true });
 
-      // SECURE DOM INTERACTION ENGINE
-      function interceptAndObfuscateDynamicEmail() {
-        // Automatically finds any text element or anchor link on your page rendering your email address string
-        const targetText = "info@mutiarahotel.com";
-        const bodyContentElements = document.querySelectorAll('a, p, span, div, li, td');
-
-        bodyContentElements.forEach((element) => {
-          // Reject scripts, styles, or active navigation components
-          if (element.tagName === 'SCRIPT' || element.tagName === 'STYLE' || element.closest('.notranslate')) return;
-
-          // 1. Check if it's an anchor link element with an open mailto target attribute
-          if (element.tagName === 'A' && element.href && element.href.toLowerCase().includes('mailto:')) {
-            const rawHrefAddress = element.href.replace(/mailto:/i, '').trim();
+      // UNIFIED REGEX SHIELD ENGINE: Auto-scrub exposed email configurations from client memory
+      function executeGlobalEmailObfuscation() {
+        const emailRegex = /([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})/gi;
+        const root = document.getElementById('universal-translation-root') || document.body;
+        
+        // 1. Sweep active mailto hyperlink parameters out of template trees
+        const links = document.querySelectorAll('a[href^="mailto:"]');
+        links.forEach(link => {
+          if (link.closest('.notranslate')) return;
+          const rawEmail = link.href.replace(/mailto:/i, '').trim();
+          
+          if (rawEmail.toLowerCase().includes('mutiarahotel.com')) {
+            const parts = rawEmail.split('@');
+            link.setAttribute('data-sec-u', parts[0]);
+            link.setAttribute('data-sec-d', parts[1]);
+            link.removeAttribute('href');
+            link.style.cursor = 'pointer';
             
-            if (rawHrefAddress === targetText) {
-              // Convert the open href path into an inert anchor link point to hide from scrapers
-              element.setAttribute('data-sec-user', 'info');
-              element.setAttribute('data-sec-domain', 'mutiarahotel.com');
-              element.removeAttribute('href');
-              element.style.cursor = 'pointer';
-
-              // Assign a safe frontend click compiler handler layer
-              element.onclick = (e) => {
-                e.preventDefault();
-                const u = element.getAttribute('data-sec-user');
-                const d = element.getAttribute('data-sec-domain');
-                if (u && d) window.location.href = `mailto:${u}@${d}`;
-              };
-            }
+            link.onclick = (e) => {
+              e.preventDefault();
+              const u = link.getAttribute('data-sec-u');
+              const d = link.getAttribute('data-sec-d');
+              if (u && d) window.location.href = `mailto:${u}@${d}`;
+            };
           }
+        });
 
-          // 2. Check if the plain string is rendered inside text block nodes directly
-          if (element.childNodes.length === 1 && element.childNodes[0].nodeType === Node.TEXT_NODE) {
-            const cleanTextContent = element.textContent.trim();
+        // 2. Clear out plain email text node arrays inside HTML elements
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode: function(node) {
+            if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE' || node.parentElement.closest('.notranslate')) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            return emailRegex.test(node.textContent) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+          }
+        });
+
+        const nodesToTransform = [];
+        while (walker.nextNode()) {
+          nodesToTransform.push(walker.currentNode);
+        }
+
+        nodesToTransform.forEach(textNode => {
+          const parent = textNode.parentElement;
+          if (!parent) return;
+
+          const rawText = textNode.textContent;
+          
+          const safeHTML = rawText.replace(emailRegex, (match) => {
+            const parts = match.split('@');
+            const hexMask = match.split('').map(c => `&#x${c.charCodeAt(0).toString(16)};`).join('');
             
-            if (cleanTextContent === targetText) {
-              element.classList.add('notranslate');
-              element.setAttribute('data-sec-user', 'info');
-              element.setAttribute('data-sec-domain', 'mutiarahotel.com');
-              element.style.cursor = 'pointer';
-              
-              // Scramble the visible DOM text node using hex characters to break automated parsing dumps
-              element.innerHTML = '&#x69;&#x6e;&#x66;&#x6f;&#x40;&#x6d;&#x75;&#x74;&#x69;&#x61;&#x72;&#x61;&#x68;&#x6f;&#x74;&#x65;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;';
-              
-              element.onclick = (e) => {
-                e.preventDefault();
-                const u = element.getAttribute('data-sec-user');
-                const d = element.getAttribute('data-sec-domain');
-                if (u && d) window.location.href = `mailto:${u}@${d}`;
-              };
-            }
-          }
+            return `<span class="secure-trigger-link text-amber-500 hover:text-amber-400 underline inline-block" style="cursor:pointer;" data-u="${parts[0]}" data-d="${parts[1]}">${hexMask}</span>`;
+          });
+
+          const wrapper = document.createElement('span');
+          wrapper.className = 'notranslate inline-block';
+          wrapper.innerHTML = safeHTML;
+          
+          wrapper.querySelectorAll('.secure-trigger-link').forEach(btn => {
+            btn.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const u = btn.getAttribute('data-u');
+              const d = btn.getAttribute('data-d');
+              if (u && d) window.location.href = `mailto:${u}@${d}`;
+            };
+          });
+
+          parent.replaceChild(wrapper, textNode);
         });
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        // Initialize dynamic masking controls
-        interceptAndObfuscateDynamicEmail();
+        // Instantiate the regex crawler system logic hook
+        executeGlobalEmailObfuscation();
 
         // WhatsApp Mask Rebuilder
         const waWidget = document.getElementById("secure-whatsapp-widget");
@@ -486,7 +505,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
             }
             textNode.parentElement.appendChild(noticeLabel);
           } else {
-            textNode.textContent = convertedText.replace(/\*\wear/g, '').replace(/__/g, '');
+            textNode.textContent = convertedText.replace(/\*\*/g, '').replace(/__/g, '');
           }
         }
       }
@@ -530,7 +549,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
       document.addEventListener('astro:after-swap', () => {
         setupLanguageListeners();
         executeUniversalTranslation();
-        interceptAndObfuscateDynamicEmail();
+        executeGlobalEmailObfuscation();
       });
     </script>
   </body>
