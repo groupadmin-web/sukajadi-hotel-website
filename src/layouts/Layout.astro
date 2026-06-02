@@ -217,19 +217,22 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
     <script is:inline>
       const baselineTextCache = new Map();
 
-      // INTERCEPT RIGHT-CLICKS ON IMAGE ASSETS
+      // INTERCEPT RIGHT-CLICKS: Globally kills right-clicks pointing to images
       document.addEventListener('contextmenu', (event) => {
         if (event.target.tagName === 'IMG') {
           event.preventDefault();
         }
       }, { capture: true });
 
-      // UNIFIED REGEX SHIELD ENGINE: Auto-scrub exposed email configurations from client memory
+      // UNIFIED REGEX SHIELD ENGINE: Total global document text filter coverage
       function executeGlobalEmailObfuscation() {
         const emailRegex = /([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})/gi;
-        const root = document.getElementById('universal-translation-root') || document.body;
         
-        // 1. Sweep active mailto hyperlink parameters out of template trees
+        // Target the absolute root document body container to guarantee footer inclusion
+        const root = document.body;
+        if (!root) return;
+        
+        // 1. Process all operational hyperlink href tracks
         const links = document.querySelectorAll('a[href^="mailto:"]');
         links.forEach(link => {
           if (link.closest('.notranslate')) return;
@@ -251,9 +254,10 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           }
         });
 
-        // 2. Clear out plain email text node arrays inside HTML elements
+        // 2. Comprehensive Deep-Node Text Scrambler
         const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
           acceptNode: function(node) {
+            // Bypass processing core configuration nodes to preserve background routines
             if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE' || node.parentElement.closest('.notranslate')) {
               return NodeFilter.FILTER_REJECT;
             }
@@ -274,6 +278,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           
           const safeHTML = rawText.replace(emailRegex, (match) => {
             const parts = match.split('@');
+            // Complete character entity array encryption transformation map
             const hexMask = match.split('').map(c => `&#x${c.charCodeAt(0).toString(16)};`).join('');
             
             return `<span class="secure-trigger-link text-amber-500 hover:text-amber-400 underline inline-block" style="cursor:pointer;" data-u="${parts[0]}" data-d="${parts[1]}">${hexMask}</span>`;
@@ -297,8 +302,11 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
         });
       }
 
+      // IMMEDIATE IMMUNIZATION EXECUTION POINT
+      // We run this immediately as the script parses, then again when DOM content stabilizes
+      executeGlobalEmailObfuscation();
+
       document.addEventListener("DOMContentLoaded", () => {
-        // Instantiate the regex crawler system logic hook
         executeGlobalEmailObfuscation();
 
         // WhatsApp Mask Rebuilder
