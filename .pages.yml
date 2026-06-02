@@ -1,3 +1,4 @@
+# ROOT LEVEL MEDIA ENGINE MANAGERS
 media:
   input: public/images
   output: /images
@@ -260,6 +261,7 @@ content:
       - name: description
         label: "Historical / Curated Description Paragraph"
         type: text
+
   - name: qna_section
     label: "11. Frequently Asked Questions (Q&A)"
     type: file
@@ -285,52 +287,48 @@ content:
           - name: answer
             label: "Detailed Answer Response text block"
             type: text
+
   - name: footer_section
-      label: "12. Global Site Footer"
-      type: file
-      path: src/content/footer.json
-      format: json
-      fields:
-        - name: footer_slogan
-          label: "Footer Brand Slogan text description"
-          type: text
-          default: "Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City."
-        
-        - name: accommodations_list
-          label: "Manage Accommodations Directory Items"
-          type: list
-          minimize: true
-          fields:
-            - name: label
-              label: "Room Type Display Label Text"
-              type: string
-            - name: url
-              label: "Anchor Link Destination Path (e.g. #rooms)"
-              type: string
-  
-        - name: events_list
-          label: "Manage Events & Conventions Directory Items"
-          type: list
-          minimize: true
-          fields:
-            - name: label
-              label: "Event Hall / Service Display Label Text"
-              type: string
-            - name: url
-              label: "Anchor Link Destination Path (e.g. #events)"
-              type: string
-  
-        - name: concierge_address
-          label: "Concierge Physical Address Text Field"
-          type: text
-          default: "Jalan Kebon Kawung No. 60, Bandung, West Java, Indonesia"
-        
-        - name: concierge_phone
-          label: "Concierge Contact Phone Label (For Display)"
-          type: string
-          default: "+62 (022) 420 0888"
-  
-        - name: concierge_phone_raw
-          label: "Concierge System Dial Number (No spaces/brackets, e.g. +62224200888)"
-          type: string
-          default: "+62224200888"
+    label: "12. Global Site Footer"
+    type: file
+    path: src/content/footer.json
+    format: json
+    fields:
+      - name: footer_slogan
+        label: "Footer Brand Slogan text description"
+        type: text
+        default: "Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City."
+      - name: accommodations_list
+        label: "Manage Accommodations Directory Items"
+        type: list
+        minimize: true
+        fields:
+          - name: label
+            label: "Room Type Display Label Text"
+            type: string
+          - name: url
+            label: "Anchor Link Destination Path (e.g. #rooms)"
+            type: string
+      - name: events_list
+        label: "Manage Events & Conventions Directory Items"
+        type: list
+        minimize: true
+        fields:
+          - name: label
+            label: "Event Hall / Service Display Label Text"
+            type: string
+          - name: url
+            label: "Anchor Link Destination Path (e.g. #events)"
+            type: string
+      - name: concierge_address
+        label: "Concierge Physical Address Text Field"
+        type: text
+        default: "Jalan Kebon Kawung No. 60, Bandung, West Java, Indonesia"
+      - name: concierge_phone
+        label: "Concierge Contact Phone Label (For Display)"
+        type: string
+        default: "+62 (022) 420 0888"
+      - name: concierge_phone_raw
+        label: "Concierge System Dial Number (No spaces/brackets, e.g. +62224200888)"
+        type: string
+        default: "+62224200888"
