@@ -4,6 +4,6 @@
   "logo_image": "/images/Logo MTR Convention.png",
   "tagline": "Our hotel blends of the charm of modern hospitality and the sophistication of the colonial era boutique hotel.",
   "hero_image": "/images/DSCF0519 (Small) - Copy (21).jpeg",
-  "show_partners": true,
-  "show_promotion": true
+  "show_partners": false,
+  "show_promotion": false
 }
