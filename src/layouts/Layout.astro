@@ -27,7 +27,7 @@ const makeTitle = title
   ? title + " | " + "Mutiara Hotel"
   : "Mutiara Hotel - Premium Accommodations";
 
-// CODESYNC: Pull BOTH the "title" and the "view" fields dynamically from your CMS JSON payload
+// Pull BOTH the "title" and the "view" fields dynamically from your CMS JSON payload
 const showcaseItems = Array.isArray(roomsData) ? roomsData : [];
 
 const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
@@ -142,7 +142,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
     <Navbar />
 
-    {/* Passes down the room titles AND room view titles securely to the browser runtime script */}
     <main id="universal-translation-root" data-cms-rooms={JSON.stringify(protectedCmsStrings)}>
       <slot />
     </main>
@@ -156,44 +155,34 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
       </svg>
     </a>
 
+    {/* GLOBAL CSS PROTECTION BLOCKS */}
     <style is:global>
-      img { content-visibility: auto; }
-      .whatsapp-icon-float {
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        background-color: #25d366;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 2px 4px 12px rgba(0,0,0,0.3);
-        z-index: 99999;
-        transition: transform 0.2s ease, background-color 0.2s ease;
-      }
-      .whatsapp-svg { width: 36px; height: 36px; }
-      .whatsapp-icon-float:hover { transform: scale(1.1); background-color: #128c7e; }
-      @media (max-width: 768px) {
-        .whatsapp-icon-float { bottom: 16px; right: 16px; width: 50px; height: 50px; }
-        .whatsapp-svg { width: 30px; height: 30px; }
-      }
-      
-      .ai-translated-notice {
-        display: block;
-        font-family: ui-sans-serif, system-ui, sans-serif;
-        font-size: 10px;
-        color: #94a3b8;
-        margin-top: 4px;
-        font-style: normal !important;
-        font-weight: 500;
-        letter-spacing: 0.025em;
+      img { 
+        content-visibility: auto; 
+        /* 1. Prevents desktop users from dragging images into new tabs or onto desktops */
+        pointer-events: none !important;
+        -webkit-user-drag: none !important;
+        user-drag: none !important;
+        /* 2. Disables native text/image highlighting selectors */
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+        /* 3. Disables the long-press download context popup sheets on mobile iOS/Android systems */
+        -webkit-touch-callout: none !important;
       }
     </style>
 
     <script is:inline>
       const baselineTextCache = new Map();
+
+      // GLOBAL JS ACCESS CONTROL LAYER
+      // Completely intercepts right-clicks across the document tree if the click targets an image element
+      document.addEventListener('contextmenu', (event) => {
+        if (event.target.tagName === 'IMG') {
+          event.preventDefault();
+        }
+      }, { capture: true });
 
       function getLanguageSetting() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -239,7 +228,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
         const rootContainer = document.getElementById('universal-translation-root');
         if (!rootContainer) return;
 
-        // Parses the combined dynamic array containing both titles and views
         let protectedRoomTitles = [];
         try {
           const rawCmsData = rootContainer.getAttribute('data-cms-rooms');
@@ -281,7 +269,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
         const elementsToProcess = [];
         
-        // SECURE PROPERTY LEVEL DOM SCRAPER
         const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
           acceptNode: function(node) {
             if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') {
@@ -290,7 +277,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
             const textClean = node.textContent.trim().toLowerCase();
 
-            // FIXED SECURITY SHIELD: Automatically locks text if it matches room names OR room views
             if (protectedRoomTitles.includes(textClean)) {
               return NodeFilter.FILTER_REJECT;
             }
@@ -345,7 +331,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           }
         });
 
-        // CONTINUOUS STREAM ACTION LAYER
         for (const textNode of elementsToProcess) {
           const currentClean = textNode.textContent.trim().toLowerCase();
           
@@ -374,7 +359,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
             continue;
           }
 
-          // Brand protection override hooks
           convertedText = convertedText.replace(/Hotel Mutiara & Konvensi/gi, 'Mutiara Hotel & Convention');
           convertedText = convertedText.replace(/Hotel Mutiara/gi, 'Mutiara Hotel');
           convertedText = convertedText.replace(/珍珠酒店及会议中心/g, 'Mutiara Hotel & Convention');
