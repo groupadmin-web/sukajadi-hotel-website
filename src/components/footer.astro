@@ -76,15 +76,21 @@ try {
           <span class="underline decoration-slate-800 underline-offset-4 group-hover:decoration-amber-500 transition-colors">{footer.concierge_address}</span>
         </button>
 
-        <p class="flex gap-2 mt-0.5">
-          <span class="text-amber-500 shrink-0">📞</span>
+        <p class="flex items-center gap-2 mt-0.5">
+          <span class="text-amber-500 shrink-0 select-none">📞</span>
           <a href={`tel:${footer.concierge_phone_raw}`} class="hover:text-white transition-colors">
             {footer.concierge_phone}
           </a>
         </p>
+        
         {footer.concierge_email && (
-          <p class="flex gap-2">
-            <span class="text-amber-500 shrink-0">✉️</span>
+          <p class="flex items-center gap-2">
+            {/* FIXED: Replaced raw unicode text character box icon wrapper block with a responsive inline SVG asset path */}
+            <span class="text-amber-500 shrink-0 w-3.5 h-3.5 flex items-center justify-center pointer-events-none select-none">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+              </svg>
+            </span>
             <a href={`mailto:${footer.concierge_email}`} class="hover:text-white transition-colors">
               {footer.concierge_email}
             </a>
@@ -98,210 +104,4 @@ try {
       <h4 class="text-white text-[11px] font-bold uppercase tracking-widest mb-2.5 border-l-2 border-amber-500 pl-2">
         Follow Our Journey
       </h4>
-      <p class="text-[11px] text-slate-500 mb-3 max-w-xs leading-relaxed">
-        Stay updated with our latest stay packages and venue offerings.
-      </p>
-      
-      <div class="flex items-center gap-3 flex-wrap">
-        {footer.instagram_url && (
-          <a href={footer.instagram_url} target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#E1306C] border-[#E1306C]/10 hover:border-[#E1306C]/40 hover:brightness-125 transition-all duration-200" aria-label="Instagram">
-            <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M12 0C8.74 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.74 0 12s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.977 6.98 1.281.058 1.689.072 4.948.072 3.251 0 3.66-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.251-.014-3.66-.073-4.948-.2-4.355-2.617-6.783-6.979-6.98C15.66.014 15.251 0 12 0zm0 5.838a6.162 6.162 0 1 1 0 12.324 6.162 6.162 0 0 1 0-12.324zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-          </a>
-        )}
-        
-        {footer.facebook_url && (
-          <a href={footer.facebook_url} target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#1877F2] border-[#1877F2]/10 hover:border-[#1877F2]/40 hover:brightness-125 transition-all duration-200" aria-label="Facebook">
-            <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          </a>
-        )}
-        
-        {footer.youtube_url && (
-          <a href={footer.youtube_url} target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#FF0000] border-[#FF0000]/10 hover:border-[#FF0000]/40 hover:brightness-125 transition-all duration-200" aria-label="YouTube">
-            <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-          </a>
-        )}
-      </div>
-    </div>
-
-  </div>
-
-  {/* BOTTOM BASELINE */}
-  <div class="max-w-7xl mx-auto px-6 pt-3 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] text-slate-600 font-medium">
-    <p>© {new Date().getFullYear()} Mutiara Hotel & Convention Bandung. All Rights Reserved.</p>
-    <div class="flex gap-4">
-      <button id="open-privacy" class="hover:text-slate-400 cursor-pointer transition-colors">Privacy Charter</button>
-      <span class="text-slate-800">|</span>
-      <p>Direct Booking Guarantee Enabled</p>
-    </div>
-  </div>
-
-  {/* MODAL ONE: PRIVACY POLICY CHARTER */}
-  <div id="privacy-modal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
-    <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-xl p-6 shadow-2xl relative transform scale-95 transition-transform duration-300 max-h-[80vh] flex flex-col">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-        <h3 class="text-white text-sm font-bold uppercase tracking-wider">Privacy Charter & Terms</h3>
-        <button id="close-privacy" class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1">×</button>
-      </div>
-      <div class="overflow-y-auto text-xs text-slate-400 pr-1 leading-relaxed text-left whitespace-pre-line select-text">
-        {footer.privacy_content || "Terms and conditions are currently being processed by administration."}
-      </div>
-    </div>
-  </div>
-
-  {/* MODAL TWO: NATIVE INTERACTIVE JAVASCRIPT MAP MODAL */}
-  <div id="map-modal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
-    <div class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-xl p-5 shadow-2xl relative transform scale-95 transition-transform duration-300 flex flex-col h-[65vh]">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-        <h3 class="text-white text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-          <span class="text-amber-500">📍</span> Interactive Location Canvas
-        </h3>
-        <button id="close-map-modal" class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1">×</button>
-      </div>
-      
-      {/* High-Performance Canvas Container Element */}
-      <div id="leaflet-map-container" class="w-full flex-1 rounded-lg bg-white border border-slate-800 z-10"></div>
-    </div>
-  </div>
-
-</footer>
-
-{/* Pass the CMS logo image path into a safe client-side data attribute */}
-<div id="cms-logo-bridge" data-logo-url={logoImage} class="hidden"></div>
-
-<script is:inline>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Modal Selectors
-    const openPrivacy = document.getElementById("open-privacy");
-    const closePrivacy = document.getElementById("close-privacy");
-    const privacyModal = document.getElementById("privacy-modal");
-    
-    const openMap = document.getElementById("open-map");
-    const closeMap = document.getElementById("close-map-modal");
-    const mapModal = document.getElementById("map-modal");
-
-    // Fetch logo path cleanly from our hidden HTML bridge element
-    const logoBridge = document.getElementById("cms-logo-bridge");
-    const cmsLogoUrl = logoBridge ? logoBridge.getAttribute("data-logo-url") : "";
-
-    // FIXED: Corrected precise building corner metrics to point perfectly onto the hotel grounds
-    const hotelLat = -6.912120;
-    const hotelLng = 107.598700;
-    let nativeMapInstance = null;
-
-    const toggleModal = (modalElement, isOpen) => {
-      const modalBox = modalElement?.querySelector("div");
-      if (isOpen) {
-        modalElement.classList.remove("opacity-0", "pointer-events-none");
-        modalBox?.classList.remove("scale-95");
-        document.body.style.overflow = "hidden";
-      } else {
-        modalElement.classList.add("opacity-0", "pointer-events-none");
-        modalBox?.classList.add("scale-95");
-        document.body.style.overflow = "";
-      }
-    };
-
-    // Privacy logic
-    if (openPrivacy && closePrivacy && privacyModal) {
-      openPrivacy.addEventListener("click", () => toggleModal(privacyModal, true));
-      closePrivacy.addEventListener("click", () => toggleModal(privacyModal, false));
-      privacyModal.addEventListener("click", (e) => { if (e.target === privacyModal) toggleModal(privacyModal, false); });
-    }
-
-    // LAZY-LOAD INTERACTIVE MAP INJECTOR
-    if (openMap && closeMap && mapModal) {
-      openMap.addEventListener("click", () => {
-        toggleModal(mapModal, true);
-
-        // Check if Leaflet script asset is already loaded in our window scope
-        if (!window.L) {
-          const leafletScript = document.createElement("script");
-          leafletScript.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-          leafletScript.integrity = "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
-          leafletScript.crossOrigin = "";
-          
-          leafletScript.onload = () => {
-            initializeLeafletMap();
-          };
-          document.head.appendChild(leafletScript);
-        } else {
-          // Wake up map layout engine safely on modal toggle
-          setTimeout(() => {
-            if (nativeMapInstance) {
-              nativeMapInstance.invalidateSize();
-              nativeMapInstance.setView([hotelLat, hotelLng], 17);
-            }
-          }, 200);
-        }
-      });
-
-      closeMap.addEventListener("click", () => toggleModal(mapModal, false));
-      mapModal.addEventListener("click", (e) => { if (e.target === mapModal) toggleModal(mapModal, false); });
-    }
-
-    function initializeLeafletMap() {
-      if (!window.L || nativeMapInstance) return;
-
-      // Construct native vector frame focused on hotel coordinates
-      nativeMapInstance = window.L.map('leaflet-map-container', {
-        center: [hotelLat, hotelLng],
-        zoom: 17, 
-        zoomControl: true,
-        attributionControl: false
-      });
-
-      // Point directly to Google's crisp, vibrant standard road map layers (m variant)
-      window.L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        maxZoom: 20
-      }).addTo(nativeMapInstance);
-
-      // Create a gorgeous branded hotel pin marker
-      const hotelIcon = window.L.divIcon({
-        className: 'custom-map-pin',
-        html: `<div class="flex items-center justify-center w-9 h-9 rounded-full bg-amber-500 border-2 border-white shadow-xl animate-pulse text-base">🏨</div>`,
-        iconSize: [36, 36],
-        iconAnchor: [18, 36]
-      });
-
-      // Custom popup container styled with your premium branding layout values
-      let popupHtml = `
-        <div style="background-color: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 6px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; items-center; justify-content: center; gap: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-      `;
-      
-      if (cmsLogoUrl) {
-        popupHtml += `<img src="${cmsLogoUrl}" alt="Mutiara" style="height: 24px; width: auto; object-fit: contain; margin: 0 auto 4px auto; filter: brightness(1.1);" />`;
-      } else {
-        popupHtml += `<strong style="color: #f59e0b; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display:block; margin-bottom:2px;">Mutiara Hotel</strong>`;
-      }
-      
-      popupHtml += `
-          <p style="margin: 0; font-size: 10px; color: #94a3b8; font-weight: 500; white-space: nowrap;">Jalan Kebon Kawung No. 60</p>
-        </div>
-      `;
-
-      // Drop pin marker onto coordinate canvas frame
-      window.L.marker([hotelLat, hotelLng], { icon: hotelIcon })
-        .addTo(nativeMapInstance)
-        .bindPopup(popupHtml, { closeButton: false, offset: [0, -24] }).openPopup();
-
-      // Recalculate size to ensure smooth layout initialization inside transitions
-      setTimeout(() => {
-        nativeMapInstance.invalidateSize();
-      }, 250);
-    }
-  });
-</script>
-
-{/* Target global map popup text formatting overrides cleanly via a scoped style declaration block */}
-<style is:global>
-  .leaflet-popup-content-wrapper {
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-  }
-  .leaflet-popup-tip {
-    background: #0f172a !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-</style>
+      <p
