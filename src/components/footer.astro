@@ -159,11 +159,14 @@ try {
       </div>
       
       {/* High-Performance Canvas Container Element */}
-      <div id="leaflet-map-container" class="w-full flex-1 rounded-lg bg-slate-950 border border-slate-800 z-10"></div>
+      <div id="leaflet-map-container" class="w-full flex-1 rounded-lg bg-white border border-slate-800 z-10"></div>
     </div>
   </div>
 
 </footer>
+
+{/* Pass the CMS logo image path into a safe client-side data attribute */}
+<div id="cms-logo-bridge" data-logo-url={logoImage} class="hidden"></div>
 
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
@@ -175,6 +178,10 @@ try {
     const openMap = document.getElementById("open-map");
     const closeMap = document.getElementById("close-map-modal");
     const mapModal = document.getElementById("map-modal");
+
+    // Fetch logo path cleanly from our hidden HTML bridge element
+    const logoBridge = document.getElementById("cms-logo-bridge");
+    const cmsLogoUrl = logoBridge ? logoBridge.getAttribute("data-logo-url") : "";
 
     // Hotel Coordinate Profile (Jalan Kebon Kawung No. 60, Bandung)
     const hotelLat = -6.913165;
@@ -218,7 +225,7 @@ try {
           };
           document.head.appendChild(leafletScript);
         } else {
-          // If already initialized, wake it up and force-re-recalculate layout bounds
+          // Wake up map layout engine safely on modal toggle
           setTimeout(() => {
             if (nativeMapInstance) {
               nativeMapInstance.invalidateSize();
@@ -242,33 +249,58 @@ try {
         attributionControl: false
       });
 
-      // Mount premium CartoDB Dark Matter tile layer grid natively
-      window.L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      // FIXED: Changed tile string source layout pointer to 'light_all' for a clean, highly readable map view
+      window.L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         maxZoom: 20
       }).addTo(nativeMapInstance);
 
       // Create a gorgeous branded hotel pin marker
       const hotelIcon = window.L.divIcon({
         className: 'custom-map-pin',
-        html: `<div class="flex items-center justify-center w-8 h-8 rounded-full bg-amber-500 border-2 border-white shadow-xl animate-bounce text-base">🏨</div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32]
+        html: `<div class="flex items-center justify-center w-9 h-9 rounded-full bg-amber-500 border-2 border-white shadow-xl animate-pulse text-base">🏨</div>`,
+        iconSize: [36, 36],
+        iconAnchor: [18, 36]
       });
 
-      // Drop pin marker onto coordinate canvas frame with custom luxury tooltip popups
+      // Custom popup container styled with your premium branding layout values
+      let popupHtml = `
+        <div style="background-color: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 6px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; items-center; justify-content: center; gap: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
+      `;
+      
+      if (cmsLogoUrl) {
+        popupHtml += `<img src="${cmsLogoUrl}" alt="Mutiara" style="height: 24px; width: auto; object-fit: contain; margin: 0 auto 4px auto; filter: brightness(1.1);" />`;
+      } else {
+        popupHtml += `<strong style="color: #f59e0b; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display:block; margin-bottom:2px;">Mutiara Hotel</strong>`;
+      }
+      
+      popupHtml += `
+          <p style="margin: 0; font-size: 10px; color: #94a3b8; font-weight: 500; white-space: nowrap;">Jalan Kebon Kawung No. 60</p>
+        </div>
+      `;
+
+      // Drop pin marker onto coordinate canvas frame
       window.L.marker([hotelLat, hotelLng], { icon: hotelIcon })
         .addTo(nativeMapInstance)
-        .bindPopup(`
-          <div style="background-color: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 4px; border-radius: 4px; text-align: center;">
-            <strong style="color: #f59e0b; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Mutiara Hotel</strong>
-            <p style="margin: 4px 0 0 0; font-size: 10px; color: #94a3b8;">Jalan Kebon Kawung No. 60</p>
-          </div>
-        `, { closeButton: false }).openPopup();
+        .bindPopup(popupHtml, { closeButton: false, offset: [0, -24] }).openPopup();
 
-      // Recalculate dimensions to prevent fractional frame rendering gaps inside transitions
+      // Recalculate size to ensure smooth layout initialization inside transitions
       setTimeout(() => {
         nativeMapInstance.invalidateSize();
       }, 250);
     }
   });
 </script>
+
+{/* Target global map popup text formatting overrides cleanly via a scoped style declaration block */}
+<style is:global>
+  .leaflet-popup-content-wrapper {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .leaflet-popup-tip {
+    background: #0f172a !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+</style>
