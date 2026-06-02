@@ -249,9 +249,9 @@ try {
         attributionControl: false
       });
 
-      // FIXED: Changed tile string source layout pointer to 'light_all' for a clean, highly readable map view
-      window.L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        maxZoom: 20
+      // FIXED: Swapped to OpenStreetMap standard tile server to render high-contrast natural streets, parks, and water bodies.
+      window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19
       }).addTo(nativeMapInstance);
 
       // Create a gorgeous branded hotel pin marker
