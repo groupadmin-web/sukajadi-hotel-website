@@ -6,6 +6,7 @@ import homepageData from "../content/homepage.json";
 const logoImage = homepageData?.logo_image;
 
 // FAIL-SAFE DATA FALLBACKS
+// Update the fallback object in src/components/footer.astro to look like this:
 let footer = {
   footer_slogan: "Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.",
   concierge_address: "Jalan Kebon Kawung No. 60,\nBandung, West Java, Indonesia",
@@ -13,7 +14,8 @@ let footer = {
   concierge_phone_raw: "+62224200888",
   concierge_email: "info@mutiarahotel.com",
   instagram_url: "#",
-  facebook_url: "#"
+  facebook_url: "#",
+  youtube_url: "https://www.youtube.com/@mutiarahotel" // Injected as default
 };
 
 try {
