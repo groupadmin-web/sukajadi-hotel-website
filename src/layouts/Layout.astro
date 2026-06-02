@@ -214,18 +214,39 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
       }
     </style>
 
-    <script is:inline>
+<script is:inline>
       const baselineTextCache = new Map();
 
-      // INTERCEPT RIGHT-CLICKS: Globally kills right-clicks pointing to images
+      // INTERCEPT RIGHT-CLICKS ON VISUAL ASSETS
       document.addEventListener('contextmenu', (event) => {
         if (event.target.tagName === 'IMG') {
           event.preventDefault();
         }
       }, { capture: true });
 
+      // ON-DEMAND EMAIL COMPILER HOOK (Zero Loops, Completely Safe)
+      function initEmailClickInterceptor() {
+        const conciergeBtn = document.getElementById("direct-concierge-action");
+        if (!conciergeBtn) return;
+
+        // Strip any default actions to ensure seamless tab transitions
+        conciergeBtn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const username = "info";
+          const domain = "mutiarahotel.com";
+          
+          // Launches your user's desktop email application immediately
+          window.open("mailto:" + username + "@" + domain, "_blank");
+        };
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
-        // WhatsApp Mask Rebuilder
+        // Mount our passive listener
+        initEmailClickInterceptor();
+
+        // WhatsApp Widget Handler
         const waWidget = document.getElementById("secure-whatsapp-widget");
         if (waWidget) {
           const pfx = waWidget.getAttribute("data-prefix");
@@ -242,7 +263,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           localStorage.setItem('mutiara_user_lang', urlLang);
           return urlLang;
         }
-        
         const savedLanguage = localStorage.getItem('mutiara_user_lang');
         if (savedLanguage) return savedLanguage;
         
@@ -254,7 +274,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           localStorage.setItem('mutiara_user_lang', 'zh');
           return 'zh';
         }
-        
         localStorage.setItem('mutiara_user_lang', 'en');
         return 'en';
       }
@@ -425,6 +444,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
       document.addEventListener('astro:after-swap', () => {
         setupLanguageListeners();
         executeUniversalTranslation();
+        initEmailClickInterceptor();
       });
     </script>
   </body>
