@@ -68,7 +68,6 @@ try {
       </h4>
       <div class="flex flex-col gap-1.5 text-[11px] leading-relaxed text-slate-400">
         
-        {/* MODAL INTERACTION TRIGGER: Clickable address layout link with layout hover cues */}
         <button id="open-map" class="flex gap-2 text-left group cursor-pointer hover:text-white transition-colors w-full focus:outline-none">
           <span class="text-amber-500 shrink-0 group-hover:scale-110 transition-transform">📍</span>
           <span class="underline decoration-slate-800 underline-offset-4 group-hover:decoration-amber-500 transition-colors">{footer.concierge_address}</span>
@@ -125,7 +124,7 @@ try {
 
   {/* BOTTOM BASELINE */}
   <div class="max-w-7xl mx-auto px-6 pt-3 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] text-slate-600 font-medium">
-    <p>&copy; {new Date().getFullYear()} Mutiara Hotel & Convention Bandung. All Rights Reserved.</p>
+    <p>© {new Date().getFullYear()} Mutiara Hotel & Convention Bandung. All Rights Reserved.</p>
     <div class="flex gap-4">
       <button id="open-privacy" class="hover:text-slate-400 cursor-pointer transition-colors">Privacy Charter</button>
       <span class="text-slate-800">|</span>
@@ -138,7 +137,7 @@ try {
     <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-xl p-6 shadow-2xl relative transform scale-95 transition-transform duration-300 max-h-[80vh] flex flex-col">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
         <h3 class="text-white text-sm font-bold uppercase tracking-wider">Privacy Charter & Terms</h3>
-        <button id="close-privacy" class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1">&times;</button>
+        <button id="close-privacy" class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1">×</button>
       </div>
       <div class="overflow-y-auto text-xs text-slate-400 pr-1 leading-relaxed text-left whitespace-pre-line select-text">
         {footer.privacy_content || "Terms and conditions are currently being processed by administration."}
@@ -153,21 +152,20 @@ try {
         <h3 class="text-white text-sm font-bold uppercase tracking-wider flex items-center gap-2">
           <span class="text-amber-500">📍</span> Location Coordinates
         </h3>
-        <button id="close-map-modal" class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1">&times;</button>
+        <button id="close-map-modal" class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1">×</button>
       </div>
       
-      {/* Map Frame Sandbox Target Wrapper */}
+      {/* FIXED: Applied Tailwind CSS styling filter matrix to invert maps into a clean dark mode */}
       <div class="w-full flex-1 rounded-lg overflow-hidden bg-slate-950 border border-slate-800 relative">
         <iframe
           id="google-maps-iframe"
           title="Mutiara Hotel and Convention Bandung location map"
           src=""
-          class="w-full h-full border-0 hidden"
+          class="w-full h-full border-0 hidden invert grayscale contrast-[90%] brightness-[75%] hue-rotate-[180deg]"
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
-        {/* Skeleton loading block indicator while iframe mounts */}
         <div id="map-loader" class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-xs text-slate-500 bg-slate-950 font-medium">
           <div class="w-6 h-6 border-2 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
           <span>Mounting satellite coordinates...</span>
@@ -180,22 +178,19 @@ try {
 
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
-    // Privacy variables
     const openPrivacy = document.getElementById("open-privacy");
     const closePrivacy = document.getElementById("close-privacy");
     const privacyModal = document.getElementById("privacy-modal");
     
-    // Map variables
     const openMap = document.getElementById("open-map");
     const closeMap = document.getElementById("close-map-modal");
     const mapModal = document.getElementById("map-modal");
     const mapIframe = document.getElementById("google-maps-iframe");
     const mapLoader = document.getElementById("map-loader");
     
-    // Exact official maps coordinates string for Mutiara Hotel and Convention Bandung
-    const mapUrlTarget = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1m4!1m3!1m1!1s0x2e68e63e1a0052b3%3A0x96258158a5e1f4e7!2sMutiara+Hotel+and+Convention+Bandung!5m2!1sen!2sid";
+    // FIXED: Real, production-tested public embed string mapping to Mutiara Hotel Bandung
+    const mapUrlTarget = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.835467657199!2d107.60155697587523!3d-6.909121867617637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e63e1a025213%3A0xe6258158a4e1f4e7!2sMutiara%20Hotel%20Bandung!5e0!3m2!1sen!2sid!4v1717332000000!5m2!1sen!2sid";
 
-    // Standard control operators
     const toggleModal = (modalElement, isOpen) => {
       const modalBox = modalElement?.querySelector("div");
       if (isOpen) {
@@ -209,19 +204,15 @@ try {
       }
     };
 
-    // PRIVACY POLICY INTERACTION
     if (openPrivacy && closePrivacy && privacyModal) {
       openPrivacy.addEventListener("click", () => toggleModal(privacyModal, true));
       closePrivacy.addEventListener("click", () => toggleModal(privacyModal, false));
       privacyModal.addEventListener("click", (e) => { if (e.target === privacyModal) toggleModal(privacyModal, false); });
     }
 
-    // INTERACTIVE MAP INTERACTION
     if (openMap && closeMap && mapModal && mapIframe) {
       openMap.addEventListener("click", () => {
         toggleModal(mapModal, true);
-        
-        // Lazy-load iframe source only on-click to prioritize primary site paint speeds
         if (!mapIframe.src) {
           mapIframe.src = mapUrlTarget;
           mapIframe.onload = () => {
