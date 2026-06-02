@@ -326,3 +326,6 @@ content:
         label: "Official YouTube Channel URL Link"
         type: string
         required: false
+      - name: privacy_content
+        label: "Privacy Charter & T&C Document (Supports line breaks)"
+        type: text
