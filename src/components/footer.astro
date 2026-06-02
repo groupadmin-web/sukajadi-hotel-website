@@ -249,9 +249,9 @@ try {
         attributionControl: false
       });
 
-      // FIXED: Swapped to OpenStreetMap standard tile server to render high-contrast natural streets, parks, and water bodies.
-      window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19
+      // FIXED: Point directly to Google's crisp, vibrant standard road map layers (m variant)
+      window.L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20
       }).addTo(nativeMapInstance);
 
       // Create a gorgeous branded hotel pin marker
