@@ -214,83 +214,50 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
       }
     </style>
 
-    <script is:inline>
+<script is:inline>
       const baselineTextCache = new Map();
 
-      // INTERCEPT RIGHT-CLICKS ON IMAGE ASSETS
+      // INTERCEPT RIGHT-CLICKS ON VISUAL ASSETS
       document.addEventListener('contextmenu', (event) => {
         if (event.target.tagName === 'IMG') {
           event.preventDefault();
         }
       }, { capture: true });
 
-      // OBFUSCATION ENGINE
+      // HIGH-PRIORITY TOTAL ATTRIBUTE OBFUSCATION ENGINE
       function executeGlobalEmailObfuscation() {
-        const emailRegex = /([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})/gi;
+        const targetEmail = "info@mutiarahotel.com";
         
-        // TARGET THE FULL DOCUMENT: This guarantees we reach into the footer block
-        const targetNodes = document.querySelectorAll('a, p, span, div, li, td');
+        // 1. Locate any anchor element targeting our specific mailto track link
+        const emailLinks = document.querySelectorAll(`a[href="mailto:${targetEmail}"]`);
+        
+        emailLinks.forEach((link) => {
+          if (link.closest('.notranslate')) return;
 
-        targetNodes.forEach((element) => {
-          if (element.tagName === 'SCRIPT' || element.tagName === 'STYLE' || element.closest('.notranslate')) return;
+          // Strip the raw target path out of the live document tree structure entirely
+          link.removeAttribute("href");
+          link.classList.add("notranslate");
+          link.style.cursor = "pointer";
 
-          // 1. Process active hyperlink targets
-          if (element.tagName === 'A' && element.href && element.href.toLowerCase().includes('mailto:')) {
-            const rawHrefAddress = element.href.replace(/mailto:/i, '').trim();
-            
-            if (rawHrefAddress.toLowerCase().includes('mutiarahotel.com')) {
-              const parts = rawHrefAddress.split('@');
-              element.setAttribute('data-sec-u', parts[0]);
-              element.setAttribute('data-sec-d', parts[1]);
-              element.removeAttribute('href');
-              element.style.cursor = 'pointer';
+          // Inject unreadable hexadecimal character blocks into the text layer
+          link.innerHTML = '&#x69;&#x6e;&#x66;&#x6f;&#x40;&#x6d;&#x75;&#x74;&#x69;&#x61;&#x72;&#x61;&#x68;&#x6f;&#x74;&#x65;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;';
 
-              element.onclick = (e) => {
-                e.preventDefault();
-                const u = element.getAttribute('data-sec-u');
-                const d = element.getAttribute('data-sec-d');
-                if (u && d) window.location.href = `mailto:${u}@${d}`;
-              };
-            }
-          }
-
-          // 2. Process text strings inside structural elements
-          if (element.childNodes.length === 1 && element.childNodes[0].nodeType === Node.TEXT_NODE) {
-            const cleanTextContent = element.textContent.trim();
-            
-            if (emailRegex.test(cleanTextContent)) {
-              const matches = cleanTextContent.match(emailRegex);
-              const targetEmail = matches[0];
-              const parts = targetEmail.split('@');
-              
-              element.classList.add('notranslate');
-              element.setAttribute('data-sec-u', parts[0]);
-              element.setAttribute('data-sec-d', parts[1]);
-              element.style.cursor = 'pointer';
-              
-              // Rewrite to unreadable hexadecimal code
-              element.innerHTML = '&#x69;&#x6e;&#x66;&#x6f;&#x40;&#x6d;&#x75;&#x74;&#x69;&#x61;&#x72;&#x61;&#x68;&#x6f;&#x74;&#x65;&#x6c;&#x2e;&#x63;&#x6f;&#x6d;';
-              
-              element.onclick = (e) => {
-                e.preventDefault();
-                const u = element.getAttribute('data-sec-u');
-                const d = element.getAttribute('data-sec-d');
-                if (u && d) window.location.href = `mailto:${u}@${d}`;
-              };
-            }
-          }
+          // Assign dynamic click compilation re-routing routine
+          link.onclick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = `mailto:${targetEmail}`;
+          };
         });
       }
 
-      // Run immediately on resource initialization
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', executeGlobalEmailObfuscation);
-      } else {
-        executeGlobalEmailObfuscation();
-      }
+      // Execute configuration maps instantly upon layout mounting tracking loops
+      executeGlobalEmailObfuscation();
 
       document.addEventListener("DOMContentLoaded", () => {
-        // WhatsApp Mask Rebuilder
+        executeGlobalEmailObfuscation();
+
+        // WhatsApp Widget Handler
         const waWidget = document.getElementById("secure-whatsapp-widget");
         if (waWidget) {
           const pfx = waWidget.getAttribute("data-prefix");
@@ -307,7 +274,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           localStorage.setItem('mutiara_user_lang', urlLang);
           return urlLang;
         }
-        
         const savedLanguage = localStorage.getItem('mutiara_user_lang');
         if (savedLanguage) return savedLanguage;
         
@@ -319,7 +285,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           localStorage.setItem('mutiara_user_lang', 'zh');
           return 'zh';
         }
-        
         localStorage.setItem('mutiara_user_lang', 'en');
         return 'en';
       }
@@ -384,51 +349,17 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
         rootContainer.querySelectorAll('.ai-translated-notice').forEach(el => el.remove());
 
         const elementsToProcess = [];
-        
         const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
           acceptNode: function(node) {
             if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') {
               return NodeFilter.FILTER_REJECT;
             }
-
             const textClean = node.textContent.trim().toLowerCase();
-
-            if (protectedRoomTitles.includes(textClean)) {
-              return NodeFilter.FILTER_REJECT;
-            }
-
-            if (
-              node.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]')
-            ) {
-              return NodeFilter.FILTER_REJECT;
-            }
-
-            if (node.textContent.toLowerCase().includes('mutiara') && textClean.length < 40) {
-              return NodeFilter.FILTER_REJECT;
-            }
-
-            if (
-              textClean === 'book now' || 
-              textClean === 'claim offer now' || 
-              textClean.includes('claim offer') ||
-              textClean === 'view gallery' ||
-              textClean === 'original' ||
-              textClean.includes('modus bahasa') ||
-              textClean === '中文'
-            ) {
-              return NodeFilter.FILTER_REJECT;
-            }
-
-            if (
-              node.parentElement.tagName === 'BUTTON' || 
-              node.parentElement.tagName === 'A' ||
-              node.parentElement.classList.contains('btn') ||
-              node.parentElement.classList.contains('button') ||
-              node.parentElement.closest('.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')
-            ) {
-              return NodeFilter.FILTER_REJECT;
-            }
-
+            if (protectedRoomTitles.includes(textClean)) return NodeFilter.FILTER_REJECT;
+            if (node.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]')) return NodeFilter.FILTER_REJECT;
+            if (node.textContent.toLowerCase().includes('mutiara') && textClean.length < 40) return NodeFilter.FILTER_REJECT;
+            if (textClean === 'book now' || textClean === 'claim offer now' || textClean.includes('claim offer') || textClean === 'view gallery' || textClean === 'original' || textClean.includes('modus bahasa') || textClean === '中文') return NodeFilter.FILTER_REJECT;
+            if (node.parentElement.tagName === 'BUTTON' || node.parentElement.tagName === 'A' || node.parentElement.classList.contains('btn') || node.parentElement.classList.contains('button') || node.parentElement.closest('.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')) return NodeFilter.FILTER_REJECT;
             return node.textContent.trim().length > 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
           }
         });
@@ -449,26 +380,19 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
         for (const textNode of elementsToProcess) {
           const currentClean = textNode.textContent.trim().toLowerCase();
+          if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(currentClean)) continue;
           
-          if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(currentClean)) {
-            continue;
-          }
-
           const isReviewBox = textNode.parentElement.classList.contains('review-content-text');
-          
           if (!baselineTextCache.has(textNode)) {
             baselineTextCache.set(textNode, isReviewBox ? textNode.textContent.replace(/^"|"$/g, '') : textNode.textContent);
           }
-          
           const originalValue = baselineTextCache.get(textNode);
-
           if (activeLanguage === 'en') {
             textNode.textContent = originalValue;
             continue;
           }
 
           let convertedText = await fetchSingleNodeTranslation(originalValue, activeLanguage);
-          
           const postClean = textNode.textContent.trim().toLowerCase();
           if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(postClean)) {
             textNode.textContent = originalValue; 
@@ -482,19 +406,14 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
           if (isReviewBox) {
             textNode.textContent = `"${convertedText.trim()}"`;
-            
             const noticeLabel = document.createElement('span');
             noticeLabel.className = 'ai-translated-notice';
-            if (activeLanguage === 'id') {
-              noticeLabel.innerText = '✨ Diterjemahkan Otomatis';
-            } else if (activeLanguage === 'zh') {
-              noticeLabel.innerText = '✨ 自动翻译';
-            } else {
-              noticeLabel.innerText = '✨ Automatically Translated';
-            }
+            if (activeLanguage === 'id') noticeLabel.innerText = '✨ Diterjemahkan Otomatis';
+            else if (activeLanguage === 'zh') noticeLabel.innerText = '✨ 自动翻译';
+            else noticeLabel.innerText = '✨ Automatically Translated';
             textNode.parentElement.appendChild(noticeLabel);
           } else {
-            textNode.textContent = convertedText.replace(/\*\/g, '').replace(/__/g, '');
+            textNode.textContent = convertedText.replace(/\*\*/g, '').replace(/__/g, '');
           }
         }
       }
@@ -512,7 +431,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
             executeUniversalTranslation();
           };
         }
-
         if (btnID) {
           btnID.onclick = (e) => {
             e.preventDefault();
@@ -521,7 +439,6 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
             executeUniversalTranslation();
           };
         }
-
         if (btnZH) {
           btnZH.onclick = (e) => {
             e.preventDefault();
