@@ -1,16 +1,7 @@
 {
-  "footer_slogan": "Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.",
-  "accommodations_list": [
-    { "label": "Executive Deluxe Rooms", "url": "#rooms" },
-    { "label": "Business Premier Suites", "url": "#rooms" },
-    { "label": "Grand Family Sanctuaries", "url": "#rooms" }
-  ],
-  "events_list": [
-    { "label": "Grand Ballroom", "url": "#events" },
-    { "label": "Corporate Boardrooms", "url": "#events" },
-    { "label": "MICE Infrastructure", "url": "#events" }
-  ],
+  "footer_slogan": "Where heritage comfort meets dependable event hospitality in the heart of Bandung.",
   "concierge_address": "Jalan Kebon Kawung No. 60,\nBandung, West Java, Indonesia",
   "concierge_phone": "+62 (022) 420 0888",
-  "concierge_phone_raw": "+62224200888"
+  "concierge_phone_raw": "+62224200888",
+  "concierge_email": "info@mutiarahotel.com"
 }
