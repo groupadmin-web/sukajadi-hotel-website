@@ -18,12 +18,12 @@ const menuitems = [
   { title: "TOURIST ATTRACTIONS", path: "/attractions" },
   { title: "GALLERY", path: "/gallery" },
   { title: "MEETINGS & EVENTS", path: "/meetings-events" },
-  { title: "Q&A", path: "/qna" }, // Restored standard clean standalone route
+  { title: "Q&A", path: "/qna" }, 
   { title: "CONTACT", path: "/#footer" }, 
 ];
 ---
 
-{/* NAVBAR BACKDROP FIX */}
+{/* NAVBAR BACKDROP FIX: Stays at z-50 to float over text elements safely */}
 <header class="sticky top-0 z-50 w-full bg-white shadow-sm transition-all border-b border-gray-100">
   <Container>
     <div class="flex flex-col lg:flex-row justify-between items-center py-4 w-full min-h-[72px] lg:min-h-0">
@@ -49,14 +49,12 @@ const menuitems = [
           </div>
         </div>
         
-        <MenuItems class="hidden w-full lg:w-auto mt-4 lg:flex lg:mt-0">
+        {/* MOBILE OVERLAP CORRECTION: pt-14 drops mobile paths perfectly clear of the language pills */}
+        <MenuItems class="hidden w-full lg:w-auto mt-4 pt-14 lg:pt-0 lg:flex lg:mt-0">
           <ul class="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-2 w-full">
             {
               menuitems.map((item, index) => {
-                // Normalize link path settings for fault-tolerant comparison matching
                 const itemNormalizedPath = item.path.toLowerCase().replace(/\/$/, "") || "/";
-                
-                // Evaluates exact page layout matches or parent branch subdirectory hooks
                 const isActive = itemNormalizedPath === "/" 
                   ? currentPath === "/" 
                   : currentPath.startsWith(itemNormalizedPath);
@@ -91,7 +89,7 @@ const menuitems = [
             }
           </ul>
           
-          <div class="lg:hidden flex items-center mt-4 w-full">
+          <div class="lg:hidden flex items-center mt-4 w-full pb-4">
             <a 
               href="https://m.mutiarahotel.com" 
               class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-base py-3 rounded-md shadow-md transition-all flex items-center justify-center gap-2 tracking-wide"
