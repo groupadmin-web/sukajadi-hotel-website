@@ -117,10 +117,10 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
               </div>
             </div>
           
-            {/* FIXED PHOTO CREDIT INJECTION: Updated with a clean white background and discrete borders */}
+            {/* FIXED PHOTO CREDIT INJECTION: Clean white background bar that stays safely underneath the photo frame */}
             {item.photo_credit && item.photo_credit.trim() !== "" && (
               <div class="w-full bg-white border-t border-b border-slate-100 px-4 py-2 text-[9px] font-sans font-light text-slate-400 text-right tracking-wide truncate select-none notranslate">
-                {item.photo_credit}
+                📷 {item.photo_credit}
               </div>
             )}
           </div>
@@ -134,7 +134,9 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
                 <span>{item.title}</span>
               </h2>
               <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
-              <p class="text-gray-500 text-sm font-sans font-light leading-relaxed">
+              
+              {/* FIXED DESCRIPTION CONTAINER: whitespace-pre-line guarantees multi-paragraph structures print cleanly without flattening lines */}
+              <p class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line">
                 {item.description}
               </p>
             </div>
