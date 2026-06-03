@@ -42,7 +42,10 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    
+    {/* FIXED: Formatted directly to render your local custom brand PNG icon asset */}
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    
     <meta name="generator" content={Astro.generator} />
 
     <SEO
@@ -64,23 +67,24 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
   </head>
   <body>
     
-    <div class="fixed top-4 right-4 z-[999999] pointer-events-auto sm:right-6 notranslate">
-      <div class="bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-3 border border-slate-200/90 shadow-lg transition-all duration-300">
+    {/* FIXED: Lowered priority to z-40 and downsized components padding metrics for compact mobile layouts */}
+    <div class="fixed top-3 right-3 z-40 pointer-events-auto sm:top-4 sm:right-6 notranslate select-none">
+      <div class="bg-white/95 backdrop-blur-md px-2 py-1 sm:px-3 sm:py-1.5 rounded-full flex items-center gap-1.5 sm:gap-3 border border-slate-200/90 shadow-lg transition-all duration-300">
         
-        <span id="global-lang-label" class="text-[9px] tracking-wide font-sans font-semibold text-slate-400 uppercase pr-0.5 select-none hidden xs:inline-block">
+        <span id="global-lang-label" class="text-[8px] sm:text-[9px] tracking-wide font-sans font-semibold text-slate-400 uppercase pr-0.5 select-none hidden xs:inline-block">
           SELECT LANGUAGE:
         </span>
 
-        <div class="w-[1px] h-3 bg-slate-200 hidden xs:inline-block"></div>
+        <div class="w-[1px] h-2.5 bg-slate-200 hidden xs:inline-block"></div>
 
-        {/* English Action Control Toggle */}
+        {/* English Toggle */}
         <button 
           id="global-nav-en" 
           type="button" 
-          class="flex items-center gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer select-none outline-none text-slate-400 font-sans font-bold text-xs"
+          class="flex items-center gap-1 sm:gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer outline-none text-slate-400 font-sans font-bold text-[10px] sm:text-xs"
           title="English"
         >
-          <div class="w-4 h-4 rounded-full overflow-hidden shrink-0 aspect-square">
+          <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full overflow-hidden shrink-0 aspect-square">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" preserveAspectRatio="none" class="w-full h-full object-cover block pointer-events-none">
               <clipPath id="s"><path d="M0 0h60v30H0z"/></clipPath>
               <g clip-path="url(#s)">
@@ -92,37 +96,37 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
               </g>
             </svg>
           </div>
-          <span class="text-[11px] hidden sm:inline">EN</span>
+          <span class="text-[9px] sm:text-[11px] hidden sm:inline">EN</span>
         </button>
 
-        <div class="w-[1px] h-3 bg-slate-200"></div>
+        <div class="w-[1px] h-2.5 bg-slate-200"></div>
 
-        {/* Indonesian Action Control Toggle */}
+        {/* Indonesian Toggle */}
         <button 
           id="global-nav-id" 
           type="button" 
-          class="flex items-center gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer select-none outline-none text-slate-400 font-sans font-bold text-xs"
+          class="flex items-center gap-1 sm:gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer outline-none text-slate-400 font-sans font-bold text-[10px] sm:text-xs"
           title="Indonesia"
         >
-          <div class="w-4 h-4 rounded-full overflow-hidden shrink-0 aspect-square border border-slate-100">
+          <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full overflow-hidden shrink-0 aspect-square border border-slate-100">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" preserveAspectRatio="none" class="w-full h-full object-cover block pointer-events-none">
               <path fill="#e21c0e" d="M0 0h3v1H0z"/>
               <path fill="#fff" d="M0 1h3v1H0z"/>
             </svg>
           </div>
-          <span class="text-[11px] hidden sm:inline">ID</span>
+          <span class="text-[9px] sm:text-[11px] hidden sm:inline">ID</span>
         </button>
 
-        <div class="w-[1px] h-3 bg-slate-200"></div>
+        <div class="w-[1px] h-2.5 bg-slate-200"></div>
 
-        {/* Chinese Action Control Toggle */}
+        {/* Chinese Toggle */}
         <button 
           id="global-nav-zh" 
           type="button" 
-          class="flex items-center gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer select-none outline-none font-sans font-bold text-xs"
+          class="flex items-center gap-1 sm:gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer outline-none font-sans font-bold text-[10px] sm:text-xs"
           title="Chinese (Simplified)"
         >
-          <div class="w-4 h-4 rounded-full overflow-hidden shrink-0 aspect-square">
+          <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full overflow-hidden shrink-0 aspect-square">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" preserveAspectRatio="none" class="w-full h-full object-cover block pointer-events-none">
               <path fill="#de2110" d="M0 0h900v600H0z"/>
               <g fill="#ffde00">
@@ -134,7 +138,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
               </g>
             </svg>
           </div>
-          <span id="label-zh-text" class="text-[11px] tracking-wide transition-colors duration-200">中文</span>
+          <span id="label-zh-text" class="text-[9px] sm:text-[11px] tracking-wide transition-colors duration-200">中文</span>
         </button>
 
       </div>
@@ -215,243 +219,217 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
     </style>
 
     <script is:inline>
-        const baselineTextCache = new Map();
-  
-        // INTERCEPT RIGHT-CLICKS ON VISUAL ASSETS
-        document.addEventListener('contextmenu', (event) => {
-          if (event.target.tagName === 'IMG') {
-            event.preventDefault();
+      const baselineTextCache = new Map();
+
+      // INTERCEPT RIGHT-CLICKS: Globally kills right-clicks pointing to images
+      document.addEventListener('contextmenu', (event) => {
+        if (event.target.tagName === 'IMG') {
+          event.preventDefault();
+        }
+      }, { capture: true });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // WhatsApp Mask Rebuilder
+        const waWidget = document.getElementById("secure-whatsapp-widget");
+        if (waWidget) {
+          const pfx = waWidget.getAttribute("data-prefix");
+          const cc = waWidget.getAttribute("data-country");
+          const num = waWidget.getAttribute("data-dial");
+          waWidget.href = `https://${pfx}/${cc}${num}`;
+        }
+      });
+
+      function getLanguageSetting() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+        if (urlLang === 'id' || urlLang === 'en' || urlLang === 'zh') {
+          localStorage.setItem('mutiara_user_lang', urlLang);
+          return urlLang;
+        }
+        
+        const savedLanguage = localStorage.getItem('mutiara_user_lang');
+        if (savedLanguage) return savedLanguage;
+        
+        const systemLocale = (navigator.language || navigator.languages[0] || 'en').toLowerCase();
+        if (systemLocale.startsWith('id') || systemLocale.startsWith('ms')) {
+          localStorage.setItem('mutiara_user_lang', 'id');
+          return 'id';
+        } else if (systemLocale.startsWith('zh') || systemLocale.startsWith('zho') || systemLocale.startsWith('cmn')) {
+          localStorage.setItem('mutiara_user_lang', 'zh');
+          return 'zh';
+        }
+        
+        localStorage.setItem('mutiara_user_lang', 'en');
+        return 'en';
+      }
+
+      async function fetchSingleNodeTranslation(textString, targetLangCode) {
+        if (!textString || textString.trim() === "" || !isNaN(textString)) return textString;
+        try {
+          const apiEndpoint = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLangCode}&dt=t&q=${encodeURIComponent(textString)}`;
+          const rawResponse = await fetch(apiEndpoint);
+          const parsedData = await rawResponse.json();
+          if (parsedData && parsedData[0]) {
+            return parsedData[0].map(phrase => phrase[0]).join('');
           }
-        }, { capture: true });
-  
-        // PASSIVE CLICK EMULATOR (Zero Loops, Never Freezes)
-        function initEmailActionHandler() {
-          const conciergeBtn = document.getElementById("direct-concierge-action");
-          if (!conciergeBtn) return;
-  
-          conciergeBtn.onclick = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-  
-            const user = "info";
-            const domain = "mutiarahotel.com";
-            
-            // Launches default system email application cleanly in a background process
-            const mailWindow = window.open("mailto:" + user + "@" + domain, "_blank");
-            
-            // Safely tidy up background resource links
-            if (mailWindow && mailWindow.open && !mailWindow.closed) {
-              setTimeout(() => { mailWindow.close(); }, 300);
+          return textString;
+        } catch (err) {
+          return textString;
+        }
+      }
+
+      async function executeUniversalTranslation() {
+        const activeLanguage = getLanguageSetting();
+        const rootContainer = document.getElementById('universal-translation-root');
+        if (!rootContainer) return;
+
+        let protectedRoomTitles = [];
+        try {
+          const rawCmsData = rootContainer.getAttribute('data-cms-rooms');
+          if (rawCmsData) {
+            protectedRoomTitles = JSON.parse(rawCmsData);
+          }
+        } catch(e) {
+          protectedRoomTitles = ["budget room", "standard room", "superior room", "deluxe room"];
+        }
+
+        const flagEN = document.getElementById('global-nav-en');
+        const flagID = document.getElementById('global-nav-id');
+        const flagZH = document.getElementById('global-nav-zh');
+        const textZH = document.getElementById('label-zh-text');
+        const labelEl = document.getElementById('global-lang-label');
+        
+        const allFlags = [flagEN, flagID, flagZH];
+        allFlags.forEach(f => {
+          if (f) {
+            f.style.filter = 'grayscale(100%)'; f.style.opacity = '0.4'; f.style.transform = 'scale(1)'; f.style.color = '#94a3b8';
+          }
+        });
+        if (flagEN) flagEN.querySelector('span').style.color = '#94a3b8';
+        if (flagID) flagID.querySelector('span').style.color = '#94a3b8';
+        if (textZH) textZH.style.color = '#94a3b8';
+
+        if (activeLanguage === 'id') {
+          if (flagID) { flagID.style.filter = 'none'; flagID.style.opacity = '1'; flagID.style.transform = 'scale(1.08)'; flagID.querySelector('span').style.color = '#1e293b'; }
+          if (labelEl) labelEl.innerText = "PILIHAN BAHASA:";
+        } else if (activeLanguage === 'zh') {
+          if (flagZH) { flagZH.style.filter = 'none'; flagZH.style.opacity = '1'; flagZH.style.transform = 'scale(1.08)'; if (textZH) textZH.style.color = '#de2110'; }
+          if (labelEl) labelEl.innerText = "选择语言:";
+        } else {
+          if (flagEN) { flagEN.style.filter = 'none'; flagEN.style.opacity = '1'; flagEN.style.transform = 'scale(1.08)'; flagEN.querySelector('span').style.color = '#1e293b'; }
+          if (labelEl) labelEl.innerText = "SELECT LANGUAGE:";
+        }
+
+        rootContainer.querySelectorAll('.ai-translated-notice').forEach(el => el.remove());
+
+        const elementsToProcess = [];
+        const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
+          acceptNode: function(node) {
+            if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') {
+              return NodeFilter.FILTER_REJECT;
             }
+            const textClean = node.textContent.trim().toLowerCase();
+            if (protectedRoomTitles.includes(textClean)) return NodeFilter.FILTER_REJECT;
+            if (node.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]')) return NodeFilter.FILTER_REJECT;
+            if (node.textContent.toLowerCase().includes('mutiara') && textClean.length < 40) return NodeFilter.FILTER_REJECT;
+            if (textClean === 'book now' || textClean === 'claim offer now' || textClean.includes('claim offer') || textClean === 'view gallery' || textClean === 'original' || textClean.includes('modus bahasa') || textClean === '中文') return NodeFilter.FILTER_REJECT;
+            if (node.parentElement.tagName === 'BUTTON' || node.parentElement.tagName === 'A' || node.parentElement.classList.contains('btn') || node.parentElement.classList.contains('button') || node.parentElement.closest('.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')) return NodeFilter.FILTER_REJECT;
+            return node.textContent.trim().length > 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+          }
+        });
+
+        while (walker.nextNode()) {
+          elementsToProcess.push(walker.currentNode);
+        }
+
+        const reviewElements = rootContainer.querySelectorAll('.review-content-text');
+        reviewElements.forEach(el => {
+          if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
+            const innerClean = el.firstChild.textContent.trim().toLowerCase();
+            if (!elementsToProcess.includes(el.firstChild) && !el.closest('.notranslate, .skiptranslate, [translate="no"]') && !protectedRoomTitles.includes(innerClean)) {
+              elementsToProcess.push(el.firstChild);
+            }
+          }
+        });
+
+        for (const textNode of elementsToProcess) {
+          const currentClean = textNode.textContent.trim().toLowerCase();
+          if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(currentClean)) continue;
+          
+          const isReviewBox = textNode.parentElement.classList.contains('review-content-text');
+          if (!baselineTextCache.has(textNode)) {
+            baselineTextCache.set(textNode, isReviewBox ? textNode.textContent.replace(/^"|"$/g, '') : textNode.textContent);
+          }
+          const originalValue = baselineTextCache.get(textNode);
+          if (activeLanguage === 'en') {
+            textNode.textContent = originalValue;
+            continue;
+          }
+
+          let convertedText = await fetchSingleNodeTranslation(originalValue, activeLanguage);
+          const postClean = textNode.textContent.trim().toLowerCase();
+          if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(postClean)) {
+            textNode.textContent = originalValue; 
+            continue;
+          }
+
+          convertedText = convertedText.replace(/Hotel Mutiara & Konvensi/gi, 'Mutiara Hotel & Convention');
+          convertedText = convertedText.replace(/Hotel Mutiara/gi, 'Mutiara Hotel');
+          convertedText = convertedText.replace(/珍珠酒店及会议中心/g, 'Mutiara Hotel & Convention');
+          convertedText = convertedText.replace(/珍珠酒店/g, 'Mutiara Hotel');
+
+          if (isReviewBox) {
+            textNode.textContent = `"${convertedText.trim()}"`;
+            const noticeLabel = document.createElement('span');
+            noticeLabel.className = 'ai-translated-notice';
+            if (activeLanguage === 'id') noticeLabel.innerText = '✨ Diterjemahkan Otomatis';
+            else if (activeLanguage === 'zh') noticeLabel.innerText = '✨ 自动翻译';
+            else noticeLabel.innerText = '✨ Automatically Translated';
+            textNode.parentElement.appendChild(noticeLabel);
+          } else {
+            textNode.textContent = convertedText.replace(/\*\*/g, '').replace(/__/g, '');
+          }
+        }
+      }
+
+      function setupLanguageListeners() {
+        const btnEN = document.getElementById('global-nav-en');
+        const btnID = document.getElementById('global-nav-id');
+        const btnZH = document.getElementById('global-nav-zh');
+
+        if (btnEN) {
+          btnEN.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem('mutiara_user_lang', 'en');
+            const url = new URL(window.location.href); url.searchParams.delete('lang'); window.history.pushState({}, '', url);
+            executeUniversalTranslation();
           };
         }
-  
-        // Initialize instantly on script parse
-        initEmailActionHandler();
-  
-        document.addEventListener("DOMContentLoaded", () => {
-          initEmailActionHandler();
-  
-          // WhatsApp Widget Handler
-          const waWidget = document.getElementById("secure-whatsapp-widget");
-          if (waWidget) {
-            const pfx = waWidget.getAttribute("data-prefix");
-            const cc = waWidget.getAttribute("data-country");
-            const num = waWidget.getAttribute("data-dial");
-            waWidget.href = `https://${pfx}/${cc}${num}`;
-          }
-        });
-  
-        function getLanguageSetting() {
-          const urlParams = new URLSearchParams(window.location.search);
-          const urlLang = urlParams.get('lang');
-          if (urlLang === 'id' || urlLang === 'en' || urlLang === 'zh') {
-            localStorage.setItem('mutiara_user_lang', urlLang);
-            return urlLang;
-          }
-          const savedLanguage = localStorage.getItem('mutiara_user_lang');
-          if (savedLanguage) return savedLanguage;
-          
-          const systemLocale = (navigator.language || navigator.languages[0] || 'en').toLowerCase();
-          if (systemLocale.startsWith('id') || systemLocale.startsWith('ms')) {
+        if (btnID) {
+          btnID.onclick = (e) => {
+            e.preventDefault();
             localStorage.setItem('mutiara_user_lang', 'id');
-            return 'id';
-          } else if (systemLocale.startsWith('zh') || systemLocale.startsWith('zho') || systemLocale.startsWith('cmn')) {
+            const url = new URL(window.location.href); url.searchParams.set('lang', 'id'); window.history.pushState({}, '', url);
+            executeUniversalTranslation();
+          };
+        }
+        if (btnZH) {
+          btnZH.onclick = (e) => {
+            e.preventDefault();
             localStorage.setItem('mutiara_user_lang', 'zh');
-            return 'zh';
-          }
-          localStorage.setItem('mutiara_user_lang', 'en');
-          return 'en';
+            const url = new URL(window.location.href); url.searchParams.set('lang', 'zh'); window.history.pushState({}, '', url);
+            executeUniversalTranslation();
+          };
         }
-  
-        async function fetchSingleNodeTranslation(textString, targetLangCode) {
-          if (!textString || textString.trim() === "" || !isNaN(textString)) return textString;
-          try {
-            const apiEndpoint = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLangCode}&dt=t&q=${encodeURIComponent(textString)}`;
-            const rawResponse = await fetch(apiEndpoint);
-            const parsedData = await rawResponse.json();
-            if (parsedData && parsedData[0]) {
-              return parsedData[0].map(phrase => phrase[0]).join('');
-            }
-            return textString;
-          } catch (err) {
-            return textString;
-          }
-        }
-  
-        async function executeUniversalTranslation() {
-          const activeLanguage = getLanguageSetting();
-          const rootContainer = document.getElementById('universal-translation-root');
-          if (!rootContainer) return;
-  
-          let protectedRoomTitles = [];
-          try {
-            const rawCmsData = rootContainer.getAttribute('data-cms-rooms');
-            if (rawCmsData) {
-              protectedRoomTitles = JSON.parse(rawCmsData);
-            }
-          } catch(e) {
-            protectedRoomTitles = ["budget room", "standard room", "superior room", "deluxe room"];
-          }
-  
-          const flagEN = document.getElementById('global-nav-en');
-          const flagID = document.getElementById('global-nav-id');
-          const flagZH = document.getElementById('global-nav-zh');
-          const textZH = document.getElementById('label-zh-text');
-          const labelEl = document.getElementById('global-lang-label');
-          
-          const allFlags = [flagEN, flagID, flagZH];
-          allFlags.forEach(f => {
-            if (f) {
-              f.style.filter = 'grayscale(100%)'; f.style.opacity = '0.4'; f.style.transform = 'scale(1)'; f.style.color = '#94a3b8';
-            }
-          });
-          if (flagEN) flagEN.querySelector('span').style.color = '#94a3b8';
-          if (flagID) flagID.querySelector('span').style.color = '#94a3b8';
-          if (textZH) textZH.style.color = '#94a3b8';
-  
-          if (activeLanguage === 'id') {
-            if (flagID) { flagID.style.filter = 'none'; flagID.style.opacity = '1'; flagID.style.transform = 'scale(1.08)'; flagID.querySelector('span').style.color = '#1e293b'; }
-            if (labelEl) labelEl.innerText = "PILIHAN BAHASA:";
-          } else if (activeLanguage === 'zh') {
-            if (flagZH) { flagZH.style.filter = 'none'; flagZH.style.opacity = '1'; flagZH.style.transform = 'scale(1.08)'; if (textZH) textZH.style.color = '#de2110'; }
-            if (labelEl) labelEl.innerText = "选择语言:";
-          } else {
-            if (flagEN) { flagEN.style.filter = 'none'; flagEN.style.opacity = '1'; flagEN.style.transform = 'scale(1.08)'; flagEN.querySelector('span').style.color = '#1e293b'; }
-            if (labelEl) labelEl.innerText = "SELECT LANGUAGE:";
-          }
-  
-          rootContainer.querySelectorAll('.ai-translated-notice').forEach(el => el.remove());
-  
-          const elementsToProcess = [];
-          const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
-            acceptNode: function(node) {
-              if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') {
-                return NodeFilter.FILTER_REJECT;
-              }
-              const textClean = node.textContent.trim().toLowerCase();
-              if (protectedRoomTitles.includes(textClean)) return NodeFilter.FILTER_REJECT;
-              if (node.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]')) return NodeFilter.FILTER_REJECT;
-              if (node.textContent.toLowerCase().includes('mutiara') && textClean.length < 40) return NodeFilter.FILTER_REJECT;
-              if (textClean === 'book now' || textClean === 'claim offer now' || textClean.includes('claim offer') || textClean === 'view gallery' || textClean === 'original' || textClean.includes('modus bahasa') || textClean === '中文') return NodeFilter.FILTER_REJECT;
-              if (node.parentElement.tagName === 'BUTTON' || node.parentElement.tagName === 'A' || node.parentElement.classList.contains('btn') || node.parentElement.classList.contains('button') || node.parentElement.closest('.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')) return NodeFilter.FILTER_REJECT;
-              return node.textContent.trim().length > 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-            }
-          });
-  
-          while (walker.nextNode()) {
-            elementsToProcess.push(walker.currentNode);
-          }
-  
-          const reviewElements = rootContainer.querySelectorAll('.review-content-text');
-          reviewElements.forEach(el => {
-            if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
-              const innerClean = el.firstChild.textContent.trim().toLowerCase();
-              if (!elementsToProcess.includes(el.firstChild) && !el.closest('.notranslate, .skiptranslate, [translate="no"]') && !protectedRoomTitles.includes(innerClean)) {
-                elementsToProcess.push(el.firstChild);
-              }
-            }
-          });
-  
-          for (const textNode of elementsToProcess) {
-            const currentClean = textNode.textContent.trim().toLowerCase();
-            if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(currentClean)) continue;
-            
-            const isReviewBox = textNode.parentElement.classList.contains('review-content-text');
-            if (!baselineTextCache.has(textNode)) {
-              baselineTextCache.set(textNode, isReviewBox ? textNode.textContent.replace(/^"|"$/g, '') : textNode.textContent);
-            }
-            const originalValue = baselineTextCache.get(textNode);
-            if (activeLanguage === 'en') {
-              textNode.textContent = originalValue;
-              continue;
-            }
-  
-            let convertedText = await fetchSingleNodeTranslation(originalValue, activeLanguage);
-            const postClean = textNode.textContent.trim().toLowerCase();
-            if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(postClean)) {
-              textNode.textContent = originalValue; 
-              continue;
-            }
-  
-            convertedText = convertedText.replace(/Hotel Mutiara & Konvensi/gi, 'Mutiara Hotel & Convention');
-            convertedText = convertedText.replace(/Hotel Mutiara/gi, 'Mutiara Hotel');
-            convertedText = convertedText.replace(/珍珠酒店及会议中心/g, 'Mutiara Hotel & Convention');
-            convertedText = convertedText.replace(/珍珠酒店/g, 'Mutiara Hotel');
-  
-            if (isReviewBox) {
-              textNode.textContent = `"${convertedText.trim()}"`;
-              const noticeLabel = document.createElement('span');
-              noticeLabel.className = 'ai-translated-notice';
-              if (activeLanguage === 'id') noticeLabel.innerText = '✨ Diterjemahkan Otomatis';
-              else if (activeLanguage === 'zh') noticeLabel.innerText = '✨ 自动翻译';
-              else noticeLabel.innerText = '✨ Automatically Translated';
-              textNode.parentElement.appendChild(noticeLabel);
-            } else {
-              textNode.textContent = convertedText.replace(/\*\*/g, '').replace(/__/g, '');
-            }
-          }
-        }
-  
-        function setupLanguageListeners() {
-          const btnEN = document.getElementById('global-nav-en');
-          const btnID = document.getElementById('global-nav-id');
-          const btnZH = document.getElementById('global-nav-zh');
-  
-          if (btnEN) {
-            btnEN.onclick = (e) => {
-              e.preventDefault();
-              localStorage.setItem('mutiara_user_lang', 'en');
-              const url = new URL(window.location.href); url.searchParams.delete('lang'); window.history.pushState({}, '', url);
-              executeUniversalTranslation();
-            };
-          }
-          if (btnID) {
-            btnID.onclick = (e) => {
-              e.preventDefault();
-              localStorage.setItem('mutiara_user_lang', 'id');
-              const url = new URL(window.location.href); url.searchParams.set('lang', 'id'); window.history.pushState({}, '', url);
-              executeUniversalTranslation();
-            };
-          }
-          if (btnZH) {
-            btnZH.onclick = (e) => {
-              e.preventDefault();
-              localStorage.setItem('mutiara_user_lang', 'zh');
-              const url = new URL(window.location.href); url.searchParams.set('lang', 'zh'); window.history.pushState({}, '', url);
-              executeUniversalTranslation();
-            };
-          }
-        }
-  
+      }
+
+      setupLanguageListeners();
+      executeUniversalTranslation();
+
+      document.addEventListener('astro:after-swap', () => {
         setupLanguageListeners();
         executeUniversalTranslation();
-  
-        document.addEventListener('astro:after-swap', () => {
-          setupLanguageListeners();
-          executeUniversalTranslation();
-          initEmailActionHandler();
-        });
-      </script>
+      });
+    </script>
   </body>
 </html>
