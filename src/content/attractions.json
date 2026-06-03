@@ -1,16 +1,16 @@
 [
   {
     "title": "Museum of the Asian-African Conference",
-    "distance": "0.9 Miles (15 Min Walk)",
+    "distance": "2,3 km (28 Min Walk)",
     "tagline": "Gedung Merdeka Heritage Site",
     "category": "City Center",
     "image": "/images/Musium_KAA.jpg",
     "photo_credit": "Credit: Jagawana, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1874519",
-    "description": "Located around 1.5 km from Mutiara Hotel, this cultural landmark commemorates the historic 1955 conference where leaders from 29 African and Asian countries gathered to promote cooperation, understanding, and solidarity among nations."
+    "description": "Located just minutes from Hotel Mutiara Bandung, the Museum of the Asian–African Conference is one of Bandung’s most iconic heritage sites. Inside its beautifully preserved Art Deco building, visitors can explore the historic 1955 conference that shaped global cooperation between Asia and Africa.\n\nIt’s a meaningful stop for tourists who enjoy culture, history, and Bandung’s colonial charm — and staying at Hotel Mutiara makes it incredibly convenient. You can walk there easily, explore the surrounding Asia Afrika and Braga area, and return to the hotel without needing transport."
   },
   {
     "title": "Taman Balai Kota Bandung",
-    "distance": "0.7 Miles (12 Min Walk)",
+    "distance": "1,5 km (24 Min Walk)",
     "tagline": "Bandung City Hall & Historic Park",
     "category": "City Center",
     "image": "/images/Taman_Balai_Kota_Bandung-1.jpg",
@@ -19,7 +19,7 @@
   },
   {
     "title": "Braga City Walk",
-    "distance": "0.5 Miles (10 Min Walk)",
+    "distance": "3,2 km (10 Min Walk)",
     "tagline": "Integrated Entertainment Zone",
     "category": "City Center",
     "image": "/images/bragacitywalk.jpg",
@@ -37,7 +37,7 @@
   },
   {
     "title": "Gedung Sate",
-    "distance": "1.8 Miles (8 Min Drive)",
+    "distance": "1,4 km (22 Min walk)",
     "tagline": "Architectural Symbol of West Java",
     "category": "City Center",
     "image": "/images/Gedung_Sate_Oktober_2024.jpg",
@@ -46,7 +46,7 @@
   },
   {
     "title": "Kawah Putih (White Crater)",
-    "distance": "28 Miles (1.5 Hr Drive)",
+    "distance": "41,3 km (1 - 2 Hr Drive, traffic dependent)",
     "tagline": "Eerie Turquoise Volcanic Crater Lake",
     "category": "Nature Excursions",
     "image": "/images/Indonesia_BandungProvince_Ciwidey_Kawah_Putih.jpeg",
@@ -55,7 +55,7 @@
   },
   {
     "title": "Mount Tangkuban Perahu",
-    "distance": "18 Miles (55 Min Drive)",
+    "distance": "28,6 km (1 - 2 Hr Drive traffic dependent)",
     "tagline": "Active Volcano & Panoramic Craters",
     "category": "Nature Excursions",
     "image": "/images/Panoramic_View_of_Kawah_Ratu_Crater_in_Mt.Tangkuban_Perahu.jpg",
@@ -64,7 +64,7 @@
   },
   {
     "title": "Saung Angklung Udjo",
-    "distance": "4.5 Miles (20 Min Drive)",
+    "distance": "8,2 km (15 Min Drive)",
     "tagline": "Bamboo Culture & Musical Show",
     "category": "Cultural Heritage",
     "image": "/images/Saung_Angklung_Udjo.jpeg",
