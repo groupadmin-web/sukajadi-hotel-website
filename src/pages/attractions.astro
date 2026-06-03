@@ -1,3 +1,4 @@
+---
 // src/pages/attractions.astro
 import Layout from "../layouts/Layout.astro";
 import attractionsData from "../content/attractions.json";
@@ -97,15 +98,15 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
       {attractions.map((item) => {
-        // FIXED: Using standard, high-compatibility Google Maps Search API URL
+        // FIXED: Opening fence restored up top, valid cross-platform Google Maps URL template down here
         const encodedLocation = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
         const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocation}`;
 
         return (
           <div 
-            x-data="{ expanded: false }"
-            @click="expanded = !expanded"
-            class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-auto cursor-pointer group"
+            x-data = "{ expanded: false }"
+            @click = "expanded = !expanded"
+            class = "bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-auto cursor-pointer group"
           >
             
             {/* CARD IMAGE HEADER */}
