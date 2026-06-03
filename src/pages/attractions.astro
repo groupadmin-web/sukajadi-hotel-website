@@ -97,58 +97,91 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
     </div>
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-      {attractions.map((item, index) => (
-        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
-          
-          {/* IMAGE CONTAINER BLOCK */}
-          <div class="block shrink-0 bg-gray-200">
-            <div class="relative h-60 overflow-hidden">
-              <img 
-                src={item.image} 
-                alt={item.title} 
-                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-                loading="lazy" 
-              />
-              <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
-                {item.category}
-              </div>
-              <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
-                <span>📍</span> <span>{item.distance}</span>
-              </div>
-            </div>
-          
-            {/* FIXED PHOTO CREDIT INJECTION: Clean white background bar that stays safely underneath the photo frame */}
-            {item.photo_credit && item.photo_credit.trim() !== "" && (
-              <div class="w-full bg-white border-t border-b border-slate-100 px-4 py-2 text-[9px] font-sans font-light text-slate-400 text-right tracking-wide truncate select-none notranslate">
-                📷 {item.photo_credit}
-              </div>
-            )}
-          </div>
+      {attractions.map((item, index) => {
+        // FIXED GOOGLE MAP TARGET LINK ENGINE: Safely formats search hooks to open explicit coordinates via global queries URL patterns
+        const encodedLocation = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
+        const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocation}`;
 
-          <div class="p-6 flex-grow flex flex-col justify-between">
-            <div class="mb-6">
-              <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
-                <span>{item.tagline}</span>
-              </span>
-              <h2 class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide min-h-[56px] flex items-center">
-                <span>{item.title}</span>
-              </h2>
-              <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
-              
-              {/* FIXED DESCRIPTION CONTAINER: whitespace-pre-line guarantees multi-paragraph structures print cleanly without flattening lines */}
-              <p class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line">
-                {item.description}
-              </p>
-            </div>
+        return (
+          <div 
+            class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full"
+            x-data="{ isExpanded: false }"
+          >
             
-            <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase">
-              <span class="notranslate">Bandung, IDN</span>
-              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="text-amber-600 font-bold hover:text-amber-700 transition-colors cursor-pointer group-hover:underline">Local Guide →</a>
+            {/* IMAGE CONTAINER BLOCK */}
+            <div class="block shrink-0 bg-gray-200">
+              <div class="relative h-60 overflow-hidden">
+                <img 
+                  src={item.image} 
+                  alt={item.title} 
+                  class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                  loading="lazy" 
+                />
+                <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
+                  {item.category}
+                </div>
+                <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
+                  <span>📍</span> <span>{item.distance}</span>
+                </div>
+              </div>
+            
+              {/* CLEAN WHITE BACKGROUND PHOTO CREDIT STRIP */}
+              {item.photo_credit && item.photo_credit.trim() !== "" && (
+                <div class="w-full bg-white border-t border-b border-slate-100 px-4 py-2 text-[9px] font-sans font-light text-slate-400 text-right tracking-wide truncate select-none notranslate">
+                  📷 {item.photo_credit}
+                </div>
+              )}
             </div>
-          </div>
 
-        </div>
-      ))}
+            {/* CONTENT SPACE */}
+            <div class="p-6 flex-grow flex flex-col justify-between">
+              <div class="mb-4">
+                <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
+                  <span>{item.tagline}</span>
+                </span>
+                <h2 class="text-xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide min-h-[56px] flex items-center">
+                  <span>{item.title}</span>
+                </h2>
+                <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
+                
+                {/* COLLAPSIBLE SMART CONTAINER */}
+                <div class="relative">
+                  <p 
+                    class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line transition-all duration-300"
+                    ::class="isExpanded ? '' : 'line-clamp-3'"
+                  >
+                    {item.description}
+                  </p>
+                  
+                  {/* EXPANSION TRIGGER TRIGGER */}
+                  <button 
+                    @click="isExpanded = !isExpanded"
+                    class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-2 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer block"
+                    x-text="isExpanded ? 'Show Less ↑' : 'Read More ↓'"
+                  >
+                    Read More ↓
+                  </button>
+                </div>
+              </div>
+              
+              {/* CARD FOOTER */}
+              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase mt-2">
+                {/* Visual Location Label */}
+                <span class="notranslate">Bandung, IDN</span>
+                <a 
+                  href={exactMapUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="text-amber-600 font-bold hover:text-amber-700 transition-colors cursor-pointer group-hover:underline"
+                >
+                  Local Guide →
+                </a>
+              </div>
+            </div>
+
+          </div>
+        );
+      })}
     </div>
 
   </div>
