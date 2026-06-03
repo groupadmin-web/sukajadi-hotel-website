@@ -158,12 +158,18 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 
                 {/* MODAL POPUP LAUNCH TRIGGER BUTTON */}
                 <button 
-                  @click={`$dispatch('open-modal', { 
-                    title: ${JSON.stringify(item.title)}, 
-                    tagline: ${JSON.stringify(item.tagline)}, 
-                    description: ${JSON.stringify(item.description)}, 
-                    image: ${JSON.stringify(item.image)} 
-                  })`}
+                  @click="
+                    $dispatch('open-modal', { 
+                      title: $el.getAttribute('data-title'), 
+                      tagline: $el.getAttribute('data-tagline'), 
+                      description: $el.getAttribute('data-description'), 
+                      image: $el.getAttribute('data-image') 
+                    })
+                  "
+                  data-title={item.title}
+                  data-tagline={item.tagline}
+                  data-description={item.description}
+                  data-image={item.image}
                   class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-3 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer block"
                   type="button"
                 >
