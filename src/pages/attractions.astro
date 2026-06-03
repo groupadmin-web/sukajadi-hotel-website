@@ -55,7 +55,7 @@ const defaultAttractions = [
   {
     title: "Mount Tangruban Perahu",
     distance: "18 Miles (55 Min Drive)",
-    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb;?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
     tagline: "Active Volcano & Panoramic Craters",
     category: "Nature Excursions",
     description: "An iconic active volcano north of the city in Lembang. Visitors can hike or drive right up to the edge of the massive main crater to witness steam vents amidst beautiful mountain backdrops."
@@ -87,7 +87,11 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 ---
 
 <Layout title="Local Attractions | Mutiara Hotel & Convention">
-  <div class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
+  <div 
+    class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8"
+    x-data="{ modalOpen: false, modalTitle: '', modalDescription: '', modalImage: '', modalTagline: '' }"
+    :class="modalOpen ? 'overflow-hidden' : ''"
+  >
 
     <div class="max-w-4xl mx-auto text-center mb-16 mt-8">
       <span class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1">Explore Bandung</span>
@@ -99,15 +103,15 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
       {attractions.map((item, index) => {
         const encodedLocation = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
-        const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocation}`;
+        const exactMapUrl = `http://googleusercontent.com/maps.google.com/?q=${encodedLocation}`;
+
+        // Clean javascript string formatting to prevent inline breaking injection errors
+        const safeDescription = item.description.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
         return (
-          <div 
-            class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full"
-            x-data="{ isExpanded: false }"
-          >
+          <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
             
-            {/* IMAGE CONTAINER */}
+            {/* CARD IMAGE HEADER */}
             <div class="block shrink-0 bg-gray-200">
               <div class="relative h-60 overflow-hidden">
                 <img 
@@ -132,9 +136,9 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
               )}
             </div>
 
-            {/* CONTENT wrapper */}
+            {/* CARD CONTENT BODY */}
             <div class="p-6 flex-grow flex flex-col justify-between">
-              <div>
+              <div class="mb-4">
                 <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
                   <span>{item.tagline}</span>
                 </span>
@@ -143,30 +147,26 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
                 </h2>
                 <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
                 
-                {/* OFFICIAL ISOLATION MECHANISM:
-                  We house the paragraph inside a strict, isolated display block. 
-                  We then map Alpine's binding syntax safely using modern core classes.
+                {/* PRE-TRUNCATED STATIONARY PARAGRAPH:
+                  No runtime shifts here. The layout uses normal Tailwind classes 
+                  to cleanly show just the first line or two as a preview.
                 */}
-                <div class="block w-full overflow-hidden">
-                  <p 
-                    class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line"
-                    :class="isExpanded ? 'line-clamp-none' : 'line-clamp-3'"
-                  >
-                    {item.description}
-                  </p>
-                </div>
+                <p class="text-gray-500 text-sm font-sans font-light leading-relaxed line-clamp-2">
+                  {item.description}
+                </p>
 
+                {/* MODAL POPUP LAUNCH TRIGGER BUTTON */}
                 <button 
-                  @click="isExpanded = !isExpanded"
+                  @click={`modalTitle = "${item.title}"; modalTagline = "${item.tagline}"; modalDescription = "${safeDescription}"; modalImage = "${item.image}"; modalOpen = true;`}
                   class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-3 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer block"
                   type="button"
                 >
-                  <span x-text="isExpanded ? 'Show Less ↑' : 'Read More ↓'">Read More ↓</span>
+                  Read More ↓
                 </button>
               </div>
               
               {/* CARD FOOTER */}
-              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase mt-6">
+              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase mt-2">
                 <span class="notranslate">Bandung, IDN</span>
                 <a 
                   href={exactMapUrl} 
@@ -184,5 +184,73 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
       })}
     </div>
 
+    <div 
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+      x-show="modalOpen"
+      x-cloak
+    >
+      <div 
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+        x-show="modalOpen"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @click="modalOpen = false"
+      ></div>
+
+      <div 
+        class="relative bg-white rounded-2xl shadow-2xl overflow-hidden max-w-2xl w-full mx-auto z-10 border border-slate-100 transform transition-all"
+        x-show="modalOpen"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+        x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        @keydown.escape.window="modalOpen = false"
+      >
+        <div class="h-64 sm:h-72 w-full bg-slate-100 relative">
+          <img :src="modalImage" :alt="modalTitle" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+          
+          <button 
+            @click="modalOpen = false"
+            class="absolute top-4 right-4 bg-white/90 hover:bg-white text-slate-800 rounded-full p-2 shadow-lg transition-colors focus:outline-none"
+            aria-label="Close popup window"
+          >
+            ✕
+          </button>
+
+          <div class="absolute bottom-6 left-6 right-6 text-white">
+            <span class="text-amber-400 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1" x-text="modalTagline"></span>
+            <h3 class="text-2xl sm:text-3xl font-serif font-bold uppercase tracking-wide" x-text="modalTitle"></h3>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-8 bg-white max-h-[50vh] overflow-y-auto">
+          <div class="w-12 h-1 bg-amber-600 mb-6"></div>
+          <p class="text-slate-600 text-base font-sans font-light leading-relaxed whitespace-pre-line" x-text="modalDescription"></p>
+        </div>
+
+        <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex justify-end">
+          <button 
+            @click="modalOpen = false"
+            class="px-5 py-2 bg-slate-900 text-white hover:bg-slate-800 rounded-lg text-xs font-sans font-bold uppercase tracking-wider transition-colors shadow-md focus:outline-none"
+          >
+            Close Window
+          </button>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </Layout>
+
+<style>
+  /* Stops Alpine templates from flashing broken structures on slow connections */
+  [x-cloak] { display: none !important; }
+</style>
