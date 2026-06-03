@@ -98,9 +98,13 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
       {attractions.map((item) => {
-        // FIXED: Opening fence restored up top, valid cross-platform Google Maps URL template down here
-        const encodedLocation = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
-        const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocation}`;
+        // FIXED: Switched from search to the official Directions API route
+        const hotelAddress = "Mutiara Hotel and Convention Bandung, Jl. Kebon Kawung No.60, Bandung";
+        const encodedOrigin = encodeURIComponent(hotelAddress);
+        const encodedDestination = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
+        
+        // This creates a door-to-door route from the hotel to the attraction
+        const exactMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodedOrigin}&destination=${encodedDestination}`;
 
         return (
           <div 
