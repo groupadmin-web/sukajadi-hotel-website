@@ -14,7 +14,7 @@
     "tagline": "Bandung City Hall & Historic Park",
     "category": "City Center",
     "image": "/images/Taman_Balai_Kota_Bandung-1.jpg",
-    "photo_credit": "Photo by John Doe, via Wikimedia Commons. Licensed under CC BY-SA 4.0. https://creativecommons.org/licenses/by-sa/4.0/",
+    "photo_credit": "Credit: John Doe, via Wikimedia Commons. Licensed under CC BY-SA 4.0. https://creativecommons.org/licenses/by-sa/4.0/",
     "description": "Located around 1.5 km from the hotel on Jalan Wastukencana, the administrative center of Bandung is rich in history and remarkable architecture. The building was originally a coffee warehouse in 1819 before being converted into a Dutch colonial government office in 1927.\n"
   },
   {
@@ -58,6 +58,7 @@
     "distance": "18 Miles (55 Min Drive)",
     "tagline": "Active Volcano & Panoramic Craters",
     "category": "Nature Excursions",
+    "photo_credit": "Credit: DimasSepur, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=150137862",
     "description": "An iconic active volcano north of the city in Lembang. Visitors can hike or drive right up to the edge of the massive main crater to witness steam vents amidst beautiful mountain backdrops."
   },
   {
