@@ -81,7 +81,6 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
     category: cmsItem.category || defaultItem.category,
     description: cmsItem.description || defaultItem.description,
     image: (cmsItem.image && cmsItem.image.trim() !== "") ? cmsItem.image : defaultItem.image,
-    // PASSTHROUGH MAPPER: Extends properties definitions to pick up optional data fields from config mapping
     photo_credit: cmsItem.photo_credit || ""
   };
 });
@@ -101,23 +100,26 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
       {attractions.map((item, index) => (
         <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
           
-          <div class="relative h-60 bg-gray-200 overflow-hidden shrink-0">
-            <img 
-              src={item.image} 
-              alt={item.title} 
-              class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-              loading="lazy" 
-            />
-            <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
-              {item.category}
-            </div>
-            <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
-              <span>📍</span> <span>{item.distance}</span>
+          {/* IMAGE CONTAINER BLOCK */}
+          <div class="block shrink-0 bg-gray-200">
+            <div class="relative h-60 overflow-hidden">
+              <img 
+                src={item.image} 
+                alt={item.title} 
+                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
+                loading="lazy" 
+              />
+              <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
+                {item.category}
+              </div>
+              <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
+                <span>📍</span> <span>{item.distance}</span>
+              </div>
             </div>
 
-            {/* CONDITIONAL PHOTO CREDIT PILL: Fires automatically only when a photographer is declared in the panel */}
+            {/* FIXED PHOTO CREDIT INJECTION: Placed directly underneath the image canvas window */}
             {item.photo_credit && item.photo_credit.trim() !== "" && (
-              <div class="absolute bottom-4 right-4 bg-slate-950/75 backdrop-blur-sm text-[9px] font-sans font-medium text-slate-300 px-2 py-1 rounded-md tracking-wide max-w-[50%] truncate select-none notranslate border border-white/5 shadow-md z-10">
+              <div class="w-full bg-slate-100 border-b border-gray-200 px-4 py-1.5 text-[9px] font-sans font-light text-slate-500 text-right tracking-wide truncate select-none notranslate">
                 📷 {item.photo_credit}
               </div>
             )}
