@@ -99,7 +99,7 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
       {attractions.map((item, index) => {
         const encodedLocation = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
-        const exactMapUrl = `http://googleusercontent.com/maps.google.com/?q=${encodedLocation}`;
+        const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocation}`;
 
         return (
           <div 
@@ -107,7 +107,7 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
             x-data="{ isExpanded: false }"
           >
             
-            {/* IMAGE CONTAINER BLOCK */}
+            {/* IMAGE BLOCK */}
             <div class="block shrink-0 bg-gray-200">
               <div class="relative h-60 overflow-hidden">
                 <img 
@@ -124,7 +124,7 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
                 </div>
               </div>
             
-              {/* PHOTO CREDIT STRIP */}
+              {/* IMAGE CREDIT */}
               {item.photo_credit && item.photo_credit.trim() !== "" && (
                 <div class="w-full bg-white border-t border-b border-slate-100 px-4 py-2 text-[9px] font-sans font-light text-slate-400 text-right tracking-wide truncate select-none notranslate">
                   📷 {item.photo_credit}
@@ -132,9 +132,11 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
               )}
             </div>
 
-            {/* CONTENT SPACE */}
+            {/* CARD CONTENT SPACE */}
             <div class="p-6 flex-grow flex flex-col justify-between">
-              <div>
+              
+              {/* Top Structural Wrapper to encapsulate header elements and text heights together */}
+              <div class="block w-full">
                 <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
                   <span>{item.tagline}</span>
                 </span>
@@ -143,33 +145,34 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
                 </h2>
                 <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
                 
-                {/* STRICT FIXED-SIZE COLLAPSIBLE CONTAINER */}
+                {/* INLINE CSS OVERRIDE CONTAINER */}
                 <div 
-                  class="relative overflow-hidden transition-all duration-300"
-                  :class="isExpanded ? 'max-h-[none]' : 'max-h-24'"
+                  class="relative block overflow-hidden transition-all duration-300 w-full"
+                  :style="isExpanded ? 'max-height: none !important;' : 'max-height: 80px !important;'"
                 >
-                  <p class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line m-0 pb-6">
+                  <p class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line m-0 p-0 block">
                     {item.description}
                   </p>
                   
-                  {/* SMOOTH BOTTOM EDGE FADE (Hides instantly when open) */}
+                  {/* ABSOLUTE WHITE FADE GRADIENT LAYER */}
                   <div 
-                    class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none"
+                    class="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none"
                     x-show="!isExpanded"
                   ></div>
                 </div>
 
-                {/* EXPANSION BUTTON TRIGGER */}
+                {/* EXPANSION INTERFACE TRIGGER */}
                 <button 
                   @click="isExpanded = !isExpanded"
-                  class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-2 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer block"
+                  class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-2.5 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer inline-block"
+                  type="button"
                 >
                   <span x-text="isExpanded ? 'Show Less ↑' : 'Read More ↓'">Read More ↓</span>
                 </button>
               </div>
               
-              {/* CARD FOOTER */}
-              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase mt-6">
+              {/* CARD FOOTER BLOCK */}
+              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase mt-6 block w-full">
                 <span class="notranslate">Bandung, IDN</span>
                 <a 
                   href={exactMapUrl} 
@@ -180,6 +183,7 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
                   Local Guide →
                 </a>
               </div>
+
             </div>
 
           </div>
