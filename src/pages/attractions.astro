@@ -112,6 +112,12 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
         const encodedLocation = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
         const exactMapUrl = `http://googleusercontent.com/maps.google.com/?q=${encodedLocation}`;
 
+        // Escape double quotes safely for AlpineJS inline execution inside templates
+        const safeTitle = item.title.replace(/"/g, '&quot;');
+        const safeTagline = item.tagline.replace(/"/g, '&quot;');
+        const safeDescription = item.description.replace(/"/g, '&quot;');
+        const safeImage = item.image.replace(/"/g, '&quot;');
+
         return (
           <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
             
@@ -158,18 +164,12 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 
                 {/* MODAL POPUP LAUNCH TRIGGER BUTTON */}
                 <button 
-                  @click="
-                    $dispatch('open-modal', { 
-                      title: $el.getAttribute('data-title'), 
-                      tagline: $el.getAttribute('data-tagline'), 
-                      description: $el.getAttribute('data-description'), 
-                      image: $el.getAttribute('data-image') 
-                    })
-                  "
-                  data-title={item.title}
-                  data-tagline={item.tagline}
-                  data-description={item.description}
-                  data-image={item.image}
+                  @click={`$dispatch('open-modal', { 
+                    title: "${safeTitle}", 
+                    tagline: "${safeTagline}", 
+                    description: "${safeDescription}", 
+                    image: "${safeImage}" 
+                  })`}
                   class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-3 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer block"
                   type="button"
                 >
