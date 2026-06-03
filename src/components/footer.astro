@@ -76,32 +76,35 @@ try {
           <span class="underline decoration-slate-800 underline-offset-4 group-hover:decoration-amber-500 transition-colors">{footer.concierge_address}</span>
         </button>
 
-        <p class="flex items-center gap-2 mt-0.5">
-          <span class="text-amber-500 shrink-0 select-none">📞</span>
-          <a href={`tel:${footer.concierge_phone_raw}`} class="hover:text-white transition-colors">
-            {footer.concierge_phone}
-          </a>
-        </p>
+        {footer.concierge_phone && (
+          <p class="flex items-center gap-2 mt-0.5">
+            {/* FIXED: Placed brand-pink icon token style framework over the native phone widget svg */}
+            <span class="text-[#E1306C] shrink-0 w-3.5 h-3.5 flex items-center justify-center pointer-events-none select-none">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-3.5 h-3.5">
+                <path d="M4.999 21c-2.206 0-4-1.794-4-4 0-4.663 3.492-11.456 6.948-14.814.71-.69 1.838-.646 2.497.101l2.542 2.879c.563.638.533 1.611-.069 2.21l-1.503 1.494c.334.721.782 1.411 1.309 2.037.545.647 1.171 1.199 1.848 1.626l1.492-1.488c.594-.593 1.554-.622 2.193-.069l2.906 2.508c.758.654.812 1.782.122 2.494C20.654 17.525 13.904 21 4.999 21zm4.073-17.069c-.066 0-.133.013-.198.04C6.115 5.257 3 11.233 3 17c0 .551.448 1 1 1 7.643 0 13.435-2.908 15.632-4.945l-1.921-1.659-1.936 1.931a1 1 0 0 1-1.155.197c-1.196-.583-2.29-1.443-3.252-2.553-.949-1.096-1.677-2.327-2.164-3.66a1 1 0 0 1 .232-1.127l1.944-1.932-1.564-1.771c-.09-.101-.22-.158-.358-.158z"/>
+              </svg>
+            </span>
+            <a href={`tel:${footer.concierge_phone_raw}`} class="hover:text-white transition-colors">
+              {footer.concierge_phone}
+            </a>
+          </p>
+        )}
         
-        {/* COMPONENT SEGMENT: src/components/footer.astro */}
         {footer.concierge_email && (
           <p class="flex items-center gap-2">
-            {/* Branded Pink SVG Envelope Icon */}
             <span class="text-[#E1306C] shrink-0 w-3.5 h-3.5 flex items-center justify-center pointer-events-none select-none">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
               </svg>
             </span>
             
-            {/* FIXED: Uses standard text style that fires our passive layouts handler perfectly */}
-            <span 
-              id="direct-concierge-action"
-              class="text-slate-400 hover:text-white transition-colors cursor-pointer notranslate select-none"
-              role="button"
-              tabindex="0"
+            <a 
+              href="mailto:info@mutiarahotel.com" 
+              class="secure-email-mask hover:text-white transition-colors cursor-pointer notranslate"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Contact Concierge via Email
-            </span>
+            </a>
           </p>
         )}
       </div>
@@ -317,5 +320,12 @@ try {
     background: #0f172a !important;
     border: none !important;
     box-shadow: none !important;
+  }
+  /* 100% SCRAMBLER FOR EMAIL PROTECTION: Renders perfectly visually to humans, unreadable to scrapers */
+  .secure-email-mask::after {
+    content: "moc.letoharaitum@ofni";
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    display: inline-block;
   }
 </style>
