@@ -1,120 +1,444 @@
 ---
-// src/components/navbar/navbar.astro
-import Container from "@/components/container.astro";
-import Link from "@/components/ui/link.astro";
-import Dropdown from "./dropdown.astro";
-import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
+// src/layouts/Layout.astro
+import { SEO } from "astro-seo";
+import Footer from "@/components/footer.astro";
+import Navbar from "@/components/navbar/navbar.astro";
+import "@fontsource-variable/inter/index.css";
+import "@fontsource-variable/bricolage-grotesque";
+import "../styles/global.css";
 
-// Fetch your dynamic brand data from your header setup file
-import homepageData from "@/content/homepage.json";
+// Load the strict JSON list configuration managed under your pages.yml
+import roomsData from "../content/rooms.json";
 
-// FETCH & NORMALIZE CURRENT PAGE ROUTE (Case-insensitive & handles trailing slashes perfectly)
-const requestUrlPath = new URL(Astro.request.url).pathname;
-const currentPath = requestUrlPath.toLowerCase().replace(/\/$/, "") || "/";
+export interface Props {
+  title: string;
+}
 
-const menuitems = [
-  { title: "HOME", path: "/" },
-  { title: "ROOMS", path: "/rooms" },
-  { title: "TOURIST ATTRACTIONS", path: "/attractions" },
-  { title: "GALLERY", path: "/gallery" },
-  { title: "MEETINGS & EVENTS", path: "/meetings-events" },
-  { title: "Q&A", path: "/qna" }, 
-  { title: "CONTACT", path: "/#footer" }, 
-];
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+
+const resolvedImageWithDomain = new URL(
+  "/opengraph.jpg",
+  Astro.site
+).toString();
+
+const { title } = Astro.props;
+
+const makeTitle = title
+  ? title + " | " + "Mutiara Hotel"
+  : "Mutiara Hotel - Premium Accommodations";
+
+// CODESYNC: Pull BOTH the "title" and the "view" fields dynamically from your CMS JSON payload
+const showcaseItems = Array.isArray(roomsData) ? roomsData : [];
+
+const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
+  if (item?.title) acc.push(item.title.trim().toLowerCase());
+  if (item?.view) acc.push(item.view.trim().toLowerCase());
+  return acc;
+}, []);
 ---
 
-{/* NAVBAR BACKDROP: Elevated to z-[70] to completely isolate it from background layer collisions */}
-<header class="sticky top-0 z-[70] w-full bg-white shadow-sm transition-all border-b border-gray-100">
-  <Container>
-    <div class="flex flex-col lg:flex-row justify-between items-center py-4 w-full min-h-[72px] lg:min-h-0">
-      <Astronav>
-        <div class="flex w-full lg:w-auto items-center justify-between relative">
-          
-          <a href="/" class="flex items-center tracking-wider font-serif group">
-            {homepageData.logo_image ? (
-              <img 
-                src={homepageData.logo_image} 
-                alt="Mutiara Hotel & Convention Bandung Logo" 
-                class="h-12 md:h-16 w-auto object-contain max-w-[160px] md:max-w-[200px] transition-transform duration-300 group-hover:scale-105" 
-              />
-            ) : (
-              <span class="font-bold text-xl text-slate-900 uppercase">
-                {homepageData.logo_text || "MUTIARA"}
-              </span>
-            )}
-          </a>
-          
-          {/* Mobile hamburger button - Raised to z-[80] to maintain top click-target priority */}
-          <div class="block lg:hidden absolute top-3 right-1 z-[80] text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-1">
-            <MenuIcon class="w-6 h-6" />
-          </div>
-        </div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    
+    {/* Formatted directly to render your local custom brand PNG icon asset */}
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    
+    <meta name="generator" content={Astro.generator} />
+
+    <SEO
+      title={makeTitle}
+      description="Welcome to Mutiara Hotel. Book your stay with us directly for premium service and accommodation."
+      canonical={canonicalURL}
+      openGraph={{
+        basic: {
+          url: canonicalURL,
+          type: "website",
+          title: `Mutiara Hotel`,
+          image: resolvedImageWithDomain,
+        },
+      }}
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    
+    {/* FIXED LAYER PROFILE: Lifted to z-[60] so it sits over hero sliders, completely visible */}
+    <div class="fixed top-3 right-3 z-[60] pointer-events-auto sm:top-4 sm:right-6 notranslate select-none">
+      <div class="bg-white/95 backdrop-blur-md px-2 py-1 sm:px-3 sm:py-1.5 rounded-full flex items-center gap-1.5 sm:gap-3 border border-slate-200/90 shadow-lg transition-all duration-300">
         
-        {/* MOBILE OVERLAP CORRECTION: pt-14 pads the menu items safely below the floating flags */}
-        <MenuItems class="hidden w-full lg:w-auto mt-4 pt-14 lg:pt-0 lg:flex lg:mt-0">
-          <ul class="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-2 w-full">
-            {
-              menuitems.map((item, index) => {
-                const itemNormalizedPath = item.path.toLowerCase().replace(/\/$/, "") || "/";
-                const isActive = itemNormalizedPath === "/" 
-                  ? currentPath === "/" 
-                  : currentPath.startsWith(itemNormalizedPath);
+        <span id="global-lang-label" class="text-[8px] sm:text-[9px] tracking-wide font-sans font-semibold text-slate-400 uppercase pr-0.5 select-none hidden xs:inline-block">
+          SELECT LANGUAGE:
+        </span>
 
-                return (
-                  <>
-                    {item.children && (
-                      <Dropdown
-                        title={item.title}
-                        children={item.children}
-                        lastItem={index === menuitems.length - 1}
-                      />
-                    )}
+        <div class="w-[1px] h-2.5 bg-slate-200 hidden xs:inline-block"></div>
 
-                    {!item.children && (
-                      <li class="w-full lg:w-auto">
-                        <a
-                          href={item.path}
-                          class={`nav-item flex lg:px-3 py-2 items-center text-sm font-bold tracking-wide transition-all uppercase relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-amber-600 after:transition-transform after:duration-300 ${
-                            isActive 
-                              ? "text-amber-600 after:scale-x-100" 
-                              : "text-slate-700 hover:text-amber-600 after:scale-x-0 hover:after:scale-x-100"
-                          }`}
-                        >
-                          <span>{item.title}</span>
-                        </a>
-                      </li>
-                    )}
-                  </>
-                );
-              })
-            }
-          </ul>
-          
-          <div class="lg:hidden flex items-center mt-4 w-full pb-4">
-            <a 
-              href="https://m.mutiarahotel.com" 
-              class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-base py-3 rounded-md shadow-md transition-all flex items-center justify-center gap-2 tracking-wide"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-amber-100">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
-              </svg>
-              <span>Book Now</span>
-            </a>
-          </div>
-        </MenuItems>
-      </Astronav>
-      
-      <div class="hidden lg:flex items-center">
-        <a 
-          href="https://m.mutiarahotel.com" 
-          class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm px-5 py-2.5 rounded-md shadow-md transition-all flex items-center justify-center gap-2 tracking-wide"
+        {/* English Toggle */}
+        <button 
+          id="global-nav-en" 
+          type="button" 
+          class="flex items-center gap-1 sm:gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer outline-none text-slate-400 font-sans font-bold text-[10px] sm:text-xs"
+          title="English"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-amber-100">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
-          </svg>
-          <span>Book Now</span>
-        </a>
+          <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full overflow-hidden shrink-0 aspect-square">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" preserveAspectRatio="none" class="w-full h-full object-cover block pointer-events-none">
+              <clipPath id="s"><path d="M0 0h60v30H0z"/></clipPath>
+              <g clip-path="url(#s)">
+                <path d="M0 0h60v30H0z" fill="#012169"/>
+                <path d="M0 0l60 30M60 0L0 30" stroke="#fff" stroke-width="6"/>
+                <path d="M0 0l60 30M60 0L0 30" stroke="#c8102e" stroke-width="4"/>
+                <path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/>
+                <path d="M30 0v30M0 15h60" stroke="#c8102e" stroke-width="6"/>
+              </g>
+            </svg>
+          </div>
+          <span class="text-[9px] sm:text-[11px] hidden sm:inline">EN</span>
+        </button>
+
+        <div class="w-[1px] h-2.5 bg-slate-200"></div>
+
+        {/* Indonesian Toggle */}
+        <button 
+          id="global-nav-id" 
+          type="button" 
+          class="flex items-center gap-1 sm:gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer outline-none text-slate-400 font-sans font-bold text-[10px] sm:text-xs"
+          title="Indonesia"
+        >
+          <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full overflow-hidden shrink-0 aspect-square border border-slate-100">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" preserveAspectRatio="none" class="w-full h-full object-cover block pointer-events-none">
+              <path fill="#e21c0e" d="M0 0h3v1H0z"/>
+              <path fill="#fff" d="M0 1h3v1H0z"/>
+            </svg>
+          </div>
+          <span class="text-[9px] sm:text-[11px] hidden sm:inline">ID</span>
+        </button>
+
+        <div class="w-[1px] h-2.5 bg-slate-200"></div>
+
+        {/* Chinese Toggle */}
+        <button 
+          id="global-nav-zh" 
+          type="button" 
+          class="flex items-center gap-1 sm:gap-1.5 rounded-full transition-all duration-200 hover:scale-105 cursor-pointer outline-none font-sans font-bold text-[10px] sm:text-xs"
+          title="Chinese (Simplified)"
+        >
+          <div class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full overflow-hidden shrink-0 aspect-square">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" preserveAspectRatio="none" class="w-full h-full object-cover block pointer-events-none">
+              <path fill="#de2110" d="M0 0h900v600H0z"/>
+              <g fill="#ffde00">
+                <path id="l" d="M150 200l29.4-90.4 77 56-95.2 3.1 29.4-90.5 40.6 81.8z"/>
+                <use href="#l" transform="matrix(.2723 -.20422 .20422 .2723 150 -100)"/>
+                <use href="#l" transform="matrix(.13615 -.31548 .31548 .13615 210 -40)"/>
+                <use href="#l" transform="matrix(.01923 -.34237 .34237 .01923 230 60)"/>
+                <use href="#l" transform="matrix(-.1118 -.32475 .32475 -.1118 190 140)"/>
+              </g>
+            </svg>
+          </div>
+          <span id="label-zh-text" class="text-[9px] sm:text-[11px] tracking-wide transition-colors duration-200">中文</span>
+        </button>
+
       </div>
     </div>
-  </Container>
-</header>
+
+    <Navbar />
+
+    {/* Dynamic Data Bridge for Translation Layer */}
+    <main id="universal-translation-root" data-cms-rooms={JSON.stringify(protectedCmsStrings)}>
+      <slot />
+    </main>
+
+    <Footer />
+
+    {/* OBFUSCATED WHATSAPP WIDGET */}
+    <a 
+      id="secure-whatsapp-widget"
+      href="#"
+      class="whatsapp-icon-float notranslate" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      aria-label="Chat on WhatsApp"
+      data-prefix="wa.me"
+      data-country="62"
+      data-dial="87722469110"
+    >
+      <svg viewBox="0 0 24 24" class="whatsapp-svg">
+        <path fill="#FFF" d="M12.012 2c-5.508 0-9.988 4.479-9.988 9.987 0 1.763.459 3.49 1.33 5.009l-1.353 4.937 5.055-1.326c1.47.8 3.125 1.222 4.814 1.223h.004c5.507 0 9.989-4.479 9.989-9.988 0-2.67-1.039-5.18-2.93-7.071C17.186 3.04 14.684 2 12.012 2zm5.727 14.043c-.235.662-1.36 1.205-1.879 1.282-.46.069-1.06.126-3.155-.701-2.678-1.057-4.407-3.786-4.542-3.963-.133-.177-1.082-1.437-1.082-2.742 0-1.306.683-1.948.924-2.214.241-.265.529-.332.706-.332.176 0 .353.003.507.01.16.007.375-.062.587.447.218.524.743 1.812.808 1.945.066.133.11.287.022.463-.088.177-.133.287-.265.442-.132.155-.278.347-.396.465-.133.133-.272.278-.118.543.155.265.687 1.134 1.474 1.833.1.089.197.177.291.26.702.615 1.295.82 1.57.954.276.133.438.11.603-.078.166-.188.706-.818.894-1.094.188-.276.376-.232.631-.138.254.094 1.61.76 1.886.898.276.138.459.208.526.32.066.111.066.645-.169 1.307z"/>
+      </svg>
+    </a>
+
+    {/* GLOBAL CSS ANTI-THEFT AND LAYOUT RULES */}
+    <style is:global>
+      img { 
+        content-visibility: auto; 
+        pointer-events: none !important;
+        -webkit-user-drag: none !important;
+        user-drag: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+        -webkit-touch-callout: none !important;
+      }
+      
+      .whatsapp-icon-float {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background-color: #25d366;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 2px 4px 12px rgba(0,0,0,0.3);
+        z-index: 99999;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+      }
+      .whatsapp-svg { width: 36px; height: 36px; }
+      .whatsapp-icon-float:hover { transform: scale(1.1); background-color: #128c7e; }
+      @media (max-width: 768px) {
+        .whatsapp-icon-float { bottom: 16px; right: 16px; width: 50px; height: 50px; }
+        .whatsapp-svg { width: 30px; height: 30px; }
+      }
+      
+      .ai-translated-notice {
+        display: block;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        font-size: 10px;
+        color: #94a3b8;
+        margin-top: 4px;
+        font-style: normal !important;
+        font-weight: 500;
+        letter-spacing: 0.025em;
+      }
+    </style>
+
+    <script is:inline>
+      const baselineTextCache = new Map();
+
+      // INTERCEPT RIGHT-CLICKS ON VISUAL ASSETS
+      document.addEventListener('contextmenu', (event) => {
+        if (event.target.tagName === 'IMG') {
+          event.preventDefault();
+        }
+      }, { capture: true });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // WhatsApp Widget Handler
+        const waWidget = document.getElementById("secure-whatsapp-widget");
+        if (waWidget) {
+          const pfx = waWidget.getAttribute("data-prefix");
+          const cc = waWidget.getAttribute("data-country");
+          const num = waWidget.getAttribute("data-dial");
+          waWidget.href = `https://${pfx}/${cc}${num}`;
+        }
+      });
+
+      // CLEAN TRANSLATION MAP CONFIGURATION (No Hardcoding)
+      const labelTranslations = {
+        en: "SELECT LANGUAGE:",
+        id: "PILIHAN BAHASA:",
+        zh: "选择语言:"
+      };
+
+      function getLanguageSetting() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+        if (urlLang === 'id' || urlLang === 'en' || urlLang === 'zh') {
+          localStorage.setItem('mutiara_user_lang', urlLang);
+          return urlLang;
+        }
+        
+        const savedLanguage = localStorage.getItem('mutiara_user_lang');
+        if (savedLanguage) return savedLanguage;
+        
+        const systemLocale = (navigator.language || navigator.languages[0] || 'en').toLowerCase();
+        if (systemLocale.startsWith('id') || systemLocale.startsWith('ms')) {
+          localStorage.setItem('mutiara_user_lang', 'id');
+          return 'id';
+        } else if (systemLocale.startsWith('zh') || systemLocale.startsWith('zho') || systemLocale.startsWith('cmn')) {
+          localStorage.setItem('mutiara_user_lang', 'zh');
+          return 'zh';
+        }
+        
+        localStorage.setItem('mutiara_user_lang', 'en');
+        return 'en';
+      }
+
+      async function fetchSingleNodeTranslation(textString, targetLangCode) {
+        if (!textString || textString.trim() === "" || !isNaN(textString)) return textString;
+        try {
+          const apiEndpoint = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLangCode}&dt=t&q=${encodeURIComponent(textString)}`;
+          const rawResponse = await fetch(apiEndpoint);
+          const parsedData = await rawResponse.json();
+          if (parsedData && parsedData[0]) {
+            return parsedData[0].map(phrase => phrase[0]).join('');
+          }
+          return textString;
+        } catch (err) {
+          return textString;
+        }
+      }
+
+      async function executeUniversalTranslation() {
+        const activeLanguage = getLanguageSetting();
+        const rootContainer = document.getElementById('universal-translation-root');
+        if (!rootContainer) return;
+
+        let protectedRoomTitles = [];
+        try {
+          const rawCmsData = rootContainer.getAttribute('data-cms-rooms');
+          if (rawCmsData) {
+            protectedRoomTitles = JSON.parse(rawCmsData);
+          }
+        } catch(e) {
+          protectedRoomTitles = ["budget room", "standard room", "superior room", "deluxe room"];
+        }
+
+        const flagEN = document.getElementById('global-nav-en');
+        const flagID = document.getElementById('global-nav-id');
+        const flagZH = document.getElementById('global-nav-zh');
+        const textZH = document.getElementById('label-zh-text');
+        const labelEl = document.getElementById('global-lang-label');
+        
+        const allFlags = [flagEN, flagID, flagZH];
+        allFlags.forEach(f => {
+          if (f) {
+            f.style.filter = 'grayscale(100%)'; f.style.opacity = '0.4'; f.style.transform = 'scale(1)'; f.style.color = '#94a3b8';
+          }
+        });
+        if (flagEN) flagEN.querySelector('span').style.color = '#94a3b8';
+        if (flagID) flagID.querySelector('span').style.color = '#94a3b8';
+        if (textZH) textZH.style.color = '#94a3b8';
+
+        // Render label options via dynamic passthrough dictionary configuration
+        if (labelEl) {
+          labelEl.innerText = labelTranslations[activeLanguage] || labelTranslations.en;
+        }
+
+        if (activeLanguage === 'id') {
+          if (flagID) { flagID.style.filter = 'none'; flagID.style.opacity = '1'; flagID.style.transform = 'scale(1.08)'; flagID.querySelector('span').style.color = '#1e293b'; }
+        } else if (activeLanguage === 'zh') {
+          if (flagZH) { flagZH.style.filter = 'none'; flagZH.style.opacity = '1'; flagZH.style.transform = 'scale(1.08)'; if (textZH) textZH.style.color = '#de2110'; }
+        } else {
+          if (flagEN) { flagEN.style.filter = 'none'; flagEN.style.opacity = '1'; flagEN.style.transform = 'scale(1.08)'; flagEN.querySelector('span').style.color = '#1e293b'; }
+        }
+
+        rootContainer.querySelectorAll('.ai-translated-notice').forEach(el => el.remove());
+
+        const elementsToProcess = [];
+        const walker = document.createTreeWalker(rootContainer, NodeFilter.SHOW_TEXT, {
+          acceptNode: function(node) {
+            if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') {
+              return NodeFilter.FILTER_REJECT;
+            }
+            const textClean = node.textContent.trim().toLowerCase();
+            if (protectedRoomTitles.includes(textClean)) return NodeFilter.FILTER_REJECT;
+            if (node.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]')) return NodeFilter.FILTER_REJECT;
+            if (node.textContent.toLowerCase().includes('mutiara') && textClean.length < 40) return NodeFilter.FILTER_REJECT;
+            if (textClean === 'book now' || textClean === 'claim offer now' || textClean.includes('claim offer') || textClean === 'view gallery' || textClean === 'original' || textClean.includes('modus bahasa') || textClean === '中文') return NodeFilter.FILTER_REJECT;
+            if (node.parentElement.tagName === 'BUTTON' || node.parentElement.tagName === 'A' || node.parentElement.classList.contains('btn') || node.parentElement.classList.contains('button') || node.parentElement.closest('.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]')) return NodeFilter.FILTER_REJECT;
+            return node.textContent.trim().length > 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+          }
+        });
+
+        while (walker.nextNode()) {
+          elementsToProcess.push(walker.currentNode);
+        }
+
+        const reviewElements = rootContainer.querySelectorAll('.review-content-text');
+        reviewElements.forEach(el => {
+          if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
+            const innerClean = el.firstChild.textContent.trim().toLowerCase();
+            if (!elementsToProcess.includes(el.firstChild) && !el.closest('.notranslate, .skiptranslate, [translate="no"]') && !protectedRoomTitles.includes(innerClean)) {
+              elementsToProcess.push(el.firstChild);
+            }
+          }
+        });
+
+        for (const textNode of elementsToProcess) {
+          const currentClean = textNode.textContent.trim().toLowerCase();
+          if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(currentClean)) continue;
+          
+          const isReviewBox = textNode.parentElement.classList.contains('review-content-text');
+          if (!baselineTextCache.has(textNode)) {
+            baselineTextCache.set(textNode, isReviewBox ? textNode.textContent.replace(/^"|"$/g, '') : textNode.textContent);
+          }
+          const originalValue = baselineTextCache.get(textNode);
+          if (activeLanguage === 'en') {
+            textNode.textContent = originalValue;
+            continue;
+          }
+
+          let convertedText = await fetchSingleNodeTranslation(originalValue, activeLanguage);
+          const postClean = textNode.textContent.trim().toLowerCase();
+          if (!textNode.parentElement || textNode.parentElement.closest('.notranslate, .skiptranslate, [translate="no"]') || protectedRoomTitles.includes(postClean)) {
+            textNode.textContent = originalValue; 
+            continue;
+          }
+
+          convertedText = convertedText.replace(/Hotel Mutiara & Konvensi/gi, 'Mutiara Hotel & Convention');
+          convertedText = convertedText.replace(/Hotel Mutiara/gi, 'Mutiara Hotel');
+          convertedText = convertedText.replace(/珍珠酒店及会议中心/g, 'Mutiara Hotel & Convention');
+          convertedText = convertedText.replace(/珍珠酒店/g, 'Mutiara Hotel');
+
+          if (isReviewBox) {
+            textNode.textContent = `"${convertedText.trim()}"`;
+            const noticeLabel = document.createElement('span');
+            noticeLabel.className = 'ai-translated-notice';
+            if (activeLanguage === 'id') noticeLabel.innerText = '✨ Diterjemahkan Otomatis';
+            else if (activeLanguage === 'zh') noticeLabel.innerText = '✨ 自动翻译';
+            else noticeLabel.innerText = '✨ Automatically Translated';
+            textNode.parentElement.appendChild(noticeLabel);
+          } else {
+            textNode.textContent = convertedText.replace(/\*\*/g, '').replace(/__/g, '');
+          }
+        }
+      }
+
+      function setupLanguageListeners() {
+        const btnEN = document.getElementById('global-nav-en');
+        const btnID = document.getElementById('global-nav-id');
+        const btnZH = document.getElementById('global-nav-zh');
+
+        if (btnEN) {
+          btnEN.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem('mutiara_user_lang', 'en');
+            const url = new URL(window.location.href); url.searchParams.delete('lang'); window.history.pushState({}, '', url);
+            executeUniversalTranslation();
+          };
+        }
+        if (btnID) {
+          btnID.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem('mutiara_user_lang', 'id');
+            const url = new URL(window.location.href); url.searchParams.set('lang', 'id'); window.history.pushState({}, '', url);
+            executeUniversalTranslation();
+          };
+        }
+        if (btnZH) {
+          btnZH.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem('mutiara_user_lang', 'zh');
+            const url = new URL(window.location.href); url.searchParams.set('lang', 'zh'); window.history.pushState({}, '', url);
+            executeUniversalTranslation();
+          };
+        }
+      }
+
+      setupLanguageListeners();
+      executeUniversalTranslation();
+
+      document.addEventListener('astro:after-swap', () => {
+        setupLanguageListeners();
+        executeUniversalTranslation();
+      });
+    </script>
+  </body>
+</html>
