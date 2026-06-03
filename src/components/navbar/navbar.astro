@@ -23,8 +23,8 @@ const menuitems = [
 ];
 ---
 
-{/* NAVBAR BACKDROP FIX: Stays at z-50 to float over text elements safely */}
-<header class="sticky top-0 z-50 w-full bg-white shadow-sm transition-all border-b border-gray-100">
+{/* NAVBAR BACKDROP */}
+<header class="sticky top-0 z-[70] w-full bg-white shadow-sm transition-all border-b border-gray-100">
   <Container>
     <div class="flex flex-col lg:flex-row justify-between items-center py-4 w-full min-h-[72px] lg:min-h-0">
       <Astronav>
@@ -44,12 +44,13 @@ const menuitems = [
             )}
           </a>
           
-          <div class="block lg:hidden absolute top-3 right-1 z-50 text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-1">
+          {/* FIXED MOBILE HAMBURGER POSITION: Changed top-3 to top-[17px] to drop it by exactly 5px */}
+          <div class="block lg:hidden absolute top-[17px] right-1 z-[80] text-slate-950 hover:text-amber-600 transition-colors cursor-pointer p-1">
             <MenuIcon class="w-6 h-6" />
           </div>
         </div>
         
-        {/* MOBILE OVERLAP CORRECTION: pt-14 drops mobile paths perfectly clear of the language pills */}
+        {/* Menu items container dropdown block */}
         <MenuItems class="hidden w-full lg:w-auto mt-4 pt-14 lg:pt-0 lg:flex lg:mt-0">
           <ul class="flex flex-col lg:flex-row items-start lg:items-center gap-1 lg:gap-2 w-full">
             {
