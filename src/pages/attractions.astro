@@ -56,7 +56,7 @@ const defaultAttractions = [
     title: "Mount Tangruban Perahu",
     distance: "18 Miles (55 Min Drive)",
     image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
-    tagline: "Active Volcano & Panoramic Crates",
+    tagline: "Active Volcano & Panoramic Craters",
     category: "Nature Excursions",
     description: "An iconic active volcano north of the city in Lembang. Visitors can hike or drive right up to the edge of the massive main crater to witness steam vents amidst beautiful mountain backdrops."
   },
@@ -99,7 +99,7 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
       {attractions.map((item, index) => {
         const encodedLocation = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
-        const exactMapUrl = `https://maps.google.com/?q=${encodedLocation}`;
+        const exactMapUrl = `http://googleusercontent.com/maps.google.com/?q=${encodedLocation}`;
 
         return (
           <div 
@@ -134,7 +134,7 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 
             {/* CONTENT SPACE */}
             <div class="p-6 flex-grow flex flex-col justify-between">
-              <div class="mb-4">
+              <div>
                 <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
                   <span>{item.tagline}</span>
                 </span>
@@ -143,33 +143,33 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
                 </h2>
                 <div class="w-8 h-0.5 bg-gray-200 mb-4"></div>
                 
-                {/* REFACTORED SMART HEIGHT CONTAINER */}
-                <div class="relative overflow-hidden transition-all duration-300 ease-in-out">
-                  <p 
-                    class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line"
-                    :style="isExpanded ? 'max-height: 1000px; margin-bottom: 0px;' : 'max-height: 4.5rem; margin-bottom: 0px;'"
-                  >
+                {/* STRICT FIXED-SIZE COLLAPSIBLE CONTAINER */}
+                <div 
+                  class="relative overflow-hidden transition-all duration-300"
+                  :class="isExpanded ? 'max-h-[none]' : 'max-h-24'"
+                >
+                  <p class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line m-0 pb-6">
                     {item.description}
                   </p>
                   
-                  {/* CSS FADE OVERLAY (Visible only when description is collapsed) */}
+                  {/* SMOOTH BOTTOM EDGE FADE (Hides instantly when open) */}
                   <div 
-                    class="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white to-transparent pointer-events-none transition-opacity duration-300"
+                    class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white via-white/90 to-transparent pointer-events-none"
                     x-show="!isExpanded"
                   ></div>
                 </div>
 
-                {/* EXPANSION TRIGGER */}
+                {/* EXPANSION BUTTON TRIGGER */}
                 <button 
                   @click="isExpanded = !isExpanded"
-                  class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-3 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer block"
+                  class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-2 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer block"
                 >
                   <span x-text="isExpanded ? 'Show Less ↑' : 'Read More ↓'">Read More ↓</span>
                 </button>
               </div>
               
               {/* CARD FOOTER */}
-              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase mt-2">
+              <div class="border-t border-gray-100 pt-4 flex items-center justify-between text-[11px] font-sans font-medium tracking-wider text-slate-400 uppercase mt-6">
                 <span class="notranslate">Bandung, IDN</span>
                 <a 
                   href={exactMapUrl} 
