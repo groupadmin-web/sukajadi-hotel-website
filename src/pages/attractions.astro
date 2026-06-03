@@ -116,10 +116,10 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
                 <span>📍</span> <span>{item.distance}</span>
               </div>
             </div>
-
-            {/* FIXED PHOTO CREDIT INJECTION: Placed directly underneath the image canvas window */}
+          
+            {/* FIXED PHOTO CREDIT INJECTION: Updated with a clean white background and discrete borders */}
             {item.photo_credit && item.photo_credit.trim() !== "" && (
-              <div class="w-full bg-slate-100 border-b border-gray-200 px-4 py-1.5 text-[9px] font-sans font-light text-slate-500 text-right tracking-wide truncate select-none notranslate">
+              <div class="w-full bg-white border-t border-b border-slate-100 px-4 py-2 text-[9px] font-sans font-light text-slate-400 text-right tracking-wide truncate select-none notranslate">
                 📷 {item.photo_credit}
               </div>
             )}
