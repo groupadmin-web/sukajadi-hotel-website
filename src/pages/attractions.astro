@@ -89,14 +89,27 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 <Layout title="Local Attractions | Mutiara Hotel & Convention">
   <div 
     class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8"
-    x-data="{ modalOpen: false, modalTitle: '', modalDescription: '', modalImage: '', modalTagline: '' }"
-    @open-modal.window="
-      modalTitle = $event.detail.title;
-      modalTagline = $event.detail.tagline;
-      modalDescription = $event.detail.description;
-      modalImage = $event.detail.image;
-      modalOpen = true;
-    "
+    x-data="{ 
+      modalOpen: false, 
+      modalTitle: '', 
+      modalDescription: '', 
+      modalImage: '', 
+      modalTagline: '',
+      items: [],
+      init() {
+        // Safe data initialization from global window payload
+        this.items = window.attractionsPayload || [];
+      },
+      openModalByIndex(index) {
+        const target = this.items[index];
+        if (!target) return;
+        this.modalTitle = target.title;
+        this.modalTagline = target.tagline;
+        this.modalDescription = target.description;
+        this.modalImage = target.image;
+        this.modalOpen = true;
+      }
+    }"
     :class="modalOpen ? 'overflow-hidden' : ''"
   >
 
@@ -111,12 +124,6 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
       {attractions.map((item, index) => {
         const encodedLocation = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
         const exactMapUrl = `http://googleusercontent.com/maps.google.com/?q=${encodedLocation}`;
-
-        // Escape double quotes safely for AlpineJS inline execution inside templates
-        const safeTitle = item.title.replace(/"/g, '&quot;');
-        const safeTagline = item.tagline.replace(/"/g, '&quot;');
-        const safeDescription = item.description.replace(/"/g, '&quot;');
-        const safeImage = item.image.replace(/"/g, '&quot;');
 
         return (
           <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
@@ -164,12 +171,7 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 
                 {/* MODAL POPUP LAUNCH TRIGGER BUTTON */}
                 <button 
-                  @click={`$dispatch('open-modal', { 
-                    title: "${safeTitle}", 
-                    tagline: "${safeTagline}", 
-                    description: "${safeDescription}", 
-                    image: "${safeImage}" 
-                  })`}
+                  @click={`openModalByIndex(${index})`}
                   class="text-amber-600 font-sans font-bold text-[11px] uppercase tracking-wider mt-3 hover:text-amber-700 transition-colors focus:outline-none cursor-pointer block"
                   type="button"
                 >
@@ -262,6 +264,11 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
 
   </div>
 </Layout>
+
+{/* Safely inject the data structure as a global context directly readable by client script engines */}
+<script is:inline define:vars={{ attractions }}>
+  window.attractionsPayload = attractions;
+</script>
 
 <style>
   [x-cloak] { display: none !important; }
