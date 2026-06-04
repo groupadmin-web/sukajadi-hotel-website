@@ -2,7 +2,6 @@
 // src/components/BookingToast.astro
 import toastSettings from "../content/booking_toast.json";
 
-// Pass values safely to data attributes so our script can read them
 const initialThresholdMs = (toastSettings.initial_threshold_seconds || 30) * 1000;
 const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
 ---
@@ -11,15 +10,13 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
   id="booking-toast-container"
   data-initial-threshold={initialThresholdMs}
   data-cooldown-length={cooldownMs}
-  class="fixed bottom-6 right-6 z-[999] max-w-sm w-full bg-slate-900 border border-slate-800 text-slate-300 rounded-xl p-4 shadow-2xl transition-all duration-500 transform translate-y-10 opacity-0 pointer-events-none"
+  class="fixed bottom-6 right-6 z-[999] max-w-sm w-full bg-slate-900 border border-slate-800 text-slate-300 rounded-xl p-4 shadow-2xl transition-all duration-500 transform translate-y-10 opacity-0 pointer-events-none animate-[none]"
 >
   <div class="flex items-start gap-3 relative">
-    {/* Dynamic CMS Icon Badge */}
     <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 text-sm font-sans animate-pulse select-none">
       {toastSettings.badge_icon}
     </div>
 
-    {/* Content Areas managed by CMS */}
     <div class="flex-1 pr-4">
       <h5 class="text-white text-xs font-bold uppercase tracking-wider mb-1 font-sans">
         {toastSettings.heading}
@@ -28,7 +25,6 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
         {toastSettings.description}
       </p>
       
-      {/* Action Links */}
       <div class="mt-3 flex items-center gap-3 text-[10px] font-sans font-bold uppercase tracking-wider">
         <a 
           href={`tel:${toastSettings.call_phone_number.replace(/\s+/g, '')}`} 
@@ -47,7 +43,6 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
       </div>
     </div>
 
-    {/* Dismiss Trigger */}
     <button 
       id="toast-close-btn"
       class="absolute -top-1 -right-1 text-slate-500 hover:text-white text-base font-sans leading-none focus:outline-none cursor-pointer p-1 select-none"
@@ -58,37 +53,45 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
   </div>
 </div>
 
-<script>
-  // Runs purely in the browser—100% immune to Astro attribute parsing issues
-  const container = document.getElementById('booking-toast-container');
-  const closeBtn = document.getElementById('toast-close-btn');
-  const emailBtn = document.getElementById('toast-email-btn');
+<script is:inline>
+  // is:inline bypasses Astro optimization entirely so this triggers raw on every page mount
+  (function() {
+    const container = document.getElementById('booking-toast-container');
+    const closeBtn = document.getElementById('toast-close-btn');
+    const emailBtn = document.getElementById('toast-email-btn');
 
-  if (container) {
+    if (!container) return;
+
     const initialThreshold = parseInt(container.getAttribute('data-initial-threshold') || '30000', 10);
     const cooldownLength = parseInt(container.getAttribute('data-cooldown-length') || '180000', 10);
 
     const showToast = () => {
+      container.style.transform = 'translate-y(0)';
       container.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
       container.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+      // Inline style override to guarantee visibility against strict CSS build states
+      container.style.opacity = '1';
+      container.style.pointerEvents = 'auto';
+      container.style.transform = 'translateY(0)';
     };
 
     const hideToast = () => {
       container.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
       container.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
+      container.style.opacity = '0';
+      container.style.pointerEvents = 'none';
+      container.style.transform = 'translateY(40px)';
     };
 
     const checkTimer = () => {
       const now = Date.now();
       
-      // Accumulate browsing durations natively inside localStorage
       let elapsed = parseInt(localStorage.getItem('site_dwell_time') || '0', 10);
       if (elapsed < initialThreshold) {
         localStorage.setItem('site_dwell_time', (elapsed + 1000).toString());
         return; 
       }
 
-      // Check if the cooldown loop block is ticking down
       const cooldownExpiry = parseInt(localStorage.getItem('toast_cooldown_expiry') || '0', 10);
       if (cooldownExpiry > 0) {
         if (now < cooldownExpiry) {
@@ -98,22 +101,29 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
         }
       }
 
-      // Slide up when threshold parameters are cleared
       showToast();
     };
 
-    // Background tracking pulse running every 1 second
-    let timerInterval = setInterval(checkTimer, 1000);
+    // Kill any existing duplicate intervals from previous page components
+    if (window.toastTimerInterval) {
+      clearInterval(window.toastTimerInterval);
+    }
+    
+    window.toastTimerInterval = setInterval(checkTimer, 1000);
 
-    // Close Button Action
     closeBtn?.addEventListener('click', () => {
       hideToast();
       localStorage.setItem('toast_cooldown_expiry', (Date.now() + cooldownLength).toString());
     });
 
-    // Email Mask Trigger Integration
     emailBtn?.addEventListener('click', () => {
-      document.getElementById('direct-concierge-action')?.click();
+      // Safe dynamic lookup for your footer action handler link
+      const emailTarget = document.getElementById('direct-concierge-action') || document.querySelector('[href^="mailto:"]');
+      if (emailTarget) {
+        emailTarget.click();
+      } else {
+        window.location.href = 'mailto:info@mutiarahotel.com';
+      }
     });
-  }
+  })();
 </script>
