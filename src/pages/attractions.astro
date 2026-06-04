@@ -99,12 +99,11 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
     {/* STATIC HEIGHT ISOLATION LAYOUT ACCORDION GRID */}
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
       {attractions.map((item) => {
-        // Locate this block around line 125 inside src/pages/attractions.astro
         const hotelAddress = "Mutiara Hotel and Convention Bandung, Jl. Kebon Kawung No.60, Bandung";
         const encodedOrigin = encodeURIComponent(hotelAddress);
         const encodedDestination = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
         
-        // FIXED: Using standard template literal syntax ${...} on the official google maps domain
+        // FIXED syntax template placeholder from 3{encodedOrigin} to proper ${encodedOrigin}
         const exactMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodedOrigin}&destination=${encodedDestination}`;
 
         return (
@@ -162,7 +161,7 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
             </summary>
 
             {/* COLLAPSED ISOLATED CONTENT OVERFLOW BAY CONTAINER */}
-            <div class="px-6 pb-4 pt-1 transition-all duration-300 animate-fadeIn">
+            <div class="px-6 pb-4 pt-1 transition-all duration-300捷 animate-fadeIn">
               <p class="text-gray-500 text-sm font-sans font-light leading-relaxed whitespace-pre-line border-t border-dashed border-slate-100 pt-3">
                 {item.description}
               </p>
