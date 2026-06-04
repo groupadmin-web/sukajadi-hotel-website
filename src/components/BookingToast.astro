@@ -60,10 +60,15 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
     const closeBtn = document.getElementById('toast-close-btn');
     const emailBtn = document.getElementById('toast-email-btn');
 
-    if (!container) return;
+    if (!container) {
+      console.error("❌ BookingToast: Container element not found on page output!");
+      return;
+    }
 
     const initialThreshold = parseInt(container.getAttribute('data-initial-threshold') || '30000', 10);
     const cooldownLength = parseInt(container.getAttribute('data-cooldown-length') || '180000', 10);
+
+    console.log(`🛎️ BookingToast initialized! Need ${initialThreshold / 1000}s stay before show.`);
 
     const showToast = () => {
       container.style.opacity = '1';
@@ -80,27 +85,28 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
     const checkTimer = () => {
       const now = Date.now();
       
-      // Trace cumulative time spent across layout changes
       let elapsed = parseInt(localStorage.getItem('site_dwell_time') || '0', 10);
+      
       if (elapsed < initialThreshold) {
         localStorage.setItem('site_dwell_time', (elapsed + 1000).toString());
+        console.log(`⏱️ Stay Timer: Total time spent on site: ${(elapsed + 1000) / 1000}s / ${initialThreshold / 1000}s`);
         return; 
       }
 
-      // Check loop cooldown expiry metrics
       const cooldownExpiry = parseInt(localStorage.getItem('toast_cooldown_expiry') || '0', 10);
       if (cooldownExpiry > 0) {
         if (now < cooldownExpiry) {
+          console.log(`⏳ Cooldown Loop Active: Re-arming in ${Math.round((cooldownExpiry - now) / 1000)}s`);
           return; 
         } else {
           localStorage.removeItem('toast_cooldown_expiry');
+          console.log("♻️ Cooldown period cleared! Ready to re-prompt.");
         }
       }
 
       showToast();
     };
 
-    // Prevent duplicate loop instances on multi-page view swaps
     if (window.toastTimerInterval) {
       clearInterval(window.toastTimerInterval);
     }
@@ -110,15 +116,7 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
     closeBtn?.addEventListener('click', () => {
       hideToast();
       localStorage.setItem('toast_cooldown_expiry', (Date.now() + cooldownLength).toString());
-    });
-
-    emailBtn?.addEventListener('click', () => {
-      const emailTarget = document.getElementById('direct-concierge-action') || document.querySelector('[href^="mailto:"]');
-      if (emailTarget) {
-        emailTarget.click();
-      } else {
-        window.location.href = 'mailto:info@mutiarahotel.com';
-      }
+      console.log(`🔒 Banner closed. Setting 3-minute cooldown delay flag.`);
     });
   })();
 </script>
