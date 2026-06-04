@@ -2,56 +2,16 @@
 // src/components/BookingToast.astro
 import toastSettings from "../content/booking_toast.json";
 
-// Safely pull configuration rules from the CMS JSON file
-const initialThresholdSeconds = toastSettings.initial_threshold_seconds || 30;
-const cooldownMinutes = toastSettings.cooldown_loop_minutes || 3;
+// Pass values safely to data attributes so our script can read them
+const initialThresholdMs = (toastSettings.initial_threshold_seconds || 30) * 1000;
+const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
 ---
 
 <div 
-  x-data="{ showToast: false }"
-  x-init={`
-    // Convert thresholds cleanly inside the client runtime engine
-    const initialThreshold = ${initialThresholdSeconds} * 1000; 
-    const cooldownLength = ${cooldownMinutes} * 60 * 1000; 
-
-    const checkTimer = () => {
-      const now = Date.now();
-      
-      // Accumulate browsing durations natively inside localStorage
-      let elapsed = parseInt(localStorage.getItem('site_dwell_time') || '0', 10);
-      if (elapsed < initialThreshold) {
-        localStorage.setItem('site_dwell_time', (elapsed + 1000).toString());
-        return; 
-      }
-
-      // Check if the 3-minute cooldown loop block is ticking down
-      const cooldownExpiry = parseInt(localStorage.getItem('toast_cooldown_expiry') || '0', 10);
-      
-      if (cooldownExpiry > 0) {
-        if (now < cooldownExpiry) {
-          return; 
-        } else {
-          localStorage.removeItem('toast_cooldown_expiry');
-        }
-      }
-
-      if (!showToast) {
-        showToast = true;
-      }
-    };
-
-    // Keep ticking in the background every 1 second
-    let timerInterval = setInterval(checkTimer, 1000);
-  `}
-  class="fixed bottom-6 right-6 z-[999] max-w-sm w-full bg-slate-900 border border-slate-800 text-slate-300 rounded-xl p-4 shadow-2xl transition-all duration-500 transform pointer-events-auto"
-  x-show="showToast"
-  x-transition:enter="transition ease-out duration-500"
-  x-transition:enter-start="opacity-0 translate-y-10 scale-95"
-  x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-  x-transition:leave="transition ease-in duration-300"
-  x-transition:leave-start="opacity-100 translate-y-0"
-  x-transition:leave-end="opacity-0 translate-y-4"
-  style="display: none;"
+  id="booking-toast-container"
+  data-initial-threshold={initialThresholdMs}
+  data-cooldown-length={cooldownMs}
+  class="fixed bottom-6 right-6 z-[999] max-w-sm w-full bg-slate-900 border border-slate-800 text-slate-300 rounded-xl p-4 shadow-2xl transition-all duration-500 transform translate-y-10 opacity-0 pointer-events-none"
 >
   <div class="flex items-start gap-3 relative">
     {/* Dynamic CMS Icon Badge */}
@@ -79,7 +39,7 @@ const cooldownMinutes = toastSettings.cooldown_loop_minutes || 3;
         </a>
         <span class="text-slate-800">|</span>
         <button 
-          @click="document.getElementById('direct-concierge-action')?.click()"
+          id="toast-email-btn"
           class="text-slate-400 hover:text-white transition-colors cursor-pointer"
         >
           {toastSettings.email_button_text}
@@ -87,9 +47,9 @@ const cooldownMinutes = toastSettings.cooldown_loop_minutes || 3;
       </div>
     </div>
 
-    {/* Dismiss Trigger: Multiplies minutes into active runtime milliseconds dynamically */}
+    {/* Dismiss Trigger */}
     <button 
-      @click={`showToast = false; localStorage.setItem('toast_cooldown_expiry', (Date.now() + (${cooldownMinutes} * 60 * 1000)).toString());`}
+      id="toast-close-btn"
       class="absolute -top-1 -right-1 text-slate-500 hover:text-white text-base font-sans leading-none focus:outline-none cursor-pointer p-1 select-none"
       aria-label="Dismiss reminder"
     >
@@ -97,3 +57,63 @@ const cooldownMinutes = toastSettings.cooldown_loop_minutes || 3;
     </button>
   </div>
 </div>
+
+<script>
+  // Runs purely in the browser—100% immune to Astro/Alpine attribute crashes
+  const container = document.getElementById('booking-toast-container');
+  const closeBtn = document.getElementById('toast-close-btn');
+  const emailBtn = document.getElementById('toast-email-btn');
+
+  if (container &&静态) {
+    const initialThreshold = parseInt(container.getAttribute('data-initial-threshold') || '30000', 10);
+    const cooldownLength = parseInt(container.getAttribute('data-cooldown-length') || '180000', 10);
+
+    const showToast = () => {
+      container.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
+      container.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+    };
+
+    const hideToast = () => {
+      container.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+      container.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
+    };
+
+    const checkTimer = () => {
+      const now = Date.now();
+      
+      // Accumulate browsing durations natively inside localStorage
+      let elapsed = parseInt(localStorage.getItem('site_dwell_time') || '0', 10);
+      if (elapsed < initialThreshold) {
+        localStorage.setItem('site_dwell_time', (elapsed + 1000).toString());
+        return; 
+      }
+
+      // Check if the cooldown loop block is ticking down
+      const cooldownExpiry = parseInt(localStorage.getItem('toast_cooldown_expiry') || '0', 10);
+      if (cooldownExpiry > 0) {
+        if (now < cooldownExpiry) {
+          return; 
+        } else {
+          localStorage.removeItem('toast_cooldown_expiry');
+        }
+      }
+
+      // If everything passes, make it slide up!
+      showToast();
+    };
+
+    // Keep ticking in the background every 1 second
+    let timerInterval = setInterval(checkTimer, 1000);
+
+    // Manual Close Handling
+    closeBtn?.addEventListener('click', () => {
+      hideToast();
+      localStorage.setItem('toast_cooldown_expiry', (Date.now() + cooldownLength).toString());
+    });
+
+    // Email Relay Action
+    emailBtn?.addEventListener('click', () => {
+      document.getElementById('direct-concierge-action')?.click();
+    });
+  }
+</script>
