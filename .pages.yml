@@ -376,40 +376,25 @@ content:
     type: file
     path: src/content/restaurants.json
     format: json
+    list: true
+    collapsed: true
     fields:
-      - name: page_description
-        label: "Main Page Description / Hook Text"
-        type: text
-        default: "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung."
-      - name: breakfast_notice
-        label: "Breakfast Advisory Note / Disclaimer Text"
-        type: text
-        default: "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
-      
-      # 🟢 THIS UNLOCKS THE REPEATABLE LIST VIEW CONTROLS
-      - name: items
-        label: "Restaurant Listings Grid"
-        widget: list
-        minimize: true
-        collapsed: true
-        summary: '{{fields.title}}'
-        fields:
-          - name: title
-            label: "Restaurant / Venue Name"
-            type: string
-          - name: distance
-            label: "Distance Proximity (e.g., 0.1 km / 5 Min Walk)"
-            type: string
-          - name: tagline
-            label: "Short Promo Subtitle Tagline"
-            type: string
-          - name: cuisine_type
-            label: "Cuisine Type Classification (Tiny Photo Label)"
-            type: string
-          - name: image
-            label: "Showcase Feature Photo"
-            type: image
-          - name: website_url
-            label: "Official Restaurant Website Link (Optional URL)"
-            type: string
-            required: false
+      - name: title
+        label: "Restaurant / Venue Name"
+        type: string
+      - name: distance
+        label: "Distance Proximity (e.g., 0.1 km / 5 Min Walk)"
+        type: string
+      - name: tagline
+        label: "Short Promo Subtitle Tagline"
+        type: string
+      - name: cuisine_type
+        label: "Cuisine Type Classification (Tiny Photo Label)"
+        type: string
+      - name: image
+        label: "Showcase Feature Photo"
+        type: image
+      - name: website_url
+        label: "Official Restaurant Website Link (Optional URL)"
+        type: string
+        required: false
