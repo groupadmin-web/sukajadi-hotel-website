@@ -371,20 +371,26 @@ content:
         label: "Email Masking Button Action Text"
         type: string
         default: "✉️ Email Us"
-  - name: restaurants_section
+  - name: restaurants
     label: "14. Culinary & Restaurant Guide"
     type: file
     path: src/content/restaurants.json
     format: json
     fields:
-      - name: description
-        label: "Page Header Description Text"
+      - name: page_description
+        label: "Main Page Description / Hook Text"
         type: text
-        default: "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung. Please note that while Mutiara Hotel does not offer a daily breakfast buffet service, our central location provides an exceptional gateway to dozens of iconic Bandung local food stalls and premium cafes just steps from your room."
+        default: "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung."
+      - name: breakfast_notice
+        label: "Breakfast Advisory Note / Disclaimer Text"
+        type: text
+        default: "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
+      
+      # 🟢 FIXED: Explicitly group restaurant listings inside a valid sub-nested list widget container
       - name: items
-        label: "Restaurant Listings"
-        type: list
-        collapsed: true
+        label: "Manage Restaurant List Grid"
+        widget: list
+        minimize: true
         fields:
           - name: title
             label: "Restaurant / Venue Name"
