@@ -46,6 +46,8 @@ const encodedSubject = encodeURIComponent(toastSettings.email_subject || "Direct
           data-m={base64MaskedEmail}
           data-s={encodedSubject}
           href="#"
+          target="_blank"
+          rel="noopener noreferrer"
           class="text-slate-400 hover:text-white transition-colors cursor-pointer font-sans font-bold uppercase"
         >
           {toastSettings.email_button_text}
