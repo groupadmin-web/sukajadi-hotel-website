@@ -1,21 +1,5 @@
 {
-  "description": "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung. Please note that while Mutiara Hotel does not offer a daily breakfast buffet service, our central location provides an exceptional gateway to dozens of iconic Bandung local food stalls and premium cafes just steps from your room.",
-  "items": [
-    {
-      "title": "The Grand Mutiara Pavilion",
-      "distance": "0.1 km (Inside Hotel)",
-      "tagline": "Premium Authentic Dining",
-      "cuisine_type": "Sundanese Fusion",
-      "image": "",
-      "website_url": "https://m.mutiarahotel.com/dining"
-    },
-    {
-      "title": "Kebon Kawung Culinary Street",
-      "distance": "0.3 km",
-      "tagline": "Traditional Local Snacks",
-      "cuisine_type": "Indonesian",
-      "image": "",
-      "website_url": ""
-    }
-  ]
+  "page_description": "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung.",
+  "breakfast_notice": "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep.",
+  "items": []
 }
