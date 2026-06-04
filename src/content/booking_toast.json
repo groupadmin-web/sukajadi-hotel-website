@@ -1,0 +1,10 @@
+{
+  "initial_threshold_seconds": 30,
+  "cooldown_loop_minutes": 3,
+  "badge_icon": "🛎️",
+  "heading": "Are you ready to book?",
+  "description": "Don't hesitate to contact our concierge desk directly for the best guaranteed group rates and localized suite packages.",
+  "call_button_text": "📞 Call Desk",
+  "call_phone_number": "+62224200888",
+  "email_button_text": "✉️ Email Us"
+}
