@@ -12,7 +12,7 @@ let settings = {
 
 try {
   // Pulling from the data folder where your food_settings.json lives
-  const settingsData = await import("../data/food_settings.json");
+  const settingsData = await import("../content/food_settings.json");
   if (settingsData && settingsData.default) {
     settings = { ...settings, ...settingsData.default };
   }
