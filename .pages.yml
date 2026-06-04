@@ -386,10 +386,11 @@ content:
         type: text
         default: "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
       
-      # 🟢 FIXED: Converted to a true Decap repeatable collection list array block
+      # 🟢 THIS FIXES IT: A clean, nested list widget declaration block
       - name: items
         label: "Manage Restaurant List Grid"
-        type: list
+        widget: list
+        minimize: true
         fields:
           - name: title
             label: "Restaurant / Venue Name"
