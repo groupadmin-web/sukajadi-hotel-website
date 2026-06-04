@@ -333,3 +333,41 @@ content:
       - name: privacy_content
         label: "Privacy Charter & T&C Document (Supports line breaks)"
         type: text
+  - name: booking_toast
+    label: "13. Smart Engagement Prompt"
+    type: file
+    path: src/content/booking_toast.json
+    format: json
+    fields:
+      - name: initial_threshold_seconds
+        label: "Initial Browsing Delay Before First Appearance (Seconds)"
+        type: number
+        default: 30
+      - name: cooldown_loop_minutes
+        label: "Loop Reminder Timing After Guest Closes It (Minutes)"
+        type: number
+        default: 3
+      - name: badge_icon
+        label: "Concierge Status Icon Badge"
+        type: string
+        default: "🛎️"
+      - name: heading
+        label: "Prompt Headline Title"
+        type: string
+        default: "Are you ready to book?"
+      - name: description
+        label: "Concierge Assistance Text Paragraph"
+        type: text
+        default: "Don't hesitate to contact our concierge desk directly for the best guaranteed group rates and localized suite packages."
+      - name: call_button_text
+        label: "Telephone Link Action Text"
+        type: string
+        default: "📞 Call Desk"
+      - name: call_phone_number
+        label: "System Dialing Phone Number (No spaces/symbols)"
+        type: string
+        default: "+62224200888"
+      - name: email_button_text
+        label: "Email Masking Button Action Text"
+        type: string
+        default: "✉️ Email Us"
