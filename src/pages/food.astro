@@ -3,19 +3,23 @@
 import Layout from "../layouts/Layout.astro";
 import BookingToast from "@/components/BookingToast.astro";
 
-// 1. SCAN THE ENTIRE FOOD DATA DIRECTORY AUTOMATICALLY
-let foodFiles = [];
+// DYNAMIC CONTENT INGESTION ENGINE
+let rawCmsData = null;
 try {
-  const globbedData = import.meta.glob("../content/food/*.json", { eager: true });
-  foodFiles = Object.values(globbedData).map((file: any) => file.default || file);
-} catch (e) {}
+  const restaurantsData = await import("../content/restaurants.json");
+  if (restaurantsData && restaurantsData.default) {
+    rawCmsData = restaurantsData.default;
+  }
+} catch (e) {
+  // Silent fail fallback to keep compilation alive if the data layer is empty
+}
 
-// 2. SEPARATE HEADERS FROM INDIVIDUAL RESTAURANT CARDS NATIVELY
-const headerConfig = foodFiles.find(file => file.layout_type === "Page Main Headers") || {};
-const restaurantItems = foodFiles.filter(file => file.layout_type !== "Page Main Headers" && file.title);
+// Extract descriptive strings
+const dynamicPageDescription = rawCmsData?.page_description || "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung.";
+const dynamicBreakfastNotice = rawCmsData?.breakfast_notice || "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep.";
 
-const dynamicPageDescription = headerConfig.page_description || "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung.";
-const dynamicBreakfastNotice = headerConfig.breakfast_notice || "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep.";
+// Extract the repeatable items array
+const restaurants = rawCmsData && Array.isArray(rawCmsData.items) ? rawCmsData.items : [];
 ---
 
 <Layout title="Local Dining Guide | Mutiara Hotel & Convention">
@@ -42,15 +46,20 @@ const dynamicBreakfastNotice = headerConfig.breakfast_notice || "Please note tha
     </div>
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-      {restaurantItems.map((item) => {
-        const encodedLocationName = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
+      {restaurants.map((item) => {
+        const encodedLocationName = encodeURIComponent(`${item.title || 'Restaurant'}, Bandung, West Java, Indonesia`);
         const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocationName}`;
 
         return (
           <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 w-full group">
             
             <div class="relative h-48 overflow-hidden bg-gray-100 shrink-0 select-none">
-              <img src={item.image || "/images/placeholder-dining.jpg"} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+              <img 
+                src={item.image || "/images/placeholder-dining.jpg"} 
+                alt={item.title} 
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                loading="lazy" 
+              />
               {item.cuisine_type && (
                 <div class="absolute top-4 left-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
                   {item.cuisine_type}
@@ -66,18 +75,33 @@ const dynamicBreakfastNotice = headerConfig.breakfast_notice || "Please note tha
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div class="mb-4">
                 {item.tagline && (
-                  <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">{item.tagline}</span>
+                  <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
+                    {item.tagline}
+                  </span>
                 )}
-                <h2 class="text-lg font-serif font-bold text-gray-800 tracking-wide uppercase line-clamp-2">{item.title}</h2>
+                <h2 class="text-lg font-serif font-bold text-gray-800 tracking-wide uppercase line-clamp-2">
+                  {item.title}
+                </h2>
                 <div class="w-8 h-0.5 bg-gray-200 mt-2"></div>
               </div>
 
               <div class="flex items-center gap-2 pt-3 border-t border-gray-100/80 text-[10px] font-sans font-bold tracking-wider uppercase">
-                <a href={exactMapUrl} target="_blank" rel="noopener noreferrer" class="flex-1 bg-slate-50 hover:bg-slate-100 text-gray-700 border border-gray-200/60 rounded-lg py-2.5 text-center transition-all flex items-center justify-center gap-1.5">
+                <a 
+                  href={exactMapUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="flex-1 bg-slate-50 hover:bg-slate-100 text-gray-700 border border-gray-200/60 rounded-lg py-2.5 text-center transition-all flex items-center justify-center gap-1.5"
+                >
                   <span>View Pin</span>
                 </a>
+
                 {item.website_url && (
-                  <a href={item.website_url} target="_blank" rel="noopener noreferrer" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg py-2.5 text-center transition-all block whitespace-nowrap">
+                  <a 
+                    href={item.website_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg py-2.5 text-center transition-all block whitespace-nowrap"
+                  >
                     Website ↗
                   </a>
                 )}
