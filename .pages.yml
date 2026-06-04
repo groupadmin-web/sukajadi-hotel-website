@@ -371,12 +371,10 @@ content:
         label: "Email Masking Button Action Text"
         type: string
         default: "✉️ Email Us"
-  collections:
-  # 🟢 MODULE A: TOP LEVEL PAGE INFORMATION & HEADINGS
-  - name: food_settings
-    label: "14a. Food Page Headings"
+ - name: restaurants
+    label: "14. Culinary & Restaurant Guide"
     type: file
-    path: src/content/food_settings.json
+    path: src/content/restaurants.json
     format: json
     fields:
       - name: page_description
@@ -387,33 +385,30 @@ content:
         label: "Breakfast Advisory Note / Disclaimer Text"
         type: text
         default: "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
-
-  # 🟢 MODULE B: THE REPEATABLE RESTAURANT LIST LISTINGS
-  - name: restaurants
-    label: "14b. Restaurant Guide Listings"
-    label_singular: "Restaurant Entry"
-    folder: "src/content/restaurants" # Automatically creates separate JSON entries
-    create: true # This explicitly turns on the (+ Add Entry) button in Decap CMS
-    extension: json
-    format: json
-    slug: "{{title}}"
-    fields:
-      - name: title
-        label: "Restaurant / Venue Name"
-        type: string
-      - name: distance
-        label: "Distance Proximity (e.g., 0.1 km / 5 Min Walk)"
-        type: string
-      - name: tagline
-        label: "Short Promo Subtitle Tagline"
-        type: string
-      - name: cuisine_type
-        label: "Cuisine Type Classification (Tiny Photo Label)"
-        type: string
-      - name: image
-        label: "Showcase Feature Photo"
-        type: image
-      - name: website_url
-        label: "Official Restaurant Website Link (Optional URL)"
-        type: string
-        required: false
+      
+      # 🟢 THE FIX: Declaring a valid nested object list widget structure
+      - name: items
+        label: "Restaurant Listings Grid"
+        widget: list
+        minimize: true
+        summary: '{{fields.title}}'
+        fields:
+          - name: title
+            label: "Restaurant / Venue Name"
+            type: string
+          - name: distance
+            label: "Distance Proximity (e.g., 0.1 km / 5 Min Walk)"
+            type: string
+          - name: tagline
+            label: "Short Promo Subtitle Tagline"
+            type: string
+          - name: cuisine_type
+            label: "Cuisine Type Classification (Tiny Photo Label)"
+            type: string
+          - name: image
+            label: "Showcase Feature Photo"
+            type: image
+          - name: website_url
+            label: "Official Restaurant Website Link (Optional URL)"
+            type: string
+            required: false
