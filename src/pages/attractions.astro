@@ -99,10 +99,12 @@ const attractions = defaultAttractions.map((defaultItem, idx) => {
     {/* STATIC HEIGHT ISOLATION LAYOUT ACCORDION GRID */}
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
       {attractions.map((item) => {
-        // FIXED GOOGLE DIRECTIONS MAP ENGINE DEEP LINK PROTOCOL
+        // Locate this block around line 125 inside src/pages/attractions.astro
         const hotelAddress = "Mutiara Hotel and Convention Bandung, Jl. Kebon Kawung No.60, Bandung";
         const encodedOrigin = encodeURIComponent(hotelAddress);
         const encodedDestination = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
+        
+        // FIXED: Using standard template literal syntax ${...} on the official google maps domain
         const exactMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodedOrigin}&destination=${encodedDestination}`;
 
         return (
