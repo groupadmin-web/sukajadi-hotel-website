@@ -1,0 +1,18 @@
+[
+  {
+    "name": "The Grand Mutiara Pavilion",
+    "image": "/images/restaurants/pavilion.jpg",
+    "cuisine_type": "Sundanese Fusion",
+    "distance": "0.1 km (Inside Hotel)",
+    "map_url": "https://maps.google.com/?q=Mutiara+Hotel+Bandung",
+    "website_url": "https://m.mutiarahotel.com/dining"
+  },
+  {
+    "name": "Kebon Kawung Culinary Street",
+    "image": "/images/restaurants/streetfood.jpg",
+    "cuisine_type": "Local Delicacies",
+    "distance": "0.3 km",
+    "map_url": "https://maps.google.com/?q=Jalan+Kebon+Kawung+Culinary",
+    "website_url": "" 
+  }
+]
