@@ -1,14 +1,5 @@
 [
   {
-    "title": "Museum of the Asian-African Conference",
-    "distance": "2,3 km (28 Min Walk)",
-    "tagline": "Gedung Merdeka Heritage Site",
-    "category": "City Center",
-    "image": "/images/Musium_KAA.jpg",
-    "photo_credit": "Credit: Jagawana, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1874519",
-    "description": "Located just minutes from Hotel Mutiara Bandung, the Museum of the Asian–African Conference is one of Bandung’s most iconic heritage sites. Inside its beautifully preserved Art Deco building, visitors can explore the historic 1955 conference that shaped global cooperation between Asia and Africa.\n\nIt’s a meaningful stop for tourists who enjoy culture, history, and Bandung’s colonial charm — and staying at Hotel Mutiara makes it incredibly convenient. You can walk there easily, explore the surrounding Asia Afrika and Braga area, and return to the hotel without needing transport."
-  },
-  {
     "title": "Taman Balai Kota Bandung",
     "distance": "1,5 km (24 Min Walk)",
     "tagline": "Bandung City Hall & Historic Park",
@@ -16,6 +7,15 @@
     "image": "/images/Taman_Balai_Kota_Bandung-1.jpg",
     "photo_credit": "Credit: John Doe, via Wikimedia Commons. Licensed under CC BY-SA 4.0. https://creativecommons.org/licenses/by-sa/4.0/",
     "description": "Located around 1.5 km from the hotel on Jalan Wastukencana, the administrative center of Bandung is rich in history and remarkable architecture. The building was originally a coffee warehouse in 1819 before being converted into a Dutch colonial government office in 1927.\n"
+  },
+  {
+    "title": "Museum of the Asian-African Conference",
+    "distance": "2,3 km (28 Min Walk)",
+    "tagline": "Gedung Merdeka Heritage Site",
+    "category": "City Center",
+    "image": "/images/Musium_KAA.jpg",
+    "photo_credit": "Credit: Jagawana, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1874519",
+    "description": "Located just minutes from Hotel Mutiara Bandung, the Museum of the Asian–African Conference is one of Bandung’s most iconic heritage sites. Inside its beautifully preserved Art Deco building, visitors can explore the historic 1955 conference that shaped global cooperation between Asia and Africa.\n\nIt’s a meaningful stop for tourists who enjoy culture, history, and Bandung’s colonial charm — and staying at Hotel Mutiara makes it incredibly convenient. You can walk there easily, explore the surrounding Asia Afrika and Braga area, and return to the hotel without needing transport."
   },
   {
     "title": "Braga City Walk",
