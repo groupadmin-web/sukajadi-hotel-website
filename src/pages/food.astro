@@ -1,81 +1,134 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-import Container from "@/components/container.astro";
+// src/pages/food.astro
+import Layout from "../layouts/Layout.astro";
+import BookingToast from "@/components/BookingToast.astro";
 
-// Pure flat file data layout matching your setup perfectly
-import restaurantData from "@/content/restaurants.json";
-const restaurants = restaurantData || [];
+// 1. DEFAULT DATA BACKENDS FAIL-SAFES
+const defaultRestaurants = [
+  {
+    title: "The Grand Mutiara Pavilion",
+    distance: "0.1 km (Inside Hotel)",
+    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
+    tagline: "Authentic West Java Cuisine",
+    cuisine: "Sundanese Fusion",
+    website_url: "https://m.mutiarahotel.com/dining"
+  },
+  {
+    title: "Kebon Kawung Culinary Street",
+    distance: "0.2 Miles (4 Min Walk)",
+    image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80",
+    tagline: "Local Delicacies & Street Food",
+    cuisine: "Local Snacks",
+    website_url: ""
+  },
+  {
+    title: "23 Paskal Food Market",
+    distance: "0.4 Miles (8 Min Walk)",
+    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
+    tagline: "Massive Culinary Variety Hub",
+    cuisine: "Food Court",
+    website_url: ""
+  }
+];
+
+// 2. DYNAMIC CONTENT INGESTION ENGINE 
+let cmsData = [];
+try {
+  const restaurantsData = await import("../content/restaurants.json");
+  if (restaurantsData && Array.isArray(restaurantsData.default)) {
+    cmsData = restaurantsData.default;
+  }
+} catch (e) {}
+
+const restaurants = defaultRestaurants.map((defaultItem, idx) => {
+  const cmsItem = cmsData.find(item => item && (item.title === defaultItem.title)) || cmsData[idx] || {};
+  return {
+    title: cmsItem.title || defaultItem.title,
+    distance: cmsItem.distance || defaultItem.distance,
+    tagline: cmsItem.tagline || defaultItem.tagline,
+    cuisine: cmsItem.cuisine_type || cmsItem.cuisine || defaultItem.cuisine,
+    image: (cmsItem.image && cmsItem.image.trim() !== "") ? cmsItem.image : defaultItem.image,
+    website_url: cmsItem.website_url || defaultItem.website_url || ""
+  };
+});
 ---
 
-<Layout title="Local Dining & Culinary Guide">
-  <div id="universal-translation-root">
-    <Container class="py-12">
-      
-      <div class="text-center max-w-3xl mx-auto my-12">
-        <span class="text-xs font-sans font-bold tracking-widest text-amber-600 uppercase block mb-2">Culinary Experience</span>
-        <h1 class="text-4xl font-serif font-bold text-gray-800 mb-3">Bandung Dining & Restaurants</h1>
-        <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-5"></div>
-        <p class="text-sm text-gray-500 font-sans leading-relaxed">
-          Explore the rich culinary heritage surrounding Mutiara Hotel. From local authentic Sundanese flavors to global premium fusion kitchens, discover our curation of nearby dining spots.
-        </p>
-      </div>
+<Layout title="Local Dining Guide | Mutiara Hotel & Convention">
+  <div class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-24 w-full">
-        {restaurants.map((place) => (
-          <div class="bg-white rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-md w-full group">
+    <div class="max-w-4xl mx-auto text-center mb-16 mt-8">
+      <span class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1">Culinary Experience</span>
+      <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">Bandung Dining & Food</h1>
+      <div class="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
+      <p class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic">"From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung."</p>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+      {restaurants.map((item) => {
+        // 🟢 AUTOMATIC SEARCH QUERY METHOD: Targets a direct marker pin point query string natively!
+        const encodedLocationName = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
+        const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocationName}`;
+
+        return (
+          <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 w-full group">
             
-            <div class="relative overflow-hidden aspect-[4/3] bg-slate-100 flex-shrink-0">
+            <div class="relative h-48 overflow-hidden bg-gray-100 shrink-0 select-none">
               <img 
-                src={place.image} 
-                alt={place.name}
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                onerror="this.src='/images/placeholder-dining.jpg';"
+                src={item.image} 
+                alt={item.title} 
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                loading="lazy" 
               />
-              <span class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-sm border border-white/10 text-white font-sans text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md select-none notranslate">
-                {place.cuisine_type}
-              </span>
+              <div class="absolute top-4 left-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold notranslate">
+                {item.cuisine}
+              </div>
+              <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
+                <span>📍</span> <span>{item.distance}</span>
+              </div>
             </div>
 
             <div class="p-5 flex-1 flex flex-col justify-between">
-              <div>
-                <h3 class="text-lg font-serif font-bold text-gray-800 mb-1 leading-snug line-clamp-2">
-                  {place.name}
-                </h3>
-                <div class="flex items-center gap-1.5 text-xs text-gray-400 font-sans mt-2">
-                  <span class="text-amber-500 text-sm">📍</span>
-                  <span>{place.distance} from Hotel</span>
-                </div>
+              <div class="mb-4">
+                <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
+                  {item.tagline}
+                </span>
+                <h2 class="text-lg font-serif font-bold text-gray-800 tracking-wide uppercase line-clamp-2">
+                  {item.title}
+                </h2>
+                <div class="w-8 h-0.5 bg-gray-200 mt-2"></div>
               </div>
 
-              <div class="mt-5 pt-4 border-t border-gray-100">
-                <div class="flex items-center gap-2 w-full">
-                  <a 
-                    href={place.map_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="flex-1 bg-slate-50 hover:bg-slate-100 text-gray-700 border border-gray-200/50 rounded-lg py-2 text-center text-[10px] font-sans font-bold uppercase tracking-wider transition-all block whitespace-nowrap"
-                  >
-                    View Map →
-                  </a>
+              <div class="flex items-center gap-2 pt-3 border-t border-gray-100/80 text-[10px] font-sans font-bold tracking-wider uppercase">
+                <a 
+                  href={exactMapUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="flex-1 bg-slate-50 hover:bg-slate-100 text-gray-700 border border-gray-200/60 rounded-lg py-2.5 text-center transition-all flex items-center justify-center gap-1.5"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-amber-600">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                  </svg>
+                  <span>View Pin</span>
+                </a>
 
-                  {place.website_url && (
-                    <a 
-                      href={place.website_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg py-2 text-center text-[10px] font-sans font-bold uppercase tracking-wider transition-all block whitespace-nowrap"
-                    >
-                      Website ↗
-                    </a>
-                  )}
-                </div>
+                {item.website_url && (
+                  <a 
+                    href={item.website_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg py-2.5 text-center transition-all block whitespace-nowrap"
+                  >
+                    Website ↗
+                  </a>
+                )}
               </div>
             </div>
 
           </div>
-        ))}
-      </div>
+        );
+      })}
+    </div>
 
-    </Container>
   </div>
+  <BookingToast />
 </Layout>
