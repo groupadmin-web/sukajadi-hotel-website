@@ -371,45 +371,54 @@ content:
         label: "Email Masking Button Action Text"
         type: string
         default: "✉️ Email Us"
- - name: restaurants
-    label: "14. Culinary & Restaurant Guide"
-    type: file
-    path: src/content/restaurants.json
+ - name: food_directory
+    label: "14. Restaurant & Dining Guide"
+    folder: "src/content/food"
+    extension: json
     format: json
+    create: true
+    slug: "{{slug}}"
     fields:
-      - name: page_description
-        label: "Main Page Description / Hook Text"
-        type: text
-        default: "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung."
-      - name: breakfast_notice
-        label: "Breakfast Advisory Note / Disclaimer Text"
-        type: text
-        default: "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
+      - name: layout_type
+        label: "Entry Layout Designation Type"
+        type: select
+        options:
+          - "Page Main Headers"
+          - "Individual Restaurant Card"
+        default: "Individual Restaurant Card"
       
-      # 🟢 THIS GENERATES THE REPEATABLE LIST + ADD BUTTON INSIDE A FILE CONTAINER
-      - name: items
-        label: "Restaurant Listings Grid"
-        widget: list
-        minimize: true
-        collapsed: true
-        summary: '{{fields.title}}'
-        fields:
-          - name: title
-            label: "Restaurant / Venue Name"
-            type: string
-          - name: distance
-            label: "Distance Proximity (e.g., 0.1 km / 5 Min Walk)"
-            type: string
-          - name: tagline
-            label: "Short Promo Subtitle Tagline"
-            type: string
-          - name: cuisine_type
-            label: "Cuisine Type Classification (Tiny Photo Label)"
-            type: string
-          - name: image
-            label: "Showcase Feature Photo"
-            type: image
-          - name: website_url
-            label: "Official Restaurant Website Link (Optional URL)"
-            type: string
-            required: false
+      # PAGE HEADER ELEMENTS (Only used if Page Main Headers is selected)
+      - name: page_description
+        label: "Main Page Description / Hook Text (For Headers Only)"
+        type: text
+        required: false
+      - name: breakfast_notice
+        label: "Breakfast Advisory Note / Disclaimer Text (For Headers Only)"
+        type: text
+        required: false
+
+      # CARD LISTING ELEMENTS (Used for adding actual restaurants)
+      - name: title
+        label: "Restaurant / Venue Name"
+        type: string
+        required: false
+      - name: distance
+        label: "Distance Proximity (e.g., 0.1 km / 5 Min Walk)"
+        type: string
+        required: false
+      - name: tagline
+        label: "Short Promo Subtitle Tagline"
+        type: string
+        required: false
+      - name: cuisine_type
+        label: "Cuisine Type Classification (Tiny Photo Label)"
+        type: string
+        required: false
+      - name: image
+        label: "Showcase Feature Photo"
+        type: image
+        required: false
+      - name: website_url
+        label: "Official Restaurant Website Link (Optional URL)"
+        type: string
+        required: false
