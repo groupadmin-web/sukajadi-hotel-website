@@ -2,28 +2,29 @@
 // src/components/BookingToast.astro
 import toastSettings from "../content/booking_toast.json";
 
-// Safe fallbacks to prevent compile crashes if values are missing in the CMS JSON
-const initialThresholdMs = (toastSettings.initial_threshold_seconds || 30) * 1000;
-const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
+// Safely pull configuration rules from the CMS JSON file
+const initialThresholdSeconds = toastSettings.initial_threshold_seconds || 30;
+const cooldownMinutes = toastSettings.cooldown_loop_minutes || 3;
 ---
 
 <div 
-  x-data={`{ showToast: false }`}
+  x-data="{ showToast: false }"
   x-init={`
-    const initialThreshold = ${initialThresholdMs}; 
-    const cooldownLength = ${cooldownMs}; 
+    // Convert thresholds cleanly inside the client runtime engine
+    const initialThreshold = ${initialThresholdSeconds} * 1000; 
+    const cooldownLength = ${cooldownMinutes} * 60 * 1000; 
 
     const checkTimer = () => {
       const now = Date.now();
       
-      // Track cumulative browsing time across page changes
+      // Accumulate browsing durations natively inside localStorage
       let elapsed = parseInt(localStorage.getItem('site_dwell_time') || '0', 10);
       if (elapsed < initialThreshold) {
         localStorage.setItem('site_dwell_time', (elapsed + 1000).toString());
-        return;
+        return; 
       }
 
-      // Check if the repeating loop timer is actively running down
+      // Check if the 3-minute cooldown loop block is ticking down
       const cooldownExpiry = parseInt(localStorage.getItem('toast_cooldown_expiry') || '0', 10);
       
       if (cooldownExpiry > 0) {
@@ -39,6 +40,7 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
       }
     };
 
+    // Keep ticking in the background every 1 second
     let timerInterval = setInterval(checkTimer, 1000);
   `}
   class="fixed bottom-6 right-6 z-[999] max-w-sm w-full bg-slate-900 border border-slate-800 text-slate-300 rounded-xl p-4 shadow-2xl transition-all duration-500 transform pointer-events-auto"
@@ -85,9 +87,9 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
       </div>
     </div>
 
-    {/* Dismiss Trigger */}
+    {/* Dismiss Trigger: Multiplies minutes into active runtime milliseconds dynamically */}
     <button 
-      @click={`showToast = false; localStorage.setItem('toast_cooldown_expiry', (Date.now() + ${cooldownMs}).toString());`}
+      @click={`showToast = false; localStorage.setItem('toast_cooldown_expiry', (Date.now() + (${cooldownMinutes} * 60 * 1000)).toString());`}
       class="absolute -top-1 -right-1 text-slate-500 hover:text-white text-base font-sans leading-none focus:outline-none cursor-pointer p-1 select-none"
       aria-label="Dismiss reminder"
     >
