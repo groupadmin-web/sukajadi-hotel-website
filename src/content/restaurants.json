@@ -1,4 +1,22 @@
 {
   "page_description": "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung.",
-  "breakfast_notice": "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
+  "breakfast_notice": "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep.",
+  "items": [
+    {
+      "title": "The Grand Mutiara Pavilion",
+      "distance": "0.1 km (Inside Hotel)",
+      "tagline": "Premium Authentic Dining",
+      "cuisine_type": "Sundanese Fusion",
+      "image": "",
+      "website_url": "https://m.mutiarahotel.com/dining"
+    },
+    {
+      "title": "Kebon Kawung Culinary Street",
+      "distance": "0.2 Miles (4 Min Walk)",
+      "tagline": "Traditional Local Snacks",
+      "cuisine_type": "Local Snacks",
+      "image": "",
+      "website_url": ""
+    }
+  ]
 }
