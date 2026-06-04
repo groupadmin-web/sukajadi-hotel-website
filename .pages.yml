@@ -373,9 +373,29 @@ content:
         type: string
         default: "✉️ Email Us"
 
-  # 🟢 FIXED AND INTEGRATED: Pure array list file configuration (Matches your working Reviews layout exactly)
+  # 🟢 MODULE 14a: GLOBAL TEXT CONFIGURATION MANAGEMENT
+  - name: food_settings
+    label: "14a. Food Page Header Setup"
+    type: file
+    path: src/content/food_settings.json
+    format: json
+    fields:
+      - name: page_description
+        label: "Main Page Subtitle Description"
+        type: text
+        default: "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung."
+      - name: breakfast_title
+        label: "Breakfast Alert Headline"
+        type: string
+        default: "Local Breakfast Advisory"
+      - name: breakfast_description
+        label: "Breakfast Advisory Message Content"
+        type: text
+        default: "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
+
+  # 🟢 MODULE 14b: UNTOUCHED PURE ARRAY LIST (Kept completely verbatim)
   - name: restaurants
-    label: "14. Culinary & Restaurant Guide"
+    label: "14b. Culinary & Restaurant Guide"
     type: file
     path: src/content/restaurants.json
     format: json
