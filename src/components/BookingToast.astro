@@ -4,6 +4,11 @@ import toastSettings from "../content/booking_toast.json";
 
 const initialThresholdMs = (toastSettings.initial_threshold_seconds || 30) * 1000;
 const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
+
+// SECURE MASKING ARRAY: Convert the target email safely to base64 on the server layer
+const targetEmail = toastSettings.email_address || "info@mutiarahotel.com";
+const base64MaskedEmail = Buffer.from(targetEmail).toString('base64');
+const encodedSubject = encodeURIComponent(toastSettings.email_subject || "Direct Concierge Booking Inquiry");
 ---
 
 <div 
@@ -35,12 +40,16 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
           <span class="transform group-hover:translate-x-0.5 transition-transform">→</span>
         </a>
         <span class="text-slate-800">|</span>
-        <button 
-          id="toast-email-btn"
-          class="text-slate-400 hover:text-white transition-colors cursor-pointer"
+        
+        <a 
+          id="toast-secure-email-link"
+          data-m={base64MaskedEmail}
+          data-s={encodedSubject}
+          href="#"
+          class="text-slate-400 hover:text-white transition-colors cursor-pointer font-sans font-bold uppercase"
         >
           {toastSettings.email_button_text}
-        </button>
+        </a>
       </div>
     </div>
 
@@ -55,20 +64,15 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
 </div>
 
 <script is:inline>
-  (function() {
+  function initBookingToast() {
     const container = document.getElementById('booking-toast-container');
     const closeBtn = document.getElementById('toast-close-btn');
-    const emailBtn = document.getElementById('toast-email-btn');
+    const secureEmailLink = document.getElementById('toast-secure-email-link');
 
-    if (!container) {
-      console.error("❌ BookingToast: Container element not found on page output!");
-      return;
-    }
+    if (!container) return;
 
     const initialThreshold = parseInt(container.getAttribute('data-initial-threshold') || '30000', 10);
     const cooldownLength = parseInt(container.getAttribute('data-cooldown-length') || '180000', 10);
-
-    console.log(`🛎️ BookingToast initialized! Need ${initialThreshold / 1000}s stay before show.`);
 
     const showToast = () => {
       container.style.opacity = '1';
@@ -84,39 +88,56 @@ const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
 
     const checkTimer = () => {
       const now = Date.now();
-      
       let elapsed = parseInt(localStorage.getItem('site_dwell_time') || '0', 10);
       
       if (elapsed < initialThreshold) {
         localStorage.setItem('site_dwell_time', (elapsed + 1000).toString());
-        console.log(`⏱️ Stay Timer: Total time spent on site: ${(elapsed + 1000) / 1000}s / ${initialThreshold / 1000}s`);
         return; 
       }
 
       const cooldownExpiry = parseInt(localStorage.getItem('toast_cooldown_expiry') || '0', 10);
       if (cooldownExpiry > 0) {
-        if (now < cooldownExpiry) {
-          console.log(`⏳ Cooldown Loop Active: Re-arming in ${Math.round((cooldownExpiry - now) / 1000)}s`);
-          return; 
-        } else {
-          localStorage.removeItem('toast_cooldown_expiry');
-          console.log("♻️ Cooldown period cleared! Ready to re-prompt.");
-        }
+        if (now < cooldownExpiry) return; 
+        localStorage.removeItem('toast_cooldown_expiry');
       }
 
       showToast();
     };
 
+    // UNMASK ON DEMAND MECHANICS
+    if (secureEmailLink) {
+      const unmaskAndGo = (e) => {
+        const masked = secureEmailLink.getAttribute('data-m');
+        const subject = secureEmailLink.getAttribute('data-s');
+        if (masked) {
+          // Safely decode the base64 string right inside the client scope
+          const realEmail = atob(masked);
+          secureEmailLink.href = `mailto:${realEmail}?subject=${subject}`;
+        }
+      };
+
+      // Unmask data as soon as the user hovers, touches, or clicks the element
+      secureEmailLink.addEventListener('mousedown', unmaskAndGo);
+      secureEmailLink.addEventListener('touchstart', unmaskAndGo, { passive: true });
+      secureEmailLink.addEventListener('mouseenter', unmaskAndGo);
+    }
+
     if (window.toastTimerInterval) {
       clearInterval(window.toastTimerInterval);
     }
-    
     window.toastTimerInterval = setInterval(checkTimer, 1000);
 
     closeBtn?.addEventListener('click', () => {
       hideToast();
       localStorage.setItem('toast_cooldown_expiry', (Date.now() + cooldownLength).toString());
-      console.log(`🔒 Banner closed. Setting 3-minute cooldown delay flag.`);
     });
-  })();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBookingToast);
+  } else {
+    initBookingToast();
+  }
+
+  document.addEventListener('astro:after-swap', initBookingToast);
 </script>
