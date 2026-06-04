@@ -5,6 +5,7 @@ import Features from "@/components/features.astro";
 import Hero from "@/components/hero.astro";
 import Logos from "@/components/logos.astro";
 import Layout from "@/layouts/Layout.astro";
+import BookingToast from "@/components/BookingToast.astro";
 
 import Rooms from "../components/rooms.astro";
 import Stories from "../components/stories.astro"; 
@@ -238,7 +239,7 @@ const isSlider = sortedReviews.length > 4;
       {/* MASTER CONDITIONAL SWITCH: Listens to the toggle option from Brand & Header Setup */}
       {displayPromoBanner && <Cta />}
     </Container>
-
+    <BookingToast />
   </div>
 </Layout>
 
