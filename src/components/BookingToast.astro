@@ -15,16 +15,14 @@ const encodedSubject = encodeURIComponent(toastSettings.email_subject || "Direct
   id="booking-toast-container"
   data-initial-threshold={initialThresholdMs}
   data-cooldown-length={cooldownMs}
-  class="fixed bottom-6 right-6 z-[999] max-w-sm w-full bg-slate-900 border border-slate-800 text-slate-300 rounded-xl p-4 shadow-2xl"
+  class="fixed bottom-6 right-6 z-[999] max-w-sm w-full bg-[#0f172a] border border-slate-800 text-slate-300 rounded-xl p-4 shadow-2xl"
   style="opacity: 0; pointer-events: none; transform: translateY(40px); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;"
 >
   <div class="flex items-start gap-3 relative">
     
-    <!-- CIRCLE BADGE WRAPPER WITH NATIVE FOOTER SVG MATCH -->
-    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 select-none animate-pulse">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-      </svg>
+    <!-- TOP LEFT BADGE WRAPPER: Map whatever is inside your CMS "Concierge Status Icon Badge" field -->
+    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 text-base font-sans select-none animate-pulse mt-0.5">
+      {toastSettings.badge_icon || "🛎️"}
     </div>
 
     <!-- MAIN TEXT LAYOUT -->
@@ -36,31 +34,31 @@ const encodedSubject = encodeURIComponent(toastSettings.email_subject || "Direct
         {toastSettings.description}
       </p>
       
-      <!-- PRIMARY CTAs GRID LINK ROW -->
-      <div class="mt-4 flex flex-wrap items-center gap-2 text-[10px] font-sans font-bold uppercase tracking-wider">
+      <!-- PRIMARY CTAs ROW -->
+      <div class="mt-4 flex items-center gap-2.5 text-[10px] font-sans font-bold uppercase tracking-wider">
         <!-- PRIMARY DIRECT BOOK NOW ACTION -->
         <a 
           href="https://m.mutiarahotel.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-2.5 py-1 rounded font-bold transition-colors shadow-sm"
+          class="bg-[#ff9f00] hover:bg-amber-400 text-slate-950 px-3 py-1.5 rounded font-black transition-colors shadow-sm tracking-wide"
         >
           Book Now
         </a>
 
-        <span class="text-slate-800">|</span>
+        <span class="text-slate-800 text-xs select-none">|</span>
 
-        <!-- CALL BACKEND NAVIGATION -->
+        <!-- TELEPHONE DESK REDIRECTION LINK -->
         <a 
-          href={`tel:${toastSettings.call_phone_number.replace(/\s+/g, '')}`} 
-          class="text-slate-300 hover:text-white transition-colors p-1"
+          href={`tel:${toastSettings.call_phone_number ? toastSettings.call_phone_number.replace(/\s+/g, '') : '+62224200888'}`} 
+          class="text-slate-300 hover:text-white transition-colors flex items-center gap-1 py-1"
         >
-          {toastSettings.call_button_text}
+          <span>{toastSettings.call_button_text}</span>
         </a>
         
-        <span class="text-slate-800">|</span>
+        <span class="text-slate-800 text-xs select-none">|</span>
         
-        <!-- SECURE MASKED EMAIL LINK -->
+        <!-- SECURE MASKED EMAIL LINK: Directly reading text paragraph values -->
         <a 
           id="toast-secure-email-link"
           data-m={base64MaskedEmail}
@@ -68,17 +66,17 @@ const encodedSubject = encodeURIComponent(toastSettings.email_subject || "Direct
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-slate-400 hover:text-white transition-colors p-1"
+          class="text-slate-400 hover:text-white transition-colors py-1 inline-block font-sans font-bold uppercase"
         >
           {toastSettings.email_button_text}
         </a>
       </div>
     </div>
 
-    <!-- DISMISS CONTAINER BUTTON -->
+    <!-- DISMISS REMINDER CLOSE BUTTON -->
     <button 
       id="toast-close-btn"
-      class="absolute -top-1 -right-1 text-slate-500 hover:text-white text-base font-sans leading-none focus:outline-none cursor-pointer p-1 select-none"
+      class="absolute -top-0.5 -right-0.5 text-slate-500 hover:text-white text-lg font-sans leading-none focus:outline-none cursor-pointer p-1 select-none"
       aria-label="Dismiss reminder"
     >
       ×
