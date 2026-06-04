@@ -3,21 +3,19 @@
 import Layout from "../layouts/Layout.astro";
 import BookingToast from "@/components/BookingToast.astro";
 
-// DYNAMIC CONTENT INGESTION ENGINE (Reads everything from one single file)
-let rawCmsData = null;
+// 1. SCAN THE ENTIRE FOOD DATA DIRECTORY AUTOMATICALLY
+let foodFiles = [];
 try {
-  const restaurantsData = await import("../content/restaurants.json");
-  if (restaurantsData && restaurantsData.default) {
-    rawCmsData = restaurantsData.default;
-  }
+  const globbedData = import.meta.glob("../content/food/*.json", { eager: true });
+  foodFiles = Object.values(globbedData).map((file: any) => file.default || file);
 } catch (e) {}
 
-// Extract descriptive texts safely
-const dynamicPageDescription = rawCmsData?.page_description || "";
-const dynamicBreakfastNotice = rawCmsData?.breakfast_notice || "";
+// 2. SEPARATE HEADERS FROM INDIVIDUAL RESTAURANT CARDS NATIVELY
+const headerConfig = foodFiles.find(file => file.layout_type === "Page Main Headers") || {};
+const restaurantItems = foodFiles.filter(file => file.layout_type !== "Page Main Headers" && file.title);
 
-// Extract the dynamic items list array safely
-const restaurants = rawCmsData && Array.isArray(rawCmsData.items) ? rawCmsData.items : [];
+const dynamicPageDescription = headerConfig.page_description || "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung.";
+const dynamicBreakfastNotice = headerConfig.breakfast_notice || "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep.";
 ---
 
 <Layout title="Local Dining Guide | Mutiara Hotel & Convention">
@@ -28,40 +26,31 @@ const restaurants = rawCmsData && Array.isArray(rawCmsData.items) ? rawCmsData.i
       <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">Bandung Dining & Food</h1>
       <div class="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
       
-      {dynamicPageDescription && (
-        <p class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic leading-relaxed">
-          "{dynamicPageDescription}"
-        </p>
-      )}
+      <p class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic leading-relaxed">
+        "{dynamicPageDescription}"
+      </p>
     </div>
 
-    {dynamicBreakfastNotice && (
-      <div class="max-w-3xl mx-auto mb-16 bg-amber-500/5 border border-amber-500/20 rounded-xl p-5 flex items-start gap-3.5 shadow-sm">
-        <span class="text-xl select-none leading-none mt-0.5 shrink-0">🍳</span>
-        <div class="flex-1 text-left">
-          <h4 class="text-slate-900 font-sans text-xs font-bold uppercase tracking-wider mb-1">Local Breakfast Advisory</h4>
-          <p class="text-xs text-gray-500 font-sans leading-relaxed">
-            {dynamicBreakfastNotice}
-          </p>
-        </div>
+    <div class="max-w-3xl mx-auto mb-16 bg-amber-500/5 border border-amber-500/20 rounded-xl p-5 flex items-start gap-3.5 shadow-sm">
+      <span class="text-xl select-none leading-none mt-0.5 shrink-0">🍳</span>
+      <div class="flex-1 text-left">
+        <h4 class="text-slate-900 font-sans text-xs font-bold uppercase tracking-wider mb-1">Local Breakfast Advisory</h4>
+        <p class="text-xs text-gray-500 font-sans leading-relaxed">
+          {dynamicBreakfastNotice}
+        </p>
       </div>
-    )}
+    </div>
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-      {restaurants.map((item) => {
-        const encodedLocationName = encodeURIComponent(`${item.title || 'Restaurant'}, Bandung, West Java, Indonesia`);
+      {restaurantItems.map((item) => {
+        const encodedLocationName = encodeURIComponent(`${item.title}, Bandung, West Java, Indonesia`);
         const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocationName}`;
 
         return (
           <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 w-full group">
             
             <div class="relative h-48 overflow-hidden bg-gray-100 shrink-0 select-none">
-              <img 
-                src={item.image || "/images/placeholder-dining.jpg"} 
-                alt={item.title} 
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                loading="lazy" 
-              />
+              <img src={item.image || "/images/placeholder-dining.jpg"} alt={item.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
               {item.cuisine_type && (
                 <div class="absolute top-4 left-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
                   {item.cuisine_type}
@@ -77,36 +66,18 @@ const restaurants = rawCmsData && Array.isArray(rawCmsData.items) ? rawCmsData.i
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div class="mb-4">
                 {item.tagline && (
-                  <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
-                    {item.tagline}
-                  </span>
+                  <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">{item.tagline}</span>
                 )}
-                <h2 class="text-lg font-serif font-bold text-gray-800 tracking-wide uppercase line-clamp-2">
-                  {item.title}
-                </h2>
+                <h2 class="text-lg font-serif font-bold text-gray-800 tracking-wide uppercase line-clamp-2">{item.title}</h2>
                 <div class="w-8 h-0.5 bg-gray-200 mt-2"></div>
               </div>
 
               <div class="flex items-center gap-2 pt-3 border-t border-gray-100/80 text-[10px] font-sans font-bold tracking-wider uppercase">
-                <a 
-                  href={exactMapUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="flex-1 bg-slate-50 hover:bg-slate-100 text-gray-700 border border-gray-200/60 rounded-lg py-2.5 text-center transition-all flex items-center justify-center gap-1.5"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 text-amber-600">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                  </svg>
+                <a href={exactMapUrl} target="_blank" rel="noopener noreferrer" class="flex-1 bg-slate-50 hover:bg-slate-100 text-gray-700 border border-gray-200/60 rounded-lg py-2.5 text-center transition-all flex items-center justify-center gap-1.5">
                   <span>View Pin</span>
                 </a>
-
                 {item.website_url && (
-                  <a 
-                    href={item.website_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg py-2.5 text-center transition-all block whitespace-nowrap"
-                  >
+                  <a href={item.website_url} target="_blank" rel="noopener noreferrer" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg py-2.5 text-center transition-all block whitespace-nowrap">
                     Website ↗
                   </a>
                 )}
