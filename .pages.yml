@@ -2,7 +2,7 @@
 
 backend:
   name: github
-  repo: groupadmin-web/mutiara-hotel-website
+  repo: groupadmin-web/sukajadi-hotel-website
   branch: {{CF_PAGES_BRANCH}} # 🟢 Dynamically switches branches based on the domain!
   
 media:
