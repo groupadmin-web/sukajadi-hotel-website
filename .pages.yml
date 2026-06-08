@@ -323,7 +323,7 @@ content:
       - name: concierge_email
         label: "General Operations Email Address"
         type: string
-        default: "info@mutiarahotel.com"
+        default: "info@sukajadihotel.com"
       - name: instagram_url
         label: "Official Instagram Profile URL Link"
         type: string
@@ -397,7 +397,7 @@ content:
       - name: breakfast_description
         label: "Breakfast Advisory Message Content"
         type: text
-        default: "Please note that Mutiara Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
+        default: "Please note that Sukajadi Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
 
   # 🟢 MODULE 14b: UNTOUCHED PURE ARRAY LIST (Kept completely verbatim)
   - name: restaurants

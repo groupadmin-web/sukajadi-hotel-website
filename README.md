@@ -1,6 +1,6 @@
-# Mutiara Hotel & Convention Website
+# Sukajadi Hotel & Convention Website
 
-Official production web application codebase for Mutiara Hotel & Convention. 
+Official production web application codebase for Sukajadi Hotel & Convention. 
 
 ## Technical Environment Setup
 - **Framework:** Astro (v3+)

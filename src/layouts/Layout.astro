@@ -25,8 +25,8 @@ const resolvedImageWithDomain = new URL(
 const { title } = Astro.props;
 
 const makeTitle = title
-  ? title + " | " + "Mutiara Hotel"
-  : "Mutiara Hotel - Premium Accommodations";
+  ? title + " | " + "Sukajadi Hotel"
+  : "Sukajadi Hotel - Premium Accommodations";
 
 // CODESYNC: Pull BOTH the "title" and the "view" fields dynamically from your CMS JSON payload
 const showcaseItems = Array.isArray(roomsData) ? roomsData : [];
@@ -51,7 +51,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
       <SEO
         title={makeTitle}
-        description="Welcome to Mutiara Hotel. Book your stay with us directly for premium service and accommodation."
+        description="Welcome to Sukajadi Hotel. Book your stay with us directly for premium service and accommodation."
         canonical={canonicalURL}
         openGraph={{
           basic: {
@@ -61,7 +61,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
             image: resolvedImageWithDomain,
           },
           optional: {
-            siteName: "Mutiara Hotel", // ⚡ THE FIX: Forces WhatsApp to overwrite the "Astro" framework name fallback!
+            siteName: "Sukajadi Hotel", // ⚡ THE FIX: Forces WhatsApp to overwrite the "Astro" framework name fallback!
           },
         }}
       />
@@ -554,17 +554,17 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
           convertedText = convertedText.replace(
             /Hotel Mutiara & Konvensi/gi,
-            "Mutiara Hotel & Convention",
+            "Sukajadi Hotel & Convention",
           );
           convertedText = convertedText.replace(
             /Hotel Mutiara/gi,
-            "Mutiara Hotel",
+            "Sukajadi Hotel",
           );
           convertedText = convertedText.replace(
             /珍珠酒店及会议中心/g,
-            "Mutiara Hotel & Convention",
+            "Sukajadi Hotel & Convention",
           );
-          convertedText = convertedText.replace(/珍珠酒店/g, "Mutiara Hotel");
+          convertedText = convertedText.replace(/珍珠酒店/g, "Sukajadi Hotel");
 
           if (isReviewBox) {
             textNode.textContent = `"${convertedText.trim()}"`;

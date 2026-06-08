@@ -6,7 +6,7 @@ const initialThresholdMs = (toastSettings.initial_threshold_seconds || 30) * 100
 const cooldownMs = (toastSettings.cooldown_loop_minutes || 3) * 60 * 1000;
 
 // SECURE MASKING ENGINE
-const targetEmail = toastSettings.email_address || "info@mutiarahotel.com";
+const targetEmail = toastSettings.email_address || "info@sukajadihotel.com";
 const base64MaskedEmail = Buffer.from(targetEmail).toString('base64');
 const encodedSubject = encodeURIComponent(toastSettings.email_subject || "Direct Concierge Booking Inquiry");
 ---
@@ -38,7 +38,7 @@ const encodedSubject = encodeURIComponent(toastSettings.email_subject || "Direct
       <div class="mt-4 flex items-center gap-2.5 text-[10px] font-sans font-bold uppercase tracking-wider">
         <!-- PRIMARY DIRECT BOOK NOW ACTION -->
         <a 
-          href="https://m.mutiarahotel.com"
+          href="https://m.sukajadihotel.com"
           target="_blank"
           rel="noopener noreferrer"
           class="bg-[#ff9f00] hover:bg-amber-400 text-slate-950 px-3 py-1.5 rounded font-black transition-colors shadow-sm tracking-wide"

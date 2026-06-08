@@ -11,11 +11,11 @@ let footer = {
   concierge_address: "Jalan Kebon Kawung No. 60, Bandung, West Java, Indonesia",
   concierge_phone: "+62 (022) 420 0888",
   concierge_phone_raw: "+62224200888",
-  concierge_email: "info@mutiarahotel.com",
+  concierge_email: "info@sukajadihotel.com",
   instagram_url: "#",
   facebook_url: "#",
   youtube_url: "https://www.youtube.com/@hotelmutiarabandung",
-  privacy_content: "1. Direct Booking Security\n\nMutiara Hotel & Convention Bandung ensures that your reservation data transmitted via our direct channels is fully encrypted.\n\n2. Information Collected\n\nWe process full guest names, identifiers, and coordinate paths required under Indonesian law."
+  privacy_content: "1. Direct Booking Security\n\nSukajadi Hotel & Convention Bandung ensures that your reservation data transmitted via our direct channels is fully encrypted.\n\n2. Information Collected\n\nWe process full guest names, identifiers, and coordinate paths required under Indonesian law."
 };
 
 try {
@@ -144,7 +144,7 @@ try {
 
   {/* BOTTOM BASELINE */}
   <div class="max-w-7xl mx-auto px-6 pt-3 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] text-slate-600 font-medium">
-    <p>© {new Date().getFullYear()} Mutiara Hotel & Convention Bandung. All Rights Reserved.</p>
+    <p>© {new Date().getFullYear()} Sukajadi Hotel & Convention Bandung. All Rights Reserved.</p>
     <div class="flex gap-4">
       <button id="open-privacy" class="hover:text-slate-400 cursor-pointer transition-colors">Privacy Charter</button>
       <span class="text-slate-800">|</span>
@@ -288,7 +288,7 @@ try {
       if (cmsLogoUrl) {
         popupHtml += `<img src="${cmsLogoUrl}" alt="Mutiara" style="height: 24px; width: auto; object-fit: contain; margin: 0 auto 4px auto; filter: brightness(1.1);" />`;
       } else {
-        popupHtml += `<strong style="color: #f59e0b; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display:block; margin-bottom:2px;">Mutiara Hotel</strong>`;
+        popupHtml += `<strong style="color: #f59e0b; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display:block; margin-bottom:2px;">Sukajadi Hotel</strong>`;
       }
       
       popupHtml += `
@@ -312,14 +312,14 @@ try {
     if (emailTrigger) {
       emailTrigger.addEventListener("click", () => {
         // Assembles the real address cleanly directly in memory right on user selection
-        const keyParts = ["mailto:", "info", "@", "mutiarahotel", ".com"];
+        const keyParts = ["mailto:", "info", "@", "sukajadihotel", ".com"];
         window.location.href = keyParts.join("");
       });
       // Accessibility compliance keydown registration 
       emailTrigger.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          const keyParts = ["mailto:", "info", "@", "mutiarahotel", ".com"];
+          const keyParts = ["mailto:", "info", "@", "sukajadihotel", ".com"];
           window.location.href = keyParts.join("");
         }
       });
