@@ -6,13 +6,9 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://www.sukajadihotel.com", // 🌟 THE FIX: Your real hotel URL goes here!
+  site: "https://www.sukajadihotel.com",
   integrations: [mdx(), sitemap(), icon()],
   vite: {
     plugins: [tailwindcss()],
-  },
-  // 🔽 ADD THIS SECTION TO FIX THE ERRORs 🔽
-  experimental: {
-    session: true,
   },
 });
