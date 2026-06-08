@@ -11,7 +11,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  // 🔽 ADD THIS SECTION TO FIX THE ERROR 🔽
+  // 🔽 ADD THIS SECTION TO FIX THE ERRORs 🔽
   experimental: {
     session: true,
   },
