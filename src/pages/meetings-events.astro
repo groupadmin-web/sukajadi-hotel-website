@@ -19,213 +19,259 @@ const events = Array.isArray(eventData) ? eventData : [];
 
   <div id="universal-translation-root">
     <Container class="py-12">
-      
       {/* SECTION HEADER BLOCK */}
       <div class="text-center max-w-3xl mx-auto my-12">
-        <span class="text-xs font-sans font-bold tracking-widest text-amber-600 uppercase block mb-2">Venues & Celebrations</span>
-        <h1 class="text-4xl font-serif font-bold text-gray-800 mb-3">Sukajadi Convention Center</h1>
+        <span
+          class="text-xs font-sans font-bold tracking-widest text-amber-600 uppercase block mb-2"
+          >Venues & Celebrations</span
+        >
+        <h1 class="text-4xl font-serif font-bold text-gray-800 mb-3">
+          Sukajadi Convention Center
+        </h1>
         <div class="h-0.5 w-16 bg-amber-500 mx-auto mb-5"></div>
         <p class="text-sm text-gray-500 font-sans leading-relaxed">
-          Host your premium corporate galas, executive board meetings, grand weddings, or social banquets in the heart of Bandung. Discover our multi-functional halls featuring top-tier audio-visual amenities, high-speed Wi-Fi network arrays, and fine catering workflows.
+          Host your premium corporate galas, executive board meetings, grand
+          weddings, or social banquets in the heart of Bandung. Discover our
+          multi-functional halls featuring top-tier audio-visual amenities,
+          high-speed Wi-Fi network arrays, and fine catering workflows.
         </p>
       </div>
 
       {/* DYNAMIC MEETINGS CARD DISPLAY GRID */}
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24 w-full">
-        {events.map((event: any, index) => {
-          const itemAmenities = Array.isArray(event.features) ? event.features : [];
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24 w-full">
+        {
+          events.map((event: any, index) => {
+            const itemAmenities = Array.isArray(event.features)
+              ? event.features
+              : [];
 
-          return (
-            <div class="group bg-white rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl w-full transform hover:-translate-y-1">
-              
-              <div>
-                {/* Visual Cover Media Frame - Fully optimized width fix applied */}
-                <div class="relative h-56 bg-gray-100 overflow-hidden w-full">
-                  {event.image ? (
-                    <img 
-                      src={event.image} 
-                      alt={event.hall_name} 
-                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 absolute inset-0" 
-                    />
-                  ) : (
-                    <div class="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-slate-400 p-6 text-center">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-amber-500 mb-2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                      </svg>
-                      <span class="text-xs font-serif tracking-wider text-slate-300">{event.hall_name} Preview</span>
-                    </div>
-                  )}
-                  <div class="absolute top-4 right-4 bg-gray-900/80 text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans">
-                    Theater Seating
-                  </div>
-                </div>
-
-                {/* Main Content Info Workspace */}
-                <div class="p-6">
-                  <h3 class="text-2xl font-serif font-bold text-gray-800 mb-1 leading-tight group-hover:text-amber-600 transition-colors">
-                    {event.hall_name}
-                  </h3>
-                  <span class="inline-block bg-amber-50 border border-amber-100/60 text-amber-700 text-[10px] px-3 py-1 rounded-full font-sans uppercase tracking-wider mt-1 mb-4">
-                    Premium Space Assets
-                  </span>
-
-                  {/* Highlight Parameters Display */}
-                  <div class="space-y-2 border-t border-b border-gray-100 py-4 my-2 text-xs font-sans tracking-wide text-gray-500">
-                    <div class="flex justify-between items-center">
-                      <span>Primary Highlight:</span>
-                      <span class="text-gray-700 font-semibold max-w-[160px] line-clamp-1">{event.main_feature}</span>
-                    </div>
-                  </div>
-
-                  {/* Inline Horizontal Dynamic List Pill Matrix */}
-                  {itemAmenities.length > 0 && (
-                    <div class="flex flex-wrap gap-1.5 mt-4 min-h-[32px]">
-                      {itemAmenities.slice(0, 3).map((feature: string) => (
-                        <span class="bg-amber-50/70 text-amber-800 text-[10px] tracking-wider uppercase px-2.5 py-1 rounded-md font-semibold font-sans whitespace-nowrap border border-amber-100/30">
-                          {feature}
+            return (
+              <div class="group bg-white rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl w-full transform hover:-translate-y-1">
+                <div>
+                  {/* Visual Cover Media Frame - Fully optimized width fix applied */}
+                  <div class="relative h-56 bg-gray-100 overflow-hidden w-full">
+                    {event.image ? (
+                      <img
+                        src={event.image}
+                        alt={event.hall_name}
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 absolute inset-0"
+                      />
+                    ) : (
+                      <div class="w-full h-full flex flex-col items-center justify-center bg-slate-900 text-slate-400 p-6 text-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="w-8 h-8 text-amber-500 mb-2">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                          />
+                        </svg>
+                        <span class="text-xs font-serif tracking-wider text-slate-300">
+                          {event.hall_name} Preview
                         </span>
-                      ))}
+                      </div>
+                    )}
+                    <div class="absolute top-4 right-4 bg-gray-900/80 text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans">
+                      Theater Seating
                     </div>
-                  )}
+                  </div>
+
+                  {/* Main Content Info Workspace */}
+                  <div class="p-6">
+                    <h3 class="text-2xl font-serif font-bold text-gray-800 mb-1 leading-tight group-hover:text-amber-600 transition-colors">
+                      {event.hall_name}
+                    </h3>
+                    <span class="inline-block bg-amber-50 border border-amber-100/60 text-amber-700 text-[10px] px-3 py-1 rounded-full font-sans uppercase tracking-wider mt-1 mb-4">
+                      Premium Space Assets
+                    </span>
+
+                    {/* Highlight Parameters Display */}
+                    <div class="space-y-2 border-t border-b border-gray-100 py-4 my-2 text-xs font-sans tracking-wide text-gray-500">
+                      <div class="flex justify-between items-center">
+                        <span>Primary Highlight:</span>
+                        <span class="text-gray-700 font-semibold max-w-[160px] line-clamp-1">
+                          {event.main_feature}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Inline Horizontal Dynamic List Pill Matrix */}
+                    {itemAmenities.length > 0 && (
+                      <div class="flex flex-wrap gap-1.5 mt-4 min-h-[32px]">
+                        {itemAmenities.slice(0, 3).map((feature: string) => (
+                          <span class="bg-amber-50/70 text-amber-800 text-[10px] tracking-wider uppercase px-2.5 py-1 rounded-md font-semibold font-sans whitespace-nowrap border border-amber-100/30">
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Action Button Segment Wrapper */}
+                <div class="px-6 pb-6 pt-0 mt-auto">
+                  <button
+                    type="button"
+                    data-open-event-modal={index}
+                    class="block w-full bg-slate-900 hover:bg-amber-600 text-white text-center font-bold text-xs py-3.5 rounded-xl tracking-wider uppercase cursor-pointer shadow-sm group-hover:shadow-md transition-all duration-300">
+                    View Space Gallery
+                  </button>
                 </div>
               </div>
-
-              {/* Action Button Segment Wrapper */}
-              <div class="px-6 pb-6 pt-0 mt-auto">
-                <button 
-                  type="button" 
-                  data-open-event-modal={index} 
-                  class="block w-full bg-slate-900 hover:bg-amber-600 text-white text-center font-bold text-xs py-3.5 rounded-xl tracking-wider uppercase cursor-pointer shadow-sm group-hover:shadow-md transition-all duration-300"
-                >
-                  View Space Gallery
-                </button>
-              </div>
-
-            </div>
-          );
-        })}
+            );
+          })
+        }
       </div>
 
       {/* WHATSAPP CTA LEAD CAPTURE ROUTER BLOCK */}
-      <div class="bg-amber-900 rounded-2xl text-white p-8 md:p-12 text-center max-w-4xl mx-auto mb-24 relative overflow-hidden shadow-md w-full">
-        <span class="text-xs font-sans font-bold tracking-widest text-amber-400 uppercase block mb-3">Plan Your Next Gathering</span>
-        <h2 class="text-3xl font-serif font-bold mb-4">Book a Dedicated Event Space</h2>
-        <p class="text-slate-200 text-sm leading-relaxed max-w-xl mx-auto mb-8">
-          Get in touch with our professional corporate events planning desk today to schedule a site tour, lock in specific dates, or request custom menu configurations.
-        </p>
-        <a 
-          href="https://wa.me/6287722469110" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          class="bg-white hover:bg-slate-50 text-gray-900 font-sans font-bold text-xs tracking-wider uppercase px-8 py-3.5 rounded-md shadow-md transition-all inline-block"
+      <div
+        class="bg-amber-900 rounded-2xl text-white p-8 md:p-12 text-center max-w-4xl mx-auto mb-24 relative overflow-hidden shadow-md w-full">
+        <span
+          class="text-xs font-sans font-bold tracking-widest text-amber-400 uppercase block mb-3"
+          >Plan Your Next Gathering</span
         >
+        <h2 class="text-3xl font-serif font-bold mb-4">
+          Book a Dedicated Event Space
+        </h2>
+        <p class="text-slate-200 text-sm leading-relaxed max-w-xl mx-auto mb-8">
+          Get in touch with our professional corporate events planning desk
+          today to schedule a site tour, lock in specific dates, or request
+          custom menu configurations.
+        </p>
+        <a
+          href="https://wa.me/6287722469110"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-white hover:bg-slate-50 text-gray-900 font-sans font-bold text-xs tracking-wider uppercase px-8 py-3.5 rounded-md shadow-md transition-all inline-block">
           Inquire via WhatsApp Desk &rarr;
         </a>
       </div>
-
     </Container>
   </div>
 
   {/* INTERACTIVE COMPONENT POP-UP MODAL ENGINE LOOP */}
-  {events.map((event: any, index) => {
-    const modalAmenities = Array.isArray(event.features) ? event.features : [];
-    const galleryImages = [event.image, event.gallery1, event.gallery2, event.gallery3].filter(Boolean);
+  {
+    events.map((event: any, index) => {
+      const modalAmenities = Array.isArray(event.features)
+        ? event.features
+        : [];
+      const galleryImages = [
+        event.image,
+        event.gallery1,
+        event.gallery2,
+        event.gallery3,
+      ].filter(Boolean);
 
-    return (
-      <div 
-        id={`event-modal-${index}`} 
-        class="event-gallery-modal fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] hidden items-center justify-center p-4" 
-        data-open="false"
-      >
-        <div class="bg-white rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row relative max-h-[85vh]">
-          
-          {/* Close Trigger Button */}
-          <button 
-            type="button" 
-            data-close-event-modal={index} 
-            class="absolute top-4 right-4 z-[100100] bg-white text-gray-700 border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-md cursor-pointer hover:bg-gray-50 transition"
-          >
-            ✕
-          </button>
-          
-          {/* Media Slider Display Frame Area */}
-          <div class="md:w-7/12 bg-slate-900 relative flex flex-col justify-between p-4 min-h-[400px]">
-            <div class="w-full flex-grow relative overflow-hidden rounded-xl bg-slate-800">
-              <img 
-                id={`event-display-img-${index}`} 
-                src={event.image || "/images/slide-1.jpg"} 
-                class="w-full h-full object-cover absolute inset-0 transition-all duration-300" 
-                alt={`${event.hall_name} Live Setup Frame`} 
-              />
-            </div>
-            
-            {/* Clickable Image Thumbnail Strip Engine */}
-            <div class="flex gap-2 mt-4 overflow-x-auto py-2 z-10 bg-slate-950/40 p-2 rounded-xl">
-              {galleryImages.map((imgUrl) => (
-                <button 
-                  type="button" 
-                  class="w-20 h-14 rounded-lg overflow-hidden border-2 border-transparent hover:border-amber-500 focus:border-amber-500 flex-shrink-0 cursor-pointer transition bg-slate-800"
-                  onclick={`document.getElementById('event-display-img-${index}').src='${imgUrl}'`}
-                >
-                  <img src={imgUrl} class="w-full h-full object-cover" alt="thumbnail window" />
-                </button>
-              ))}
-            </div>
-          </div>
+      return (
+        <div
+          id={`event-modal-${index}`}
+          class="event-gallery-modal fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] hidden items-center justify-center p-4"
+          data-open="false">
+          <div class="bg-white rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row relative max-h-[85vh]">
+            {/* Close Trigger Button */}
+            <button
+              type="button"
+              data-close-event-modal={index}
+              class="absolute top-4 right-4 z-[100100] bg-white text-gray-700 border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-md cursor-pointer hover:bg-gray-50 transition">
+              ✕
+            </button>
 
-          {/* Description & Technical Specification Sidebar Panel */}
-          <div class="md:w-5/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-white">
-            <div>
-              <h3 class="text-2xl font-serif font-bold text-gray-900 mb-2 uppercase tracking-wide">{event.hall_name}</h3>
-              <div class="h-0.5 w-12 bg-amber-500 mb-6"></div>
-              
-              <div class="space-y-4 border-b border-gray-100 pb-6 mb-6">
-                <div class="flex justify-between items-center text-xs uppercase tracking-wider text-gray-500">
-                  <span>Layout Configuration:</span>
-                  <span class="font-bold text-gray-800">Theater Configuration</span>
-                </div>
-                <div class="flex justify-between items-center text-xs uppercase tracking-wider text-gray-500">
-                  <span>Max Seating Load:</span>
-                  <span class="font-bold text-gray-800 notranslate">{event.capacity_theater || "Contact Desk"} Pax</span>
-                </div>
-                <div class="flex justify-between items-center text-xs uppercase tracking-wider text-gray-500">
-                  <span>Key Asset Highlight:</span>
-                  <span class="font-bold text-amber-600 text-right max-w-[180px] line-clamp-1">{event.main_feature}</span>
-                </div>
+            {/* Media Slider Display Frame Area */}
+            <div class="md:w-7/12 bg-slate-900 relative flex flex-col justify-between p-4 min-h-[400px]">
+              <div class="w-full flex-grow relative overflow-hidden rounded-xl bg-slate-800">
+                <img
+                  id={`event-display-img-${index}`}
+                  src={event.image || "/images/slide-1.jpg"}
+                  class="w-full h-full object-cover absolute inset-0 transition-all duration-300"
+                  alt={`${event.hall_name} Live Setup Frame`}
+                />
               </div>
 
-              {/* Complete Vertical List Features Matrix Block */}
-              {modalAmenities.length > 0 && (
-                <div>
-                  <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Venue Amenities</h4>
-                  <div class="flex flex-wrap gap-2 mb-6">
-                    {modalAmenities.map((feature: string) => (
-                      <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded border border-slate-200 font-medium">
-                        {feature}
-                      </span>
-                    ))}
+              {/* Clickable Image Thumbnail Strip Engine */}
+              <div class="flex gap-2 mt-4 overflow-x-auto py-2 z-10 bg-slate-950/40 p-2 rounded-xl">
+                {galleryImages.map((imgUrl) => (
+                  <button
+                    type="button"
+                    class="w-20 h-14 rounded-lg overflow-hidden border-2 border-transparent hover:border-amber-500 focus:border-amber-500 flex-shrink-0 cursor-pointer transition bg-slate-800"
+                    onclick={`document.getElementById('event-display-img-${index}').src='${imgUrl}'`}>
+                    <img
+                      src={imgUrl}
+                      class="w-full h-full object-cover"
+                      alt="thumbnail window"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Description & Technical Specification Sidebar Panel */}
+            <div class="md:w-5/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-white">
+              <div>
+                <h3 class="text-2xl font-serif font-bold text-gray-900 mb-2 uppercase tracking-wide">
+                  {event.hall_name}
+                </h3>
+                <div class="h-0.5 w-12 bg-amber-500 mb-6" />
+
+                <div class="space-y-4 border-b border-gray-100 pb-6 mb-6">
+                  <div class="flex justify-between items-center text-xs uppercase tracking-wider text-gray-500">
+                    <span>Layout Configuration:</span>
+                    <span class="font-bold text-gray-800">
+                      Theater Configuration
+                    </span>
+                  </div>
+                  <div class="flex justify-between items-center text-xs uppercase tracking-wider text-gray-500">
+                    <span>Max Seating Load:</span>
+                    <span class="font-bold text-gray-800 notranslate">
+                      {event.capacity_theater || "Contact Desk"} Pax
+                    </span>
+                  </div>
+                  <div class="flex justify-between items-center text-xs uppercase tracking-wider text-gray-500">
+                    <span>Key Asset Highlight:</span>
+                    <span class="font-bold text-amber-600 text-right max-w-[180px] line-clamp-1">
+                      {event.main_feature}
+                    </span>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {/* In-Modal Direct Conversion Channel Anchor */}
-            <div>
-              <a 
-                href="https://wa.me/6287722469110" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                class="block w-full bg-amber-600 hover:bg-amber-700 text-white text-center font-bold text-xs tracking-wider uppercase py-4 rounded-xl shadow-md transition-all duration-300"
-              >
-                Inquire Space via WhatsApp
-              </a>
+                {/* Complete Vertical List Features Matrix Block */}
+                {modalAmenities.length > 0 && (
+                  <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
+                      Venue Amenities
+                    </h4>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                      {modalAmenities.map((feature: string) => (
+                        <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded border border-slate-200 font-medium">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* In-Modal Direct Conversion Channel Anchor */}
+              <div>
+                <a
+                  href="https://wa.me/6287722469110"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full bg-amber-600 hover:bg-amber-700 text-white text-center font-bold text-xs tracking-wider uppercase py-4 rounded-xl shadow-md transition-all duration-300">
+                  Inquire Space via WhatsApp
+                </a>
+              </div>
             </div>
           </div>
-
         </div>
-      </div>
-    );
-  })}
+      );
+    })
+  }
 
   <BookingToast />
 </Layout>
@@ -233,29 +279,29 @@ const events = Array.isArray(eventData) ? eventData : [];
 <script is:inline>
   // DOM interaction controller managing modal visibility configurations cleanly
   function initEventGalleryPopups() {
-    document.querySelectorAll('[data-open-event-modal]').forEach(btn => {
+    document.querySelectorAll("[data-open-event-modal]").forEach((btn) => {
       btn.onclick = () => {
-        const idx = btn.getAttribute('data-open-event-modal');
+        const idx = btn.getAttribute("data-open-event-modal");
         const modal = document.getElementById(`event-modal-${idx}`);
         if (modal) {
-          modal.setAttribute('data-open', 'true');
-          modal.style.setProperty('display', 'flex', 'important');
+          modal.setAttribute("data-open", "true");
+          modal.style.setProperty("display", "flex", "important");
         }
       };
     });
-    document.querySelectorAll('[data-close-event-modal]').forEach(btn => {
+    document.querySelectorAll("[data-close-event-modal]").forEach((btn) => {
       btn.onclick = () => {
-        const idx = btn.getAttribute('data-close-event-modal');
+        const idx = btn.getAttribute("data-close-event-modal");
         const modal = document.getElementById(`event-modal-${idx}`);
         if (modal) {
-          modal.setAttribute('data-open', 'false');
-          modal.style.setProperty('display', 'none', 'important');
+          modal.setAttribute("data-open", "false");
+          modal.style.setProperty("display", "none", "important");
         }
       };
     });
   }
 
-  // Bind interface handlers both immediately and across subsequent layout transformations 
+  // Bind interface handlers both immediately and across subsequent layout transformations
   initEventGalleryPopups();
-  document.addEventListener('astro:after-swap', initEventGalleryPopups);
+  document.addEventListener("astro:after-swap", initEventGalleryPopups);
 </script>
