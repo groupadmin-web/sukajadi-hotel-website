@@ -1,4 +1,4 @@
-# pages.yml # ROOT LEVEL MEDIA ENGINE MANAGERS
+# public/.pages.yml # ROOT LEVEL MEDIA ENGINE MANAGERS
 
 backend:
   name: github
@@ -127,12 +127,31 @@ content:
       - name: hall_name
         label: "Meeting Room / Ballroom Name"
         type: string
+      - name: image
+        label: "Main Feature Photo (Cover)"
+        type: image
+      - name: gallery1
+        label: "Additional Gallery Photo 1"
+        type: image
+        required: false
+      - name: gallery2
+        label: "Additional Gallery Photo 2"
+        type: image
+        required: false
+      - name: gallery3
+        label: "Additional Gallery Photo 3"
+        type: image
+        required: false
       - name: capacity_theater
         label: "Max Seating Capacity"
         type: string
       - name: main_feature
         label: "Primary Facility Feature Highlight"
         type: string
+      - name: features
+        label: "Features & Amenities"
+        type: string
+        list: true
 
   - name: features
     label: "5. Core Experience Highlights"
@@ -379,7 +398,6 @@ content:
         type: string
         default: "✉️ Email Us"
 
-  # 🟢 MODULE 14a: GLOBAL TEXT CONFIGURATION MANAGEMENT
   - name: food_settings
     label: "14a. Food Page Header Setup"
     type: file
@@ -399,7 +417,6 @@ content:
         type: text
         default: "Please note that Sukajadi Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
 
-  # 🟢 MODULE 14b: UNTOUCHED PURE ARRAY LIST (Kept completely verbatim)
   - name: restaurants
     label: "14b. Culinary & Restaurant Guide"
     type: file
