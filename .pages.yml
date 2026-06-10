@@ -308,14 +308,17 @@ content:
       - name: faqs
         label: "Manage Question & Answer List Entries"
         type: list
-        minimize: true
         fields:
-          - name: question
-            label: "Guest Question Text String"
-            type: string
-          - name: answer
-            label: "Detailed Answer Response text block"
-            type: text
+          - name: faq_item
+            label: "Q&A Pair"
+            type: object
+            fields:
+              - name: question
+                label: "Guest Question Text String"
+                type: string
+              - name: answer
+                label: "Detailed Answer Response text block"
+                type: text
 
   - name: footer_section
     label: "12. Global Site Footer"
