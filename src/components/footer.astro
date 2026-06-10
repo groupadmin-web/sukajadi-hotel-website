@@ -7,7 +7,8 @@ const logoImage = homepageData?.logo_image;
 
 // FAIL-SAFE DATA FALLBACKS
 let footer = {
-  footer_slogan: "Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.",
+  footer_slogan:
+    "Providing an impeccable blend of luxury hospitality and high-performance corporate event execution in the heart of Bandung City.",
   concierge_address: "Jalan Kebon Kawung No. 60, Bandung, West Java, Indonesia",
   concierge_phone: "+62 (022) 420 0888",
   concierge_phone_raw: "+62224200888",
@@ -15,7 +16,8 @@ let footer = {
   instagram_url: "#",
   facebook_url: "#",
   youtube_url: "https://www.youtube.com/@hotelSukajadibandung",
-  privacy_content: "1. Direct Booking Security\n\nSukajadi Hotel & Convention Bandung ensures that your reservation data transmitted via our direct channels is fully encrypted.\n\n2. Information Collected\n\nWe process full guest names, identifiers, and coordinate paths required under Indonesian law."
+  privacy_content:
+    "1. Direct Booking Security\n\nSukajadi Hotel & Convention Bandung ensures that your reservation data transmitted via our direct channels is fully encrypted.\n\n2. Information Collected\n\nWe process full guest names, identifiers, and coordinate paths required under Indonesian law.",
 };
 
 try {
@@ -26,34 +28,45 @@ try {
 } catch (e) {}
 ---
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""
+/>
 
-<footer id="footer" class="w-full bg-slate-950 text-slate-400 font-sans border-t border-slate-900 py-8 relative overflow-hidden left-0 right-0" style="padding-top: 2rem !important; padding-bottom: 1.5rem !important;">
-  
-  <div class="absolute bottom-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none select-none"></div>
+<footer
+  id="footer"
+  class="w-full bg-slate-950 text-slate-400 font-sans border-t border-slate-900 py-8 relative overflow-hidden left-0 right-0"
+  style="padding-top: 2rem !important; padding-bottom: 1.5rem !important;">
+  <div
+    class="absolute bottom-0 right-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none select-none">
+  </div>
 
   {/* THREE COLUMN GRID */}
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 pb-5 border-b border-slate-900 text-left">
-    
+  <div
+    class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 pb-5 border-b border-slate-900 text-left">
     {/* COLUMN 1: BRAND LOGO BLOCKS & SLOGAN */}
     <div class="flex flex-col gap-2 md:col-span-1">
       <div class="flex flex-row items-center gap-3">
-        {logoImage && (
-          <img 
-            src={logoImage} 
-            alt="Sukajadi Brand Logo" 
-            class="h-11 w-auto object-contain brightness-110 flex-shrink-0"
-            onerror="this.style.display='none';"
-          />
-        )}
+        {
+          logoImage && (
+            <img
+              src={logoImage}
+              alt="Sukajadi Brand Logo"
+              class="h-11 w-auto object-contain brightness-110 flex-shrink-0"
+              onerror="this.style.display='none';"
+            />
+          )
+        }
         <div class="flex flex-col justify-center select-none">
-          <span 
-            class="text-white text-xl font-medium uppercase leading-none block" 
-            style="font-family: 'EB Garamond', Georgia, serif !important; letter-spacing: 4px;"
-          >
+          <span
+            class="text-white text-xl font-medium uppercase leading-none block"
+            style="font-family: 'EB Garamond', Georgia, serif !important; letter-spacing: 4px;">
             Sukajadi
           </span>
-          <span class="text-[9px] text-amber-500 font-bold uppercase mt-1.5 block tracking-[0.14em]">
+          <span
+            class="text-[9px] text-amber-500 font-bold uppercase mt-1.5 block tracking-[0.14em]">
             Hotel & Convention
           </span>
         </div>
@@ -65,121 +78,214 @@ try {
 
     {/* COLUMN 2: GEOGRAPHIC & CONTACT COORDINATES */}
     <div>
-      <h4 class="text-white text-[11px] font-bold uppercase tracking-widest mb-2.5 border-l-2 border-amber-500 pl-2">
+      <h4
+        class="text-white text-[11px] font-bold uppercase tracking-widest mb-2.5 border-l-2 border-amber-500 pl-2">
         The Concierge Desk
       </h4>
-      <div class="flex flex-col gap-1.5 text-[11px] leading-relaxed text-slate-400">
-        
+      <div
+        class="flex flex-col gap-1.5 text-[11px] leading-relaxed text-slate-400">
         {/* INTERACTIVE NATIVE TRIGGER */}
-        <button id="open-map" class="flex gap-2 text-left group cursor-pointer hover:text-white transition-colors w-full focus:outline-none">
-          <span class="text-amber-500 shrink-0 group-hover:scale-110 transition-transform">📍</span>
-          <span class="underline decoration-slate-800 underline-offset-4 group-hover:decoration-amber-500 transition-colors">{footer.concierge_address}</span>
+        <button
+          id="open-map"
+          class="flex gap-2 text-left group cursor-pointer hover:text-white transition-colors w-full focus:outline-none">
+          <span
+            class="text-amber-500 shrink-0 group-hover:scale-110 transition-transform"
+            >📍</span
+          >
+          <span
+            class="underline decoration-slate-800 underline-offset-4 group-hover:decoration-amber-500 transition-colors"
+            >{footer.concierge_address}</span
+          >
         </button>
 
-        {footer.concierge_phone && (
-          <p class="flex items-center gap-2 mt-0.5">
-            <span class="text-[#E1306C] shrink-0 w-3.5 h-3.5 flex items-center justify-center pointer-events-none select-none">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.387a12.035 12.035 0 0 1-7.108-7.108c-.155-.44.01-1.23.387-1.512l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-              </svg>
-            </span>
-            <a href={`tel:${footer.concierge_phone_raw}`} class="hover:text-white transition-colors">
-              {footer.concierge_phone}
-            </a>
-          </p>
-        )}
-        
-        {footer.concierge_email && (
-          <p class="flex items-center gap-2">
-            <span class="text-[#E1306C] shrink-0 w-3.5 h-3.5 flex items-center justify-center pointer-events-none select-none">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-              </svg>
-            </span>
-            
-            {/* FIXED: Removed mailto string entirely. Restored the secure data action framework with reversed CSS masking */}
-            <span 
-              id="direct-concierge-action"
-              class="secure-email-mask hover:text-white transition-colors cursor-pointer notranslate"
-              role="button"
-              tabindex="0"
-            >
-            </span>
-          </p>
-        )}
+        {
+          footer.concierge_phone && (
+            <p class="flex items-center gap-2 mt-0.5">
+              <span class="text-[#E1306C] shrink-0 w-3.5 h-3.5 flex items-center justify-center pointer-events-none select-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2.5"
+                  stroke="currentColor"
+                  class="w-3.5 h-3.5">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.387a12.035 12.035 0 0 1-7.108-7.108c-.155-.44.01-1.23.387-1.512l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
+                  />
+                </svg>
+              </span>
+              <a
+                href={`tel:${footer.concierge_phone_raw}`}
+                class="hover:text-white transition-colors">
+                {footer.concierge_phone}
+              </a>
+            </p>
+          )
+        }
+
+        {
+          footer.concierge_email && (
+            <p class="flex items-center gap-2">
+              <span class="text-[#E1306C] shrink-0 w-3.5 h-3.5 flex items-center justify-center pointer-events-none select-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2.5"
+                  stroke="currentColor"
+                  class="w-3.5 h-3.5">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                  />
+                </svg>
+              </span>
+
+              {/* FIXED: Removed mailto string entirely. Restored the secure data action framework with reversed CSS masking */}
+              <span
+                id="direct-concierge-action"
+                class="secure-email-mask hover:text-white transition-colors cursor-pointer notranslate"
+                role="button"
+                tabindex="0"></span>
+            </p>
+          )
+        }
       </div>
     </div>
 
     {/* COLUMN 3: CONNECTIVITY */}
     <div>
-      <h4 class="text-white text-[11px] font-bold uppercase tracking-widest mb-2.5 border-l-2 border-amber-500 pl-2">
+      <h4
+        class="text-white text-[11px] font-bold uppercase tracking-widest mb-2.5 border-l-2 border-amber-500 pl-2">
         Follow Our Journey
       </h4>
       <p class="text-[11px] text-slate-500 mb-3 max-w-xs leading-relaxed">
         Stay updated with our latest stay packages and venue offerings.
       </p>
-      
+
       <div class="flex items-center gap-3 flex-wrap">
-        {footer.instagram_url && (
-          <a href={footer.instagram_url} target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#E1306C] border-[#E1306C]/10 hover:border-[#E1306C]/40 hover:brightness-125 transition-all duration-200" aria-label="Instagram">
-            <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M12 0C8.74 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.74 0 12s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.977 6.98 1.281.058 1.689.072 4.948.072 3.251 0 3.66-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.251-.014-3.66-.073-4.948-.2-4.355-2.617-6.783-6.979-6.98C15.66.014 15.251 0 12 0zm0 5.838a6.162 6.162 0 1 1 0 12.324 6.162 6.162 0 0 1 0-12.324zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"></path></svg>
-          </a>
-        )}
-        
-        {footer.facebook_url && (
-          <a href={footer.facebook_url} target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#1877F2] border-[#1877F2]/10 hover:border-[#1877F2]/40 hover:brightness-125 transition-all duration-200" aria-label="Facebook">
-            <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg>
-          </a>
-        )}
-        
-        {footer.youtube_url && (
-          <a href={footer.youtube_url} target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#FF0000] border-[#FF0000]/10 hover:border-[#FF0000]/40 hover:brightness-125 transition-all duration-200" aria-label="YouTube">
-            <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
-          </a>
-        )}
+        {
+          footer.instagram_url && (
+            <a
+              href={footer.instagram_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#E1306C] border-[#E1306C]/10 hover:border-[#E1306C]/40 hover:brightness-125 transition-all duration-200"
+              aria-label="Instagram">
+              <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current">
+                <path d="M12 0C8.74 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.74 0 12s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.977 6.98 1.281.058 1.689.072 4.948.072 3.251 0 3.66-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.251-.014-3.66-.073-4.948-.2-4.355-2.617-6.783-6.979-6.98C15.66.014 15.251 0 12 0zm0 5.838a6.162 6.162 0 1 1 0 12.324 6.162 6.162 0 0 1 0-12.324zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+              </svg>
+            </a>
+          )
+        }
+
+        {
+          footer.facebook_url && (
+            <a
+              href={footer.facebook_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#1877F2] border-[#1877F2]/10 hover:border-[#1877F2]/40 hover:brightness-125 transition-all duration-200"
+              aria-label="Facebook">
+              <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+            </a>
+          )
+        }
+
+        {
+          footer.youtube_url && (
+            <a
+              href={footer.youtube_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-[#FF0000] border-[#FF0000]/10 hover:border-[#FF0000]/40 hover:brightness-125 transition-all duration-200"
+              aria-label="YouTube">
+              <svg role="img" viewBox="0 0 24 24" class="w-4 h-4 fill-current">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+            </a>
+          )
+        }
       </div>
     </div>
-
   </div>
 
   {/* BOTTOM BASELINE */}
-  <div class="max-w-7xl mx-auto px-6 pt-3 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] text-slate-600 font-medium">
-    <p>© {new Date().getFullYear()} Sukajadi Hotel & Convention Bandung. All Rights Reserved.</p>
+  <div
+    class="max-w-7xl mx-auto px-6 pt-3 flex flex-col md:flex-row justify-between items-center gap-3 text-[10px] text-slate-600 font-medium">
+    <p>
+      © {new Date().getFullYear()} Sukajadi Hotel & Convention Bandung. All Rights
+      Reserved.
+    </p>
     <div class="flex gap-4">
-      <button id="open-privacy" class="hover:text-slate-400 cursor-pointer transition-colors">Privacy Charter</button>
+      <button
+        id="open-privacy"
+        class="hover:text-slate-400 cursor-pointer transition-colors"
+        >Privacy Charter</button
+      >
       <span class="text-slate-800">|</span>
       <p>Direct Booking Guarantee Enabled</p>
     </div>
   </div>
 
   {/* MODAL ONE: PRIVACY POLICY CHARTER */}
-  <div id="privacy-modal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
-    <div class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-xl p-6 shadow-2xl relative transform scale-95 transition-transform duration-300 max-h-[80vh] flex flex-col">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-        <h3 class="text-white text-sm font-bold uppercase tracking-wider">Privacy Charter & Terms</h3>
-        <button id="close-privacy" class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1">×</button>
+  <div
+    id="privacy-modal"
+    class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+    <div
+      class="bg-slate-900 border border-slate-800 w-full max-w-lg rounded-xl p-6 shadow-2xl relative transform scale-95 transition-transform duration-300 max-h-[80vh] flex flex-col">
+      <div
+        class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <h3 class="text-white text-sm font-bold uppercase tracking-wider">
+          Privacy Charter & Terms
+        </h3>
+        <button
+          id="close-privacy"
+          class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1"
+          >×</button
+        >
       </div>
-      <div class="overflow-y-auto text-xs text-slate-400 pr-1 leading-relaxed text-left whitespace-pre-line select-text">
-        {footer.privacy_content || "Terms and conditions are currently being processed by administration."}
+      <div
+        class="overflow-y-auto text-xs text-slate-400 pr-1 leading-relaxed text-left whitespace-pre-line select-text">
+        {
+          footer.privacy_content ||
+            "Terms and conditions are currently being processed by administration."
+        }
       </div>
     </div>
   </div>
 
   {/* MODAL TWO: NATIVE INTERACTIVE JAVASCRIPT MAP MODAL */}
-  <div id="map-modal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
-    <div class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-xl p-5 shadow-2xl relative transform scale-95 transition-transform duration-300 flex flex-col h-[65vh]">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-        <h3 class="text-white text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+  <div
+    id="map-modal"
+    class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+    <div
+      class="bg-slate-900 border border-slate-800 w-full max-w-2xl rounded-xl p-5 shadow-2xl relative transform scale-95 transition-transform duration-300 flex flex-col h-[65vh]">
+      <div
+        class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <h3
+          class="text-white text-sm font-bold uppercase tracking-wider flex items-center gap-2">
           <span class="text-amber-500">📍</span> Interactive Location Canvas
         </h3>
-        <button id="close-map-modal" class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1">×</button>
+        <button
+          id="close-map-modal"
+          class="text-slate-400 hover:text-white text-lg font-sans transition-colors cursor-pointer p-1"
+          >×</button
+        >
       </div>
-      
+
       {/* High-Performance Canvas Container Element */}
-      <div id="leaflet-map-container" class="w-full flex-1 rounded-lg bg-white border border-slate-800 z-10"></div>
+      <div
+        id="leaflet-map-container"
+        class="w-full flex-1 rounded-lg bg-white border border-slate-800 z-10">
+      </div>
     </div>
   </div>
-
 </footer>
 
 {/* Pass the CMS logo image path into a safe client-side data attribute */}
@@ -191,18 +297,20 @@ try {
     const openPrivacy = document.getElementById("open-privacy");
     const closePrivacy = document.getElementById("close-privacy");
     const privacyModal = document.getElementById("privacy-modal");
-    
+
     const openMap = document.getElementById("open-map");
     const closeMap = document.getElementById("close-map-modal");
     const mapModal = document.getElementById("map-modal");
 
     // Fetch logo path cleanly from our hidden HTML bridge element
     const logoBridge = document.getElementById("cms-logo-bridge");
-    const cmsLogoUrl = logoBridge ? logoBridge.getAttribute("data-logo-url") : "";
+    const cmsLogoUrl = logoBridge
+      ? logoBridge.getAttribute("data-logo-url")
+      : "";
 
     // FIXED: Corrected precise building corner metrics to point perfectly onto the hotel grounds
-    const hotelLat = -6.912120;
-    const hotelLng = 107.598700;
+    const hotelLat = -6.91212;
+    const hotelLng = 107.5987;
     let nativeMapInstance = null;
 
     const toggleModal = (modalElement, isOpen) => {
@@ -220,9 +328,15 @@ try {
 
     // Privacy logic
     if (openPrivacy && closePrivacy && privacyModal) {
-      openPrivacy.addEventListener("click", () => toggleModal(privacyModal, true));
-      closePrivacy.addEventListener("click", () => toggleModal(privacyModal, false));
-      privacyModal.addEventListener("click", (e) => { if (e.target === privacyModal) toggleModal(privacyModal, false); });
+      openPrivacy.addEventListener("click", () =>
+        toggleModal(privacyModal, true),
+      );
+      closePrivacy.addEventListener("click", () =>
+        toggleModal(privacyModal, false),
+      );
+      privacyModal.addEventListener("click", (e) => {
+        if (e.target === privacyModal) toggleModal(privacyModal, false);
+      });
     }
 
     // LAZY-LOAD INTERACTIVE MAP INJECTOR
@@ -234,9 +348,10 @@ try {
         if (!window.L) {
           const leafletScript = document.createElement("script");
           leafletScript.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-          leafletScript.integrity = "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
+          leafletScript.integrity =
+            "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
           leafletScript.crossOrigin = "anonymous";
-          
+
           leafletScript.onload = () => {
             initializeLeafletMap();
           };
@@ -253,44 +368,46 @@ try {
       });
 
       closeMap.addEventListener("click", () => toggleModal(mapModal, false));
-      mapModal.addEventListener("click", (e) => { if (e.target === mapModal) toggleModal(mapModal, false); });
+      mapModal.addEventListener("click", (e) => {
+        if (e.target === mapModal) toggleModal(mapModal, false);
+      });
     }
 
     function initializeLeafletMap() {
       if (!window.L || nativeMapInstance) return;
 
       // Construct native vector frame focused on hotel coordinates
-      nativeMapInstance = window.L.map('leaflet-map-container', {
+      nativeMapInstance = window.L.map("leaflet-map-container", {
         center: [hotelLat, hotelLng],
-        zoom: 17, 
+        zoom: 17,
         zoomControl: true,
-        attributionControl: false
+        attributionControl: false,
       });
 
       // Point directly to Google's crisp, vibrant standard road map layers (m variant)
-      window.L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        maxZoom: 20
+      window.L.tileLayer("https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
+        maxZoom: 20,
       }).addTo(nativeMapInstance);
 
       // Create a gorgeous branded hotel pin marker
       const hotelIcon = window.L.divIcon({
-        className: 'custom-map-pin',
+        className: "custom-map-pin",
         html: `<div class="flex items-center justify-center w-9 h-9 rounded-full bg-amber-500 border-2 border-white shadow-xl animate-pulse text-base">🏨</div>`,
         iconSize: [36, 36],
-        iconAnchor: [18, 36]
+        iconAnchor: [18, 36],
       });
 
       // Custom popup container styled with your premium branding layout values
       let popupHtml = `
         <div style="background-color: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 6px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; items-center; justify-content: center; gap: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
       `;
-      
+
       if (cmsLogoUrl) {
         popupHtml += `<img src="${cmsLogoUrl}" alt="Sukajadi" style="height: 24px; width: auto; object-fit: contain; margin: 0 auto 4px auto; filter: brightness(1.1);" />`;
       } else {
         popupHtml += `<strong style="color: #f59e0b; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display:block; margin-bottom:2px;">Sukajadi Hotel</strong>`;
       }
-      
+
       popupHtml += `
           <p style="margin: 0; font-size: 10px; color: #94a3b8; font-weight: 500; white-space: nowrap;">Jalan Kebon Kawung No. 60</p>
         </div>
@@ -299,7 +416,8 @@ try {
       // Drop pin marker onto coordinate canvas frame
       window.L.marker([hotelLat, hotelLng], { icon: hotelIcon })
         .addTo(nativeMapInstance)
-        .bindPopup(popupHtml, { closeButton: false, offset: [0, -24] }).openPopup();
+        .bindPopup(popupHtml, { closeButton: false, offset: [0, -24] })
+        .openPopup();
 
       // Recalculate size to ensure smooth layout initialization inside transitions
       setTimeout(() => {
@@ -315,7 +433,7 @@ try {
         const keyParts = ["mailto:", "info", "@", "sukajadihotel", ".com"];
         window.location.href = keyParts.join("");
       });
-      // Accessibility compliance keydown registration 
+      // Accessibility compliance keydown registration
       emailTrigger.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
@@ -327,7 +445,9 @@ try {
   });
 </script>
 
-{/* Target global map popup text formatting overrides cleanly via a scoped style declaration block */}
+{
+  /* Target global map popup text formatting overrides cleanly via a scoped style declaration block */
+}
 <style is:global>
   .leaflet-popup-content-wrapper {
     background: transparent !important;
@@ -341,7 +461,7 @@ try {
   }
   /* 100% SCRAMBLER FOR EMAIL PROTECTION: Renders perfectly visually to humans, unreadable to scrapers */
   .secure-email-mask::after {
-    content: "moc.letoharaitum@ofni";
+    content: "moc.letohidajakus@ofni";
     direction: rtl;
     unicode-bidi: bidi-override;
     display: inline-block;
