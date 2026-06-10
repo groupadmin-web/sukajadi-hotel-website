@@ -317,11 +317,11 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
         const urlParams = new URLSearchParams(window.location.search);
         const urlLang = urlParams.get("lang");
         if (urlLang === "id" || urlLang === "en" || urlLang === "zh") {
-          localStorage.setItem("mutiara_user_lang", urlLang);
+          localStorage.setItem("Sukajadi_user_lang", urlLang);
           return urlLang;
         }
 
-        const savedLanguage = localStorage.getItem("mutiara_user_lang");
+        const savedLanguage = localStorage.getItem("Sukajadi_user_lang");
         if (savedLanguage) return savedLanguage;
 
         const systemLocale = (
@@ -330,18 +330,18 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           "en"
         ).toLowerCase();
         if (systemLocale.startsWith("id") || systemLocale.startsWith("ms")) {
-          localStorage.setItem("mutiara_user_lang", "id");
+          localStorage.setItem("Sukajadi_user_lang", "id");
           return "id";
         } else if (
           systemLocale.startsWith("zh") ||
           systemLocale.startsWith("zho") ||
           systemLocale.startsWith("cmn")
         ) {
-          localStorage.setItem("mutiara_user_lang", "zh");
+          localStorage.setItem("Sukajadi_user_lang", "zh");
           return "zh";
         }
 
-        localStorage.setItem("mutiara_user_lang", "en");
+        localStorage.setItem("Sukajadi_user_lang", "en");
         return "en";
       }
 
@@ -457,7 +457,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
               )
                 return NodeFilter.FILTER_REJECT;
               if (
-                node.textContent.toLowerCase().includes("mutiara") &&
+                node.textContent.toLowerCase().includes("Sukajadi") &&
                 textClean.length < 40
               )
                 return NodeFilter.FILTER_REJECT;
@@ -553,11 +553,11 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
           }
 
           convertedText = convertedText.replace(
-            /Hotel Mutiara & Konvensi/gi,
+            /Hotel Sukajadi & Konvensi/gi,
             "Sukajadi Hotel & Convention",
           );
           convertedText = convertedText.replace(
-            /Hotel Mutiara/gi,
+            /Hotel Sukajadi/gi,
             "Sukajadi Hotel",
           );
           convertedText = convertedText.replace(
@@ -592,7 +592,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
         if (btnEN) {
           btnEN.onclick = (e) => {
             e.preventDefault();
-            localStorage.setItem("mutiara_user_lang", "en");
+            localStorage.setItem("Sukajadi_user_lang", "en");
             const url = new URL(window.location.href);
             url.searchParams.delete("lang");
             window.history.pushState({}, "", url);
@@ -602,7 +602,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
         if (btnID) {
           btnID.onclick = (e) => {
             e.preventDefault();
-            localStorage.setItem("mutiara_user_lang", "id");
+            localStorage.setItem("Sukajadi_user_lang", "id");
             const url = new URL(window.location.href);
             url.searchParams.set("lang", "id");
             window.history.pushState({}, "", url);
@@ -612,7 +612,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
         if (btnZH) {
           btnZH.onclick = (e) => {
             e.preventDefault();
-            localStorage.setItem("mutiara_user_lang", "zh");
+            localStorage.setItem("Sukajadi_user_lang", "zh");
             const url = new URL(window.location.href);
             url.searchParams.set("lang", "zh");
             window.history.pushState({}, "", url);
