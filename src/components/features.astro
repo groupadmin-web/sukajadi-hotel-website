@@ -6,13 +6,14 @@ const safeFeatures = featuresData || [];
 ---
 
 <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 font-sans">
-  
   <div class="text-center max-w-2xl mx-auto mb-20">
-    <h2 class="text-xs font-semibold tracking-[0.25em] text-amber-600 uppercase mb-3">
+    <h2
+      class="text-xs font-semibold tracking-[0.25em] text-amber-600 uppercase mb-3">
       The Sukajadi Experience
     </h2>
-    <h3 class="text-3xl md:text-4xl font-serif text-slate-900 tracking-wide font-normal leading-tight">
-      A Quiet Oasis of Refined Comfort
+    <h3
+      class="text-3xl md:text-4xl font-serif text-slate-900 tracking-wide font-normal leading-tight">
+      A Warm Haven of Indonesian Charm
     </h3>
     <div class="h-[1px] w-12 bg-amber-500/40 mx-auto mt-6"></div>
   </div>
@@ -20,8 +21,8 @@ const safeFeatures = featuresData || [];
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
     {
       safeFeatures.map((item, index) => {
-        const formattedIndex = String(index + 1).padStart(2, '0');
-        
+        const formattedIndex = String(index + 1).padStart(2, "0");
+
         return (
           <div class="flex flex-col pt-4 border-t border-slate-100 group hover:border-amber-500/40 transition-colors duration-500">
             <span class="font-serif text-2xl font-light text-amber-600/60 mb-3 tracking-wider block">
