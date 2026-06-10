@@ -7,6 +7,7 @@
   },
   {
     "hall_name": "Saphire Meeting Room",
+    "hall_type": "Meeting",
     "capacity_theater": "120",
     "main_feature": "Ergonomic Executive Seating & Independent Climate Controls"
   }
