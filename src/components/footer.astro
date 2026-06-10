@@ -31,7 +31,7 @@ try {
 <link
   rel="stylesheet"
   href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  integrity="sha256-p4NxAoJBhIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
   crossorigin=""
 />
 
@@ -144,12 +144,13 @@ try {
                 </svg>
               </span>
 
-              {/* FIXED: Removed mailto string entirely. Restored the secure data action framework with reversed CSS masking */}
+              {/* Secure data action framework with reversed CSS masking */}
               <span
                 id="direct-concierge-action"
                 class="secure-email-mask hover:text-white transition-colors cursor-pointer notranslate"
                 role="button"
-                tabindex="0"></span>
+                tabindex="0"
+              />
             </p>
           )
         }
@@ -292,8 +293,9 @@ try {
 <div id="cms-logo-bridge" data-logo-url={logoImage} class="hidden"></div>
 
 <script is:inline>
-  document.addEventListener("DOMContentLoaded", () => {
-    // Modal Selectors
+  // 🟢 Create a unified initialization function for the whole footer
+  function initFooterEngines() {
+    // 1. SELECTORS
     const openPrivacy = document.getElementById("open-privacy");
     const closePrivacy = document.getElementById("close-privacy");
     const privacyModal = document.getElementById("privacy-modal");
@@ -301,18 +303,20 @@ try {
     const openMap = document.getElementById("open-map");
     const closeMap = document.getElementById("close-map-modal");
     const mapModal = document.getElementById("map-modal");
+    const emailTrigger = document.getElementById("direct-concierge-action");
 
-    // Fetch logo path cleanly from our hidden HTML bridge element
+    // 2. LOGO BRIDGE UTILITY
     const logoBridge = document.getElementById("cms-logo-bridge");
     const cmsLogoUrl = logoBridge
       ? logoBridge.getAttribute("data-logo-url")
       : "";
 
-    // FIXED: Corrected precise building corner metrics to point perfectly onto the hotel grounds
-    const hotelLat = -6.91212;
-    const hotelLng = 107.5987;
+    // 3. GEOGRAPHIC METRICS (Sukajadi precise coordinate pins)
+    const hotelLat = -6.890656;
+    const hotelLng = 107.595963;
     let nativeMapInstance = null;
 
+    // 4. MODAL TOGGLE FRAMEWORK
     const toggleModal = (modalElement, isOpen) => {
       const modalBox = modalElement?.querySelector("div");
       if (isOpen) {
@@ -326,25 +330,20 @@ try {
       }
     };
 
-    // Privacy logic
+    // 5. PRIVACY POLICY EVENTS
     if (openPrivacy && closePrivacy && privacyModal) {
-      openPrivacy.addEventListener("click", () =>
-        toggleModal(privacyModal, true),
-      );
-      closePrivacy.addEventListener("click", () =>
-        toggleModal(privacyModal, false),
-      );
-      privacyModal.addEventListener("click", (e) => {
+      openPrivacy.onclick = () => toggleModal(privacyModal, true);
+      closePrivacy.onclick = () => toggleModal(privacyModal, false);
+      privacyModal.onclick = (e) => {
         if (e.target === privacyModal) toggleModal(privacyModal, false);
-      });
+      };
     }
 
-    // LAZY-LOAD INTERACTIVE MAP INJECTOR
+    // 6. LEAFLET CANVAS ENGINE INJECTOR
     if (openMap && closeMap && mapModal) {
-      openMap.addEventListener("click", () => {
+      openMap.onclick = () => {
         toggleModal(mapModal, true);
 
-        // Check if Leaflet script asset is already loaded in our window scope
         if (!window.L) {
           const leafletScript = document.createElement("script");
           leafletScript.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
@@ -352,12 +351,9 @@ try {
             "sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=";
           leafletScript.crossOrigin = "anonymous";
 
-          leafletScript.onload = () => {
-            initializeLeafletMap();
-          };
+          leafletScript.onload = () => initializeLeafletMap();
           document.head.appendChild(leafletScript);
         } else {
-          // Wake up map layout engine safely on modal toggle
           setTimeout(() => {
             if (nativeMapInstance) {
               nativeMapInstance.invalidateSize();
@@ -365,18 +361,17 @@ try {
             }
           }, 200);
         }
-      });
+      };
 
-      closeMap.addEventListener("click", () => toggleModal(mapModal, false));
-      mapModal.addEventListener("click", (e) => {
+      closeMap.onclick = () => toggleModal(mapModal, false);
+      mapModal.onclick = (e) => {
         if (e.target === mapModal) toggleModal(mapModal, false);
-      });
+      };
     }
 
     function initializeLeafletMap() {
       if (!window.L || nativeMapInstance) return;
 
-      // Construct native vector frame focused on hotel coordinates
       nativeMapInstance = window.L.map("leaflet-map-container", {
         center: [hotelLat, hotelLng],
         zoom: 17,
@@ -384,12 +379,10 @@ try {
         attributionControl: false,
       });
 
-      // Point directly to Google's crisp, vibrant standard road map layers (m variant)
       window.L.tileLayer("https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", {
         maxZoom: 20,
       }).addTo(nativeMapInstance);
 
-      // Create a gorgeous branded hotel pin marker
       const hotelIcon = window.L.divIcon({
         className: "custom-map-pin",
         html: `<div class="flex items-center justify-center w-9 h-9 rounded-full bg-amber-500 border-2 border-white shadow-xl animate-pulse text-base">🏨</div>`,
@@ -397,52 +390,49 @@ try {
         iconAnchor: [18, 36],
       });
 
-      // Custom popup container styled with your premium branding layout values
-      let popupHtml = `
-        <div style="background-color: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 6px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; items-center; justify-content: center; gap: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">
-      `;
-
+      let popupHtml = `<div style="background-color: #0f172a; color: #f8fafc; font-family: sans-serif; padding: 6px 10px; border-radius: 8px; text-align: center; display: flex; flex-direction: column; items-center; justify-content: center; gap: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);">`;
       if (cmsLogoUrl) {
         popupHtml += `<img src="${cmsLogoUrl}" alt="Sukajadi" style="height: 24px; width: auto; object-fit: contain; margin: 0 auto 4px auto; filter: brightness(1.1);" />`;
       } else {
         popupHtml += `<strong style="color: #f59e0b; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display:block; margin-bottom:2px;">Sukajadi Hotel</strong>`;
       }
+      popupHtml += `<p style="margin: 0; font-size: 10px; color: #94a3b8; font-weight: 500; white-space: nowrap;">Bandung, West Java</p></div>`;
 
-      popupHtml += `
-          <p style="margin: 0; font-size: 10px; color: #94a3b8; font-weight: 500; white-space: nowrap;">Jalan Kebon Kawung No. 60</p>
-        </div>
-      `;
-
-      // Drop pin marker onto coordinate canvas frame
       window.L.marker([hotelLat, hotelLng], { icon: hotelIcon })
         .addTo(nativeMapInstance)
         .bindPopup(popupHtml, { closeButton: false, offset: [0, -24] })
         .openPopup();
 
-      // Recalculate size to ensure smooth layout initialization inside transitions
       setTimeout(() => {
         nativeMapInstance.invalidateSize();
       }, 250);
     }
 
-    // NATIVE PASSIVE RUNTIME EVENT LISTENERS FOR DE-SCRAMBLING ON USER CLICK
-    const emailTrigger = document.getElementById("direct-concierge-action");
+    // 7. SECURE BACKGROUND EMAIL TRIGGER (With custom character array string mapping for Sukajadi)
     if (emailTrigger) {
-      emailTrigger.addEventListener("click", () => {
-        // Assembles the real address cleanly directly in memory right on user selection
+      // Scrub any duplicate inline handlers before binding cleanly
+      emailTrigger.onclick = null;
+      emailTrigger.addEventListener("click", (e) => {
+        e.preventDefault();
         const keyParts = ["mailto:", "info", "@", "sukajadihotel", ".com"];
-        window.location.href = keyParts.join("");
+        window.open(keyParts.join(""), "_blank");
       });
-      // Accessibility compliance keydown registration
+
       emailTrigger.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           const keyParts = ["mailto:", "info", "@", "sukajadihotel", ".com"];
-          window.location.href = keyParts.join("");
+          window.open(keyParts.join(""), "_blank");
         }
       });
     }
-  });
+  }
+
+  // 🟢 Run on initial script parsing hit
+  initFooterEngines();
+
+  // 🟢 Force rerun on every client-side page transition swap execution step across the router context
+  document.addEventListener("astro:page-load", initFooterEngines);
 </script>
 
 {

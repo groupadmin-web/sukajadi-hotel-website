@@ -130,6 +130,14 @@ content:
       - name: image
         label: "Main Feature Photo (Cover)"
         type: image
+      - name: hall_type
+        label: "Hall Type Label (e.g., Theater Seating)"
+        type: string
+        required: false
+      - name: label
+        label: "Small Label (e.g., Premium Space Assets)"
+        type: string
+        required: false
       - name: gallery1
         label: "Additional Gallery Photo 1"
         type: image
@@ -307,18 +315,15 @@ content:
         default: "Find quick answers about our luxury accommodations, boutique booking terms, and heritage convention spaces."
       - name: faqs
         label: "Manage Question & Answer List Entries"
-        type: list
+        type: object  # 🟢 Aligned configuration layer directly to Mutiara's PagesCMS fix parameters
+        list: true    # 🟢 Stripped out the broken sub-field mapping variables
         fields:
-          - name: faq_item
-            label: "Q&A Pair"
-            type: object
-            fields:
-              - name: question
-                label: "Guest Question Text String"
-                type: string
-              - name: answer
-                label: "Detailed Answer Response text block"
-                type: text
+          - name: question
+            label: "Guest Question Text String"
+            type: string
+          - name: answer
+            label: "Detailed Answer Response text block"
+            type: text
 
   - name: footer_section
     label: "12. Global Site Footer"

@@ -49,7 +49,7 @@ const events = Array.isArray(eventData) ? eventData : [];
             return (
               <div class="group bg-white rounded-2xl border border-gray-200/60 shadow-sm overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl w-full transform hover:-translate-y-1">
                 <div>
-                  {/* Visual Cover Media Frame - Fully optimized width fix applied */}
+                  {/* Visual Cover Media Frame */}
                   <div class="relative h-56 bg-gray-100 overflow-hidden w-full">
                     {event.image ? (
                       <img
@@ -77,9 +77,12 @@ const events = Array.isArray(eventData) ? eventData : [];
                         </span>
                       </div>
                     )}
-                    <div class="absolute top-4 right-4 bg-gray-900/80 text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans">
-                      Theater Seating
-                    </div>
+                    {/* 🟢 FIXED: Made completely dynamic to pull down CMS customizations */}
+                    {(event.hall_type || event.capacity_theater) && (
+                      <div class="absolute top-4 right-4 bg-gray-900/80 text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans">
+                        {event.hall_type || "Theater Seating"}
+                      </div>
+                    )}
                   </div>
 
                   {/* Main Content Info Workspace */}
@@ -87,9 +90,12 @@ const events = Array.isArray(eventData) ? eventData : [];
                     <h3 class="text-2xl font-serif font-bold text-gray-800 mb-1 leading-tight group-hover:text-amber-600 transition-colors">
                       {event.hall_name}
                     </h3>
-                    <span class="inline-block bg-amber-50 border border-amber-100/60 text-amber-700 text-[10px] px-3 py-1 rounded-full font-sans uppercase tracking-wider mt-1 mb-4">
-                      Premium Space Assets
-                    </span>
+                    {/* 🟢 FIXED: Made dynamic to accurately output data fields */}
+                    {event.label && (
+                      <span class="inline-block bg-amber-50 border border-amber-100/60 text-amber-700 text-[10px] px-3 py-1 rounded-full font-sans uppercase tracking-wider mt-1 mb-4">
+                        {event.label || "Premium Space Assets"}
+                      </span>
+                    )}
 
                     {/* Highlight Parameters Display */}
                     <div class="space-y-2 border-t border-b border-gray-100 py-4 my-2 text-xs font-sans tracking-wide text-gray-500">
@@ -222,7 +228,7 @@ const events = Array.isArray(eventData) ? eventData : [];
                   <div class="flex justify-between items-center text-xs uppercase tracking-wider text-gray-500">
                     <span>Layout Configuration:</span>
                     <span class="font-bold text-gray-800">
-                      Theater Configuration
+                      {event.hall_type || "Theater Configuration"}
                     </span>
                   </div>
                   <div class="flex justify-between items-center text-xs uppercase tracking-wider text-gray-500">

@@ -1,13 +1,37 @@
 ---
 // src/pages/qna.astro
 import Layout from "@/layouts/Layout.astro";
-import Qna from "@/components/qna.astro";
+import QnaComponent from "@/components/qna.astro";
 import BookingToast from "@/components/BookingToast.astro";
+
+// 1. Automatically fetch the data from your JSON file
+import qnaData from "@/content/qna.json";
+
+// 2. Format that exact data into the structure AI and search bots read natively
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: (qnaData?.faqs || []).map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
 ---
 
 <Layout title="Q&A - Sukajadi Hotel">
   <div class="py-12 bg-slate-50 min-h-screen">
-    <Qna />
+    <QnaComponent />
   </div>
   <BookingToast />
+
+  {/* Injects the machine-readable FAQ Schema markup for search engines */}
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(faqSchema)}
+  />
 </Layout>
