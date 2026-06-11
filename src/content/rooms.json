@@ -89,5 +89,22 @@
       "Free Wi-Fi",
       "Comfortable Bathroom"
     ]
+  },
+  {
+    "title": "Mini Room",
+    "description": "A compact yet thoughtfully arranged retreat, the Mini Room blends comfort and practicality in a warm, inviting setting.",
+    "image": "/images/KAMAR 8 A.jpg",
+    "room_gallery1": "/images/KAMAR 9 A.jpg",
+    "room_gallery2": "/images/KAMAR 9 C.jpg",
+    "room_gallery3": "/images/KAMAR 9 D.jpg",
+    "bed_type": "Twin Bed",
+    "capacity": "2",
+    "view": "Privacy",
+    "features": [
+      "Air Conditioning",
+      "Modern Amenities",
+      "Free Wifi",
+      "Comfortable Bathroom"
+    ]
   }
 ]
