@@ -71,20 +71,27 @@ const defaultAttractions = [
   }
 ];
 
+---
+// ... Keep your defaultAttractions array and cmsData logic exactly as they are above
+
 const cmsData = Array.isArray(attractionsData) && attractionsData.length > 0 ? attractionsData : [];
 
-const attractions = defaultAttractions.map((defaultItem, idx) => {
-  const cmsItem = cmsData.find(item => item && (item.title === defaultItem.title)) || cmsData[idx] || {};
-  return {
-    title: cmsItem.title || defaultItem.title,
-    distance: cmsItem.distance || defaultItem.distance,
-    tagline: cmsItem.tagline || defaultItem.tagline,
-    category: cmsItem.category || defaultItem.category,
-    description: cmsItem.description || defaultItem.description,
-    image: (cmsItem.image && cmsItem.image.trim() !== "") ? cmsItem.image : defaultItem.image,
-    photo_credit: cmsItem.photo_credit || ""
-  };
-});
+// 🟢 FIX: If CMS has data, map over CMS data so new items appear. Otherwise, fall back to defaults.
+const attractions = cmsData.length > 0 
+  ? cmsData.map((cmsItem, idx) => {
+      // Find matching default item in case the CMS is missing a field like a description
+      const defaultItem = defaultAttractions.find(d => d.title === cmsItem.title) || defaultAttractions[idx] || {};
+      return {
+        title: cmsItem.title,
+        distance: cmsItem.distance || defaultItem.distance || "N/A",
+        tagline: cmsItem.tagline || defaultItem.tagline || "",
+        category: cmsItem.category || defaultItem.category || "City Center",
+        description: cmsItem.description || defaultItem.description || "",
+        image: (cmsItem.image && cmsItem.image.trim() !== "") ? cmsItem.image : (defaultItem.image || "/images/placeholder.jpg"),
+        photo_credit: cmsItem.photo_credit || ""
+      };
+    })
+  : defaultAttractions; // Fallback if CMS is totally empty
 ---
 
 <Layout title="Local Attractions | Sukajadi Hotel & Convention">
