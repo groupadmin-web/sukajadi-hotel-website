@@ -25,7 +25,7 @@
     "room_gallery2": "/images/KAMAR 26 E.jpg",
     "room_gallery3": "/images/Family Room 1.jpg",
     "bed_type": "Multiple King & Queen Bed Configurations",
-    "capacity": "4 People",
+    "capacity": "5 People",
     "view": "Scenic View",
     "features": [
       "Air Conditioning",
@@ -36,11 +36,12 @@
     ]
   },
   {
-    "title": "Budget Room",
-    "description": "Designed with comfort and practicality in mind. Featuring cozy beds and classic furnishings, these rooms provide a welcoming retreat for travelers looking for an affordable stay.",
-    "image": "/images/4dc3aace-18a9-48ec-8355-a3253f3fe2f3-1.jpeg",
-    "room_gallery1": "/images/d3kzgpd3kzgpd3kz.png",
-    "room_gallery2": "/images/psaxs6psaxs6psax.png",
+    "title": "Suite",
+    "description": "Experience understated luxury in our Suite, featuring a serene bedroom, elegant marble bathroom, and warm contemporary design for a truly relaxing retreat.",
+    "image": "/images/KAMAR 6 B.jpg",
+    "room_gallery1": "/images/KAMAR 6 F.jpg",
+    "room_gallery2": "/images/KAMAR 6 E.jpg",
+    "room_gallery3": "/images/KAMAR 6 G.jpg",
     "bed_type": "Twin Beds",
     "capacity": "2 People",
     "view": "Standard View",
