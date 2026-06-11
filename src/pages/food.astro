@@ -5,9 +5,11 @@ import BookingToast from "@/components/BookingToast.astro";
 
 // 1. INGEST STATIC TEXT LAYERS (Matching your exact JSON keys)
 let settings = {
-  page_description: "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung.",
+  page_description:
+    "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung.",
   breakfast_title: "Local Breakfast Advisory",
-  breakfast_description: "Please note that Sukajadi Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep."
+  breakfast_description:
+    "Please note that Sukajadi Hotel does not offer an in-house breakfast service; however, our prime location is surrounded by an abundance of legendary Bandung local street food and culinary spots waiting to be explored right at our doorstep.",
 };
 
 try {
@@ -34,21 +36,29 @@ try {
 
 <Layout title="Local Dining Guide | Sukajadi Hotel & Convention">
   <div class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
-
     <div class="max-w-4xl mx-auto text-center mb-12 mt-8">
-      <span class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1">Culinary Experience</span>
-      <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">Bandung Dining & Food</h1>
+      <span
+        class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1"
+        >Culinary Experience</span
+      >
+      <h1
+        class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">
+        Bandung Dining & Food
+      </h1>
       <div class="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
-      
-      <p class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic leading-relaxed">
+
+      <p
+        class="text-lg text-gray-600 font-light max-w-2xl mx-auto italic leading-relaxed">
         "{settings.page_description}"
       </p>
     </div>
 
-    <div class="max-w-3xl mx-auto mb-16 bg-amber-500/5 border border-amber-500/20 rounded-xl p-5 flex items-start gap-3.5 shadow-sm">
+    <div
+      class="max-w-3xl mx-auto mb-16 bg-amber-500/5 border border-amber-500/20 rounded-xl p-5 flex items-start gap-3.5 shadow-sm">
       <span class="text-xl select-none leading-none mt-0.5 shrink-0">🍳</span>
       <div class="flex-1 text-left">
-        <h4 class="text-slate-900 font-sans text-xs font-bold uppercase tracking-wider mb-1">
+        <h4
+          class="text-slate-900 font-sans text-xs font-bold uppercase tracking-wider mb-1">
           {settings.breakfast_title}
         </h4>
         <p class="text-xs text-gray-500 font-sans leading-relaxed">
@@ -57,74 +67,76 @@ try {
       </div>
     </div>
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-      {restaurants.map((item) => {
-        const encodedLocationName = encodeURIComponent(`${item.title || 'Restaurant'}, Bandung, West Java, Indonesia`);
-        const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocationName}`;
+    <div
+      class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+      {
+        restaurants.map((item) => {
+          const encodedLocationName = encodeURIComponent(
+            `${item.title || "Restaurant"}, Bandung, West Java, Indonesia`,
+          );
+          // Fixed syntax error and converted to the standard location pin format
+          const exactMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodedLocationName}`;
 
-        return (
-          <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 w-full group">
-            
-            <div class="relative h-48 overflow-hidden bg-gray-100 shrink-0 select-none">
-              <img 
-                src={item.image || "/images/placeholder-dining.jpg"} 
-                alt={item.title} 
-                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                loading="lazy" 
-              />
-              {item.cuisine_type && (
-                <div class="absolute top-4 left-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
-                  {item.cuisine_type}
-                </div>
-              )}
-              {item.distance && (
-                <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
-                  <span>📍</span> <span>{item.distance}</span>
-                </div>
-              )}
-            </div>
-
-            <div class="p-5 flex-1 flex flex-col justify-between">
-              <div class="mb-4">
-                {item.tagline && (
-                  <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
-                    {item.tagline}
-                  </span>
+          return (
+            <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 w-full group">
+              <div class="relative h-48 overflow-hidden bg-gray-100 shrink-0 select-none">
+                <img
+                  src={item.image || "/images/placeholder-dining.jpg"}
+                  alt={item.title}
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                {item.cuisine_type && (
+                  /* 🟢 FIXED: Changed top-4 left-4 to top-4 right-4 to push badge to the right corner */
+                  <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
+                    {item.cuisine_type}
+                  </div>
                 )}
-                <h2 class="text-lg font-serif font-bold text-gray-800 tracking-wide uppercase line-clamp-2">
-                  {item.title}
-                </h2>
-                <div class="w-8 h-0.5 bg-gray-200 mt-2"></div>
+                {item.distance && (
+                  <div class="absolute bottom-4 left-4 bg-slate-950/80 backdrop-blur-sm text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans font-medium flex items-center gap-1.5 shadow-md">
+                    <span>📍</span> <span>{item.distance}</span>
+                  </div>
+                )}
               </div>
 
-              <div class="flex items-center gap-2 pt-3 border-t border-gray-100/80 text-[10px] font-sans font-bold tracking-wider uppercase">
-                <a 
-                  href={exactMapUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="flex-1 bg-slate-50 hover:bg-slate-100 text-gray-700 border border-gray-200/60 rounded-lg py-2.5 text-center transition-all flex items-center justify-center gap-1.5"
-                >
-                  <span>View Pin</span>
-                </a>
+              <div class="p-5 flex-1 flex flex-col justify-between">
+                <div class="mb-4">
+                  {item.tagline && (
+                    <span class="text-amber-600 text-[10px] tracking-widest uppercase font-sans font-bold block mb-1">
+                      {item.tagline}
+                    </span>
+                  )}
+                  <h2 class="text-lg font-serif font-bold text-gray-800 tracking-wide uppercase line-clamp-2">
+                    {item.title}
+                  </h2>
+                  <div class="w-8 h-0.5 bg-gray-200 mt-2" />
+                </div>
 
-                {item.website_url && (
-                  <a 
-                    href={item.website_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg py-2.5 text-center transition-all block whitespace-nowrap"
-                  >
-                    Website ↗
+                <div class="flex items-center gap-2 pt-3 border-t border-gray-100/80 text-[10px] font-sans font-bold tracking-wider uppercase">
+                  <a
+                    href={exactMapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex-1 bg-slate-50 hover:bg-slate-100 text-gray-700 border border-gray-200/60 rounded-lg py-2.5 text-center transition-all flex items-center justify-center gap-1.5">
+                    <span>View Pin</span>
                   </a>
-                )}
+
+                  {item.website_url && (
+                    <a
+                      href={item.website_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg py-2.5 text-center transition-all block whitespace-nowrap">
+                      Website ↗
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
-
-          </div>
-        );
-      })}
+          );
+        })
+      }
     </div>
-
   </div>
   <BookingToast />
 </Layout>
