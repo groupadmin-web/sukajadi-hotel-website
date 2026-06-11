@@ -55,12 +55,12 @@
     ]
   },
   {
-    "title": "Standard Room",
-    "description": "Designed with a peaceful and functional atmosphere, equipped with a work desk, mirror, and a spacious wardrobe providing ample storage for clothes and personal belongings.",
-    "image": "/images/2t8lu72t8lu72t8l.png",
-    "room_gallery1": "/images/vlmmn3vlmmn3vlmm.png",
-    "room_gallery2": "/images/pi9o8api9o8api9o.png",
-    "room_gallery3": "/images/w9389zw9389zw938.png",
+    "title": "Premier Room",
+    "description": "A harmonious mix of modern design and elegant detailing, the Premier Room delivers a premium stay experience with its calming ambience and thoughtfully crafted interiors.",
+    "image": "/images/KAMAR 7 B.jpg",
+    "room_gallery1": "/images/KAMAR 7 H.jpg",
+    "room_gallery2": "/images/KAMAR 7 E.jpg",
+    "room_gallery3": "/images/KAMAR 7 C.jpg",
     "bed_type": "Standard Twin/Double or Triple Beds",
     "capacity": "2 - 3 People",
     "view": "Privacy",
