@@ -28,7 +28,7 @@
   },
   {
     "title": "Paris Van Java Mall",
-    "distance": "280 M (4 Min Walk)",
+    "distance": "280 m (4 Min Walk)",
     "tagline": "Premium Retail & Culinary Hub",
     "category": "Shopping Mall",
     "image": "/images/pvj_bandung.jpg",
@@ -70,5 +70,12 @@
     "image": "/images/Saung_Angklung_Udjo.jpeg",
     "photo_credit": "Credit: Midori, CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=13320362",
     "description": "A legendary cultural workshop and performance space dedicated to preserving traditional Sudanese art. Experience live energetic performances featuring the traditional Angklung bamboo instruments."
+  },
+  {
+    "title": "Rumah Mode Factory Outlet",
+    "distance": "850 m (12 Min Walk)",
+    "tagline": "Fashion Outlet and Food Galore",
+    "category": "Serba Ada",
+    "image": "/images/rumah_mode.jpg"
   }
 ]
