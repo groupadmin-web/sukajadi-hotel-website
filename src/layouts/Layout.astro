@@ -74,7 +74,7 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
       content="Welcome to Sukajadi Hotel & Convention. Book your stay with us directly for premium service, accommodations, and local culinary adventures in Bandung."
     />
     <meta property="fb:app_id" content="1234567890" />
-    
+
     {
       /* Injected as raw HTML meta tags to appease the Meta Scraper without throwing TS Type Errors */
     }
@@ -578,10 +578,13 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
             "Sukajadi Hotel",
           );
           convertedText = convertedText.replace(
-            /珍珠酒店及会议中心/g,
+            /苏卡贾迪酒店及会议中心/g,
             "Sukajadi Hotel & Convention",
           );
-          convertedText = convertedText.replace(/珍珠酒店/g, "Sukajadi Hotel");
+          convertedText = convertedText.replace(
+            /苏卡贾迪酒店/g,
+            "Sukajadi Hotel",
+          );
 
           if (isReviewBox) {
             textNode.textContent = `"${convertedText.trim()}"`;
