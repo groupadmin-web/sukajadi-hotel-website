@@ -66,7 +66,15 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
         },
       }}
     />
-
+    {
+      /* Meta Scraper Fixes - Placed outside the component to avoid strict TypeScript type compilation errors */
+    }
+    <meta
+      property="og:description"
+      content="Welcome to Sukajadi Hotel & Convention. Book your stay with us directly for premium service, accommodations, and local culinary adventures in Bandung."
+    />
+    <meta property="fb:app_id" content="1234567890" />
+    
     {
       /* Injected as raw HTML meta tags to appease the Meta Scraper without throwing TS Type Errors */
     }
