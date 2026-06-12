@@ -3,7 +3,16 @@
 import Layout from "../layouts/Layout.astro";
 import BookingToast from "@/components/BookingToast.astro";
 
-// 1. INGEST STATIC TEXT LAYERS (Matching your exact JSON keys)
+// 1. TYPE SAFETY INTERFACE ENGINE
+interface RestaurantItem {
+  title: string;
+  image?: string;
+  cuisine_type?: string;
+  distance?: string;
+  tagline?: string;
+  website_url?: string;
+}
+
 let settings = {
   page_description:
     "From traditional Sundanese family recipes right inside our venue complex to the legendary culinary street paths of Bandung.",
@@ -13,24 +22,23 @@ let settings = {
 };
 
 try {
-  // Pulling from the data folder where your food_settings.json lives
   const settingsData = await import("../content/food_settings.json");
   if (settingsData && settingsData.default) {
     settings = { ...settings, ...settingsData.default };
   }
 } catch (e) {
-  // Silent fallback keeps layout alive if settings json is missing or being edited
+  // Silent fallback
 }
 
-// 2. DYNAMIC CONTENT INGESTION ENGINE (Reads your data as a pure array list)
-let restaurants = [];
+// 2. DYNAMIC CONTENT INGESTION ENGINE
+let restaurants: RestaurantItem[] = [];
 try {
   const restaurantsData = await import("../content/restaurants.json");
   if (restaurantsData && Array.isArray(restaurantsData.default)) {
-    restaurants = restaurantsData.default;
+    restaurants = restaurantsData.default as RestaurantItem[];
   }
 } catch (e) {
-  // Silent fallback to keep the build alive if the json file gets cleared
+  // Silent fallback
 }
 ---
 
@@ -38,9 +46,9 @@ try {
   <div class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto text-center mb-12 mt-8">
       <span
-        class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1"
-        >Culinary Experience</span
-      >
+        class="text-amber-600 font-sans text-xs tracking-widest uppercase font-bold block mb-1">
+        Culinary Experience
+      </span>
       <h1
         class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">
         Bandung Dining & Food
@@ -75,7 +83,7 @@ try {
             `${item.title || "Restaurant"}, Bandung, West Java, Indonesia`,
           );
           // Fixed syntax error and converted to the standard location pin format
-          const exactMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodedLocationName}`;
+          const exactMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocationName}`;
 
           return (
             <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 w-full group">
@@ -85,9 +93,10 @@ try {
                   alt={item.title}
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
+                  width={400}
+                  height={192}
                 />
                 {item.cuisine_type && (
-                  /* 🟢 FIXED: Changed top-4 left-4 to top-4 right-4 to push badge to the right corner */
                   <div class="absolute top-4 right-4 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] tracking-widest uppercase px-2.5 py-1 rounded font-sans font-semibold">
                     {item.cuisine_type}
                   </div>

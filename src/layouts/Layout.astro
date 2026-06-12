@@ -5,7 +5,7 @@ import { SEO } from "astro-seo";
 import Footer from "@/components/footer.astro";
 import Navbar from "@/components/navbar/navbar.astro";
 import "@fontsource-variable/inter/index.css";
-import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/bricolage-grotesque/index.css";
 import "../styles/global.css";
 
 // Load the strict JSON list configuration managed under your pages.yml
@@ -31,7 +31,8 @@ const makeTitle = title
 // CODESYNC: Pull BOTH the "title" and the "view" fields dynamically from your CMS JSON payload
 const showcaseItems = Array.isArray(roomsData) ? roomsData : [];
 
-const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
+// 🟢 FIXED: Explicitly type accumulator as string[] to clear the 'never' parameter errors
+const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
   if (item?.title) acc.push(item.title.trim().toLowerCase());
   if (item?.view) acc.push(item.view.trim().toLowerCase());
   return acc;
@@ -49,22 +50,22 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
 
     <meta name="generator" content={Astro.generator} />
 
-      <SEO
-        title={makeTitle}
-        description="Welcome to Sukajadi Hotel. Book your stay with us directly for premium service and accommodation."
-        canonical={canonicalURL}
-        openGraph={{
-          basic: {
-            url: canonicalURL,
-            type: "website",
-            title: makeTitle, // 🌟 Uses your dynamic page title formatting
-            image: resolvedImageWithDomain,
-          },
-          optional: {
-            siteName: "Sukajadi Hotel", // ⚡ THE FIX: Forces WhatsApp to overwrite the "Astro" framework name fallback!
-          },
-        }}
-      />
+    <SEO
+      title={makeTitle}
+      description="Welcome to Sukajadi Hotel. Book your stay with us directly for premium service and accommodation."
+      canonical={canonicalURL}
+      openGraph={{
+        basic: {
+          url: canonicalURL,
+          type: "website",
+          title: makeTitle,
+          image: resolvedImageWithDomain,
+        },
+        optional: {
+          siteName: "Sukajadi Hotel",
+        },
+      }}
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -402,7 +403,7 @@ const protectedCmsStrings = showcaseItems.reduce((acc, item) => {
         if (flagID) flagID.querySelector("span").style.color = "#94a3b8";
         if (textZH) textZH.style.color = "#94a3b8";
 
-        // Render label options via dynamic passthrough dictionary configuration
+        // 🟢 FIXED: Converted JSX comment syntax to safe JavaScript assignment
         if (labelEl) {
           labelEl.innerText =
             labelTranslations[activeLanguage] || labelTranslations.en;
