@@ -67,7 +67,9 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
       }}
     />
 
-    {/* 🟢 FIXED: Injected as raw HTML meta tags to appease the Meta Scraper without throwing TS Type Errors */}
+    {
+      /* Injected as raw HTML meta tags to appease the Meta Scraper without throwing TS Type Errors */
+    }
     <meta property="fb:app_id" content="1234567890" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -253,17 +255,388 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
           transform 0.2s ease,
           background-color 0.2s ease;
       }
+
       .whatsapp-svg {
         width: 36px;
         height: 36px;
       }
+
       .whatsapp-icon-float:hover {
         transform: scale(1.1);
         background-color: #128c7e;
       }
+
       @media (max-width: 768px) {
         .whatsapp-icon-float {
           bottom: 16px;
           right: 16px;
           width: 50px;
-          height
+          height: 50px;
+        }
+        .whatsapp-svg {
+          width: 30px;
+          height: 30px;
+        }
+      }
+
+      .ai-translated-notice {
+        display: block;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        font-size: 10px;
+        color: #94a3b8;
+        margin-top: 4px;
+        font-style: normal !important;
+        font-weight: 500;
+        letter-spacing: 0.025em;
+      }
+    </style>
+
+    <script is:inline>
+      const baselineTextCache = new Map();
+
+      // INTERCEPT RIGHT-CLICKS ON VISUAL ASSETS
+      document.addEventListener(
+        "contextmenu",
+        (event) => {
+          if (event.target.tagName === "IMG") {
+            event.preventDefault();
+          }
+        },
+        { capture: true },
+      );
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // WhatsApp Widget Handler
+        const waWidget = document.getElementById("secure-whatsapp-widget");
+        if (waWidget) {
+          const pfx = waWidget.getAttribute("data-prefix");
+          const cc = waWidget.getAttribute("data-country");
+          const num = waWidget.getAttribute("data-dial");
+          waWidget.href = `https://${pfx}/${cc}${num}`;
+        }
+      });
+
+      // CLEAN TRANSLATION MAP CONFIGURATION (No Hardcoding)
+      const labelTranslations = {
+        en: "SELECT LANGUAGE:",
+        id: "PILIHAN BAHASA:",
+        zh: "选择语言:",
+      };
+
+      function getLanguageSetting() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get("lang");
+        if (urlLang === "id" || urlLang === "en" || urlLang === "zh") {
+          localStorage.setItem("Sukajadi_user_lang", urlLang);
+          return urlLang;
+        }
+
+        const savedLanguage = localStorage.getItem("Sukajadi_user_lang");
+        if (savedLanguage) return savedLanguage;
+
+        const systemLocale = (
+          navigator.language ||
+          navigator.languages[0] ||
+          "en"
+        ).toLowerCase();
+        if (systemLocale.startsWith("id") || systemLocale.startsWith("ms")) {
+          localStorage.setItem("Sukajadi_user_lang", "id");
+          return "id";
+        } else if (
+          systemLocale.startsWith("zh") ||
+          systemLocale.startsWith("zho") ||
+          systemLocale.startsWith("cmn")
+        ) {
+          localStorage.setItem("Sukajadi_user_lang", "zh");
+          return "zh";
+        }
+
+        localStorage.setItem("Sukajadi_user_lang", "en");
+        return "en";
+      }
+
+      async function fetchSingleNodeTranslation(textString, targetLangCode) {
+        if (!textString || textString.trim() === "" || !isNaN(textString))
+          return textString;
+        try {
+          const apiEndpoint = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLangCode}&dt=t&q=${encodeURIComponent(textString)}`;
+          const rawResponse = await fetch(apiEndpoint);
+          const parsedData = await rawResponse.json();
+          if (parsedData && parsedData[0]) {
+            return parsedData[0].map((phrase) => phrase[0]).join("");
+          }
+          return textString;
+        } catch (err) {
+          return textString;
+        }
+      }
+
+      async function executeUniversalTranslation() {
+        const activeLanguage = getLanguageSetting();
+        const rootContainer = document.getElementById(
+          "universal-translation-root",
+        );
+        if (!rootContainer) return;
+
+        let protectedRoomTitles = [];
+        try {
+          const rawCmsData = rootContainer.getAttribute("data-cms-rooms");
+          if (rawCmsData) {
+            protectedRoomTitles = JSON.parse(rawCmsData);
+          }
+        } catch (e) {
+          protectedRoomTitles = [
+            "budget room",
+            "standard room",
+            "superior room",
+            "deluxe room",
+          ];
+        }
+
+        const flagEN = document.getElementById("global-nav-en");
+        const flagID = document.getElementById("global-nav-id");
+        const flagZH = document.getElementById("global-nav-zh");
+        const textZH = document.getElementById("label-zh-text");
+        const labelEl = document.getElementById("global-lang-label");
+
+        const allFlags = [flagEN, flagID, flagZH];
+        allFlags.forEach((f) => {
+          if (f) {
+            f.style.filter = "grayscale(100%)";
+            f.style.opacity = "0.4";
+            f.style.transform = "scale(1)";
+            f.style.color = "#94a3b8";
+          }
+        });
+        if (flagEN) flagEN.querySelector("span").style.color = "#94a3b8";
+        if (flagID) flagID.querySelector("span").style.color = "#94a3b8";
+        if (textZH) textZH.style.color = "#94a3b8";
+
+        if (labelEl) {
+          labelEl.innerText =
+            labelTranslations[activeLanguage] || labelTranslations.en;
+        }
+
+        if (activeLanguage === "id") {
+          if (flagID) {
+            flagID.style.filter = "none";
+            flagID.style.opacity = "1";
+            flagID.style.transform = "scale(1.08)";
+            flagID.querySelector("span").style.color = "#1e293b";
+          }
+        } else if (activeLanguage === "zh") {
+          if (flagZH) {
+            flagZH.style.filter = "none";
+            flagZH.style.opacity = "1";
+            flagZH.style.transform = "scale(1.08)";
+            if (textZH) textZH.style.color = "#de2110";
+          }
+        } else {
+          if (flagEN) {
+            flagEN.style.filter = "none";
+            flagEN.style.opacity = "1";
+            flagEN.style.transform = "scale(1.08)";
+            flagEN.querySelector("span").style.color = "#1e293b";
+          }
+        }
+
+        rootContainer
+          .querySelectorAll(".ai-translated-notice")
+          .forEach((el) => el.remove());
+
+        const elementsToProcess = [];
+        const walker = document.createTreeWalker(
+          rootContainer,
+          NodeFilter.SHOW_TEXT,
+          {
+            acceptNode: function (node) {
+              if (
+                node.parentElement.tagName === "SCRIPT" ||
+                node.parentElement.tagName === "STYLE"
+              ) {
+                return NodeFilter.FILTER_REJECT;
+              }
+              const textClean = node.textContent.trim().toLowerCase();
+              if (protectedRoomTitles.includes(textClean))
+                return NodeFilter.FILTER_REJECT;
+              if (
+                node.parentElement.closest(
+                  '.notranslate, .skiptranslate, [translate="no"]',
+                )
+              )
+                return NodeFilter.FILTER_REJECT;
+              if (
+                node.textContent.toLowerCase().includes("sukajadi") &&
+                textClean.length < 40
+              )
+                return NodeFilter.FILTER_REJECT;
+              if (
+                textClean === "book now" ||
+                textClean === "claim offer now" ||
+                textClean.includes("claim offer") ||
+                textClean === "view gallery" ||
+                textClean === "original" ||
+                textClean.includes("modus bahasa") ||
+                textClean === "中文"
+              )
+                return NodeFilter.FILTER_REJECT;
+              if (
+                node.parentElement.tagName === "BUTTON" ||
+                node.parentElement.tagName === "A" ||
+                node.parentElement.classList.contains("btn") ||
+                node.parentElement.classList.contains("button") ||
+                node.parentElement.closest(
+                  '.skip-translation, .author-row, .platform-logo-wrapper, [id*="lang-"]',
+                )
+              )
+                return NodeFilter.FILTER_REJECT;
+              return node.textContent.trim().length > 0
+                ? NodeFilter.FILTER_ACCEPT
+                : NodeFilter.FILTER_REJECT;
+            },
+          },
+        );
+
+        while (walker.nextNode()) {
+          elementsToProcess.push(walker.currentNode);
+        }
+
+        const reviewElements = rootContainer.querySelectorAll(
+          ".review-content-text",
+        );
+        reviewElements.forEach((el) => {
+          if (el.firstChild && el.firstChild.nodeType === Node.TEXT_NODE) {
+            const innerClean = el.firstChild.textContent.trim().toLowerCase();
+            if (
+              !elementsToProcess.includes(el.firstChild) &&
+              !el.closest('.notranslate, .skiptranslate, [translate="no"]') &&
+              !protectedRoomTitles.includes(innerClean)
+            ) {
+              elementsToProcess.push(el.firstChild);
+            }
+          }
+        });
+
+        for (const textNode of elementsToProcess) {
+          const currentClean = textNode.textContent.trim().toLowerCase();
+          if (
+            !textNode.parentElement ||
+            textNode.parentElement.closest(
+              '.notranslate, .skiptranslate, [translate="no"]',
+            ) ||
+            protectedRoomTitles.includes(currentClean)
+          )
+            continue;
+
+          const isReviewBox = textNode.parentElement.classList.contains(
+            "review-content-text",
+          );
+          if (!baselineTextCache.has(textNode)) {
+            baselineTextCache.set(
+              textNode,
+              isReviewBox
+                ? textNode.textContent.replace(/^"|"$/g, "")
+                : textNode.textContent,
+            );
+          }
+          const originalValue = baselineTextCache.get(textNode);
+          if (activeLanguage === "en") {
+            textNode.textContent = originalValue;
+            continue;
+          }
+
+          let convertedText = await fetchSingleNodeTranslation(
+            originalValue,
+            activeLanguage,
+          );
+          const postClean = textNode.textContent.trim().toLowerCase();
+          if (
+            !textNode.parentElement ||
+            textNode.parentElement.closest(
+              '.notranslate, .skiptranslate, [translate="no"]',
+            ) ||
+            protectedRoomTitles.includes(postClean)
+          ) {
+            textNode.textContent = originalValue;
+            continue;
+          }
+
+          convertedText = convertedText.replace(
+            /Hotel Sukajadi & Konvensi/gi,
+            "Sukajadi Hotel & Convention",
+          );
+          convertedText = convertedText.replace(
+            /Hotel Sukajadi/gi,
+            "Sukajadi Hotel",
+          );
+          convertedText = convertedText.replace(
+            /珍珠酒店及会议中心/g,
+            "Sukajadi Hotel & Convention",
+          );
+          convertedText = convertedText.replace(/珍珠酒店/g, "Sukajadi Hotel");
+
+          if (isReviewBox) {
+            textNode.textContent = `"${convertedText.trim()}"`;
+            const noticeLabel = document.createElement("span");
+            noticeLabel.className = "ai-translated-notice";
+            if (activeLanguage === "id")
+              noticeLabel.innerText = "✨ Diterjemahkan Otomatis";
+            else if (activeLanguage === "zh")
+              noticeLabel.innerText = "✨ 自动翻译";
+            else noticeLabel.innerText = "✨ Automatically Translated";
+            textNode.parentElement.appendChild(noticeLabel);
+          } else {
+            textNode.textContent = convertedText
+              .replace(/\*\处理/g, "")
+              .replace(/__/g, "");
+          }
+        }
+      }
+
+      function setupLanguageListeners() {
+        const btnEN = document.getElementById("global-nav-en");
+        const btnID = document.getElementById("global-nav-id");
+        const btnZH = document.getElementById("global-nav-zh");
+
+        if (btnEN) {
+          btnEN.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem("Sukajadi_user_lang", "en");
+            const url = new URL(window.location.href);
+            url.searchParams.delete("lang");
+            window.history.pushState({}, "", url);
+            executeUniversalTranslation();
+          };
+        }
+        if (btnID) {
+          btnID.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem("Sukajadi_user_lang", "id");
+            const url = new URL(window.location.href);
+            url.searchParams.set("lang", "id");
+            window.history.pushState({}, "", url);
+            executeUniversalTranslation();
+          };
+        }
+        if (btnZH) {
+          btnZH.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem("Sukajadi_user_lang", "zh");
+            const url = new URL(window.location.href);
+            url.searchParams.set("lang", "zh");
+            window.history.pushState({}, "", url);
+            executeUniversalTranslation();
+          };
+        }
+      }
+
+      setupLanguageListeners();
+      executeUniversalTranslation();
+
+      document.addEventListener("astro:after-swap", () => {
+        setupLanguageListeners();
+        executeUniversalTranslation();
+      });
+    </script>
+  </body>
+</html>
