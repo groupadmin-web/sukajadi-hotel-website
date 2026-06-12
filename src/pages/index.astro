@@ -28,6 +28,20 @@ const sortedReviews = (reviewsData || []).sort((a, b) => {
 });
 
 const isSlider = sortedReviews.length > 4;
+
+// 🚀 FREE CONTENT NEGOTIATION LAYER: Return real Markdown body text if requested by an AI Agent
+const acceptHeader = Astro.request.headers.get('accept') || '';
+if (acceptHeader.includes('text/markdown')) {
+  const markdownBody = `# Sukajadi Hotel & Convention\n\nWelcome to Sukajadi Hotel. We offer premium boutique accommodations, rich heritage spaces, and top-tier guest services.\n\n## Amenities\n- Free High-Speed Wi-Fi\n- Multilingual Guest Support (EN, ID, ZH)\n- Curated Heritage Collections & Gallery\n- Strategic Location\n\nFor full machine-readable capabilities, visit /sitemap-index.xml.`;
+  
+  return new Response(markdownBody, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/markdown; charset=utf-8',
+      'x-markdown-tokens': '120'
+    }
+  });
+}
 ---
 
 <Layout title="Sukajadi Hotel & Convention">
