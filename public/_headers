@@ -4,8 +4,3 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Link: </sitemap-index.xml>; rel="sitemap", </sitemap-index.xml>; rel="service-doc"
-  # Explicitly mock the native Cloudflare Markdown for Agents engine on the root path
-/
-  Content-Type: text/markdown; charset=utf-8
-  x-markdown-tokens: 2110
-  Content-Signal: ai-train=yes, search=yes, ai-input=yes
