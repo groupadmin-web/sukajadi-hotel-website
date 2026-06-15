@@ -10,9 +10,13 @@
     "main_feature": "Projector & Screen, Standard Sound System, Microphone, FlipChart (5pcs paper), Candies, White Board, 2pcs Board Maker, Paper & Pencil, MIneral Water"
   },
   {
-    "hall_name": "Java ",
-    "hall_type": "Meeting",
-    "capacity_theater": "120",
+    "hall_name": "Java Room",
+    "image": "/images/MEETING ROOM 1.jpg",
+    "hall_type": "Round Table",
+    "gallery1": "/images/MEETING ROOM 1 E.jpg",
+    "gallery2": "/images/MEETING ROOM 2 D.jpg",
+    "gallery3": "/images/AREA DUDUK 5.jpg",
+    "capacity_theater": "Clas",
     "main_feature": "Projector & Screen, Standard Sound System, Microphone, FlipChart (5pcs paper), Candies, White Board, 2pcs Board Maker, Paper & Pencil, MIneral Water"
   },
   {
