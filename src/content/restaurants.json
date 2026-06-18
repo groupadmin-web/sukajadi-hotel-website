@@ -9,13 +9,14 @@
   },
   {
     "title": "Tjendana Bistro",
-    "distance": "±200 m (2 Min Walk)",
+    "distance": "±200 m (2 Min. Walk)",
     "tagline": "Variety",
     "cuisine_type": "Local and International ",
     "image": "/images/Tjendana Bistro.jpg",
     "website_url": "https://maps.app.goo.gl/tfnxDJ6TjuVtMJrV7"
   },
   {
-    "title": "Bakmi Apin"
+    "title": "Bakmi Apin",
+    "distance": "±200 m (2 Min. Walking)"
   }
 ]
