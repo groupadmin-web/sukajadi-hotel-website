@@ -80,6 +80,18 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
     }
     <meta property="fb:app_id" content="1234567890" />
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYPDVRJXCS"
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-HYPDVRJXCS"); // TODO: Replace both G-HYPDVRJXCS occurrences with your real Sukajadi GA4 ID!
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
