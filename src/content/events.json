@@ -1,10 +1,10 @@
 [
   {
     "hall_name": "Bali Room",
-    "image": "/images/MEETING ROOM 3 C.jpg",
+    "image": "/images/MEETING ROOM 3 A.jpg",
     "hall_type": "Class Room",
-    "gallery1": "/images/MEETING ROOM 3 A.jpg",
-    "gallery2": "/images/MEETING ROOM 3 B.jpg",
+    "gallery1": "/images/MEETING ROOM 3 B-1.jpg",
+    "gallery2": "/images/MEETING ROOM 3 D.jpg",
     "gallery3": "/images/AREA DUDUK 11.jpg",
     "capacity_theater": "Class Room : 144",
     "main_feature": "Projector & Screen, Standard Sound System, Microphone, FlipChart (5pcs paper), Candies, White Board, 2pcs Board Maker, Paper & Pencil, MIneral Water"
@@ -13,6 +13,7 @@
     "hall_name": "Java Room",
     "image": "/images/MEETING ROOM 1.jpg",
     "hall_type": "Round Table",
+    "gallery1": "/images/MEETING ROOM 1 E.jpg",
     "gallery2": "/images/MEETING ROOM 2 D.jpg",
     "gallery3": "/images/AREA DUDUK 5.jpg",
     "capacity_theater": "Class Room : 236",
@@ -23,7 +24,7 @@
     "image": "/images/MEETING ROOM 4 D.jpg",
     "hall_type": "Class Room",
     "gallery1": "/images/MEETING ROOM 4 G.jpg",
-    "gallery2": "/images/MEETING ROOM 4 F.jpg",
+    "gallery2": "/images/MEETING ROOM 4 E.jpg",
     "gallery3": "/images/AREA DUDUK 17.jpg",
     "capacity_theater": "Class Room : 300",
     "main_feature": "Projector & Screen, Standard Sound System, Microphone, FlipChart (5pcs paper), Candies, White Board, 2pcs Board Maker, Paper & Pencil, MIneral Water"
