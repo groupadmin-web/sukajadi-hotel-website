@@ -80,8 +80,7 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
     }
     <meta property="fb:app_id" content="1234567890" />
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYPDVRJXCS"
-    ></script>
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-S3XPGW3SLB"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -89,7 +88,12 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
       }
       gtag("js", new Date());
 
-      gtag("config", "G-HYPDVRJXCS"); // TODO: Replace both G-HYPDVRJXCS occurrences with your real Sukajadi GA4 ID!
+      // Fires on initial load AND every Astro View Transition page navigation
+      document.addEventListener("astro:page-load", () => {
+        gtag("config", "G-S3XPGW3SLB", {
+          page_path: window.location.pathname,
+        });
+      });
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
