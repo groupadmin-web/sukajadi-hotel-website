@@ -41,24 +41,37 @@ const menuitems: MenuItem[] = [
     margin: 0 auto;
   }
 
+  /* MATCHING "BOOK NOW" BRAND COLOR (Amber 600 / #d97706) */
   .calcal form .box input[type="submit"] {
-    background: #BF9F62 !important;
-    border-color: #BF9F62 !important;
+    background-color: #d97706 !important;
+    border-color: #d97706 !important;
+    transition: background-color 0.2s ease-in-out !important;
+  }
+
+  .calcal form .box input[type="submit"]:hover {
+    background-color: #b45309 !important;
+    border-color: #b45309 !important;
   }
 
   .m-calcal .btn-bottom {
-    background-color: #BF9F62 !important;
-    border: 1px solid #BF9F62 !important;
+    background-color: #d97706 !important;
+    border: 1px solid #d97706 !important;
+    transition: background-color 0.2s ease-in-out !important;
+  }
+
+  .m-calcal .btn-bottom:hover {
+    background-color: #b45309 !important;
+    border-color: #b45309 !important;
   }
 
   .date-picker-wrapper .first-date-selected,
   .date-picker-wrapper .last-date-selected {
-    background-color: #BF9F62 !important;
+    background-color: #d97706 !important;
     color: #fff !important;
   }
 
   .date-picker-wrapper .month-wrapper table .day.checked {
-    background-color: #BF9F62 !important;
+    background-color: #d97706 !important;
   }
 </style>
 
@@ -219,10 +232,10 @@ const menuitems: MenuItem[] = [
                     </p>
                   </div>
 
-                  <!-- SUBMIT BUTTON -->
+                  <!-- SUBMIT BUTTON (MATCHES BRAND AMBER COLOR) -->
                   <div class="box flex items-center">
                     <input 
-                      class="fs-15x cursor-pointer px-5 py-2 text-xs font-bold text-white rounded uppercase shadow-sm hover:opacity-95 transition-opacity" 
+                      class="fs-15x cursor-pointer px-5 py-2 text-xs font-bold text-white bg-amber-600 hover:bg-amber-700 rounded uppercase shadow-sm transition-colors" 
                       type="submit" 
                       value="Check Availability" 
                     />
@@ -238,7 +251,7 @@ const menuitems: MenuItem[] = [
     <!-- MOBILE WIDGET VIEW -->
     <div class="m-calcal block md:hidden w-full border-t border-slate-200 pt-2">
       <div class="floating-btn text-center px-4 py-1">
-        <button class="btn-bottom alrc-book-mobile w-full py-2.5 text-xs font-bold text-white uppercase rounded shadow">
+        <button class="btn-bottom alrc-book-mobile w-full py-2.5 text-xs font-bold text-white bg-amber-600 hover:bg-amber-700 uppercase rounded shadow">
           Book Now
         </button>
       </div>
@@ -293,7 +306,7 @@ const menuitems: MenuItem[] = [
                   <input type="text" class="promocode w-full border text-xs p-2 rounded focus:outline-none uppercase" placeholder="ENTER PROMO CODE" name="BookingForm[offer_code]" />
                 </div>
 
-                <button type="submit" class="btn-bottom w-full py-2.5 text-xs font-bold text-white uppercase rounded shadow">
+                <button type="submit" class="btn-bottom w-full py-2.5 text-xs font-bold text-white bg-amber-600 hover:bg-amber-700 uppercase rounded shadow">
                   Check Availability
                 </button>
               </div>
