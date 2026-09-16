@@ -5,6 +5,38 @@ import roomsData from "../content/rooms.json";
 import BookingToast from "@/components/BookingToast.astro";
 
 const rooms = Array.isArray(roomsData) ? roomsData : [];
+
+// Sukajadi Hotel (SKJH) Booking Link Fallback Dictionary
+const defaultBookingMap: Record<string, string> = {
+  "MINI ROOM DOUBLE OR TWIN ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=MNRB",
+  "Mini Room":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=MNRB",
+  "SUPERIOR DOUBLE ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=SUP",
+  "Superior Room":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=SUP",
+  "SUPERIOR TRIPLE ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=SPTR",
+  "EXECUTIVE DOUBLE ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=EXC",
+  "Executive Room":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=EXC",
+  "EXECUTIVE TRIPLE ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=EXTR",
+  "EXECUTIVE QUARTO ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=EQR",
+  "PREMIER DOUBLE OR TWIN ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=PRM",
+  "Premier Room":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=PRM",
+  "PREMIER TRIPLE ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=PRT",
+  "SUITE ROOM ONLY":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=HON",
+  "Suite Room":
+    "https://booking.sukajadihotel.com/en/offers?hotel=SKJH&room=HON",
+};
 ---
 
 <Layout title="Rooms & Suites | Sukajadi Hotel & Convention">
@@ -16,128 +48,201 @@ const rooms = Array.isArray(roomsData) ? roomsData : [];
 
   <div class="bg-gray-50 min-h-screen py-16 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto text-center mb-16 mt-8">
-      <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">Our Rooms & Suites</h1>
+      <h1
+        class="text-4xl md:text-5xl font-serif font-bold text-gray-900 tracking-wide uppercase mb-4">
+        Our Rooms & Suites
+      </h1>
       <div class="w-24 h-1 bg-amber-600 mx-auto mb-6"></div>
     </div>
 
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {rooms.map((room, index) => {
-        const amenityArray = Array.isArray(room.features) ? room.features : [];
+    <div
+      class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        rooms.map((room, index) => {
+          const amenityArray = Array.isArray(room.features)
+            ? room.features
+            : [];
 
-        return (
-          <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 flex flex-col justify-between">
-            <div class="relative h-64 bg-gray-200 overflow-hidden">
-              <img src={room.image || "/images/slide-1.jpg"} alt={room.title} class="w-full h-full object-cover" />
-              <div class="absolute top-4 right-4 bg-gray-900/80 text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans">
-                {room.view || "Standard View"}
+          return (
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 flex flex-col justify-between">
+              <div class="relative h-64 bg-gray-200 overflow-hidden">
+                <img
+                  src={room.image || "/images/slide-1.jpg"}
+                  alt={room.title}
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute top-4 right-4 bg-gray-900/80 text-white text-[10px] tracking-widest uppercase px-3 py-1.5 rounded-md font-sans">
+                  {room.view || "Standard View"}
+                </div>
+              </div>
+
+              <div class="p-6 flex-grow flex flex-col justify-between">
+                <div>
+                  <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide">
+                    {room.title}
+                  </h2>
+                  <p class="text-gray-500 text-sm font-sans mb-6 font-light leading-relaxed line-clamp-3">
+                    {room.description}
+                  </p>
+                </div>
+
+                <div class="border-t border-b border-gray-100 py-4 my-2 grid grid-cols-2 gap-2 text-[11px] uppercase font-sans tracking-wider text-gray-500">
+                  <div class="flex items-center gap-2">
+                    <>
+                      <span>🛏️</span>
+                      <span>{room.bed_type}</span>
+                    </>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <>
+                      <span>👤</span>
+                      <span>MAX {room.capacity}</span>
+                    </>
+                  </div>
+                </div>
+              </div>
+
+              <div class="px-6 pb-6 pt-2">
+                <div class="flex flex-wrap gap-1.5 mb-6 min-h-[52px]">
+                  {amenityArray.slice(0, 3).map((feature) => (
+                    <span class="bg-amber-50/70 text-amber-800 text-[10px] tracking-wider uppercase px-2.5 py-1.5 rounded-md font-semibold font-sans whitespace-nowrap">
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  data-open-modal={index}
+                  class="block w-full bg-amber-600 hover:bg-amber-700 text-white text-center font-bold text-sm py-3.5 rounded-lg tracking-wider uppercase cursor-pointer shadow-md transition-colors">
+                  View Gallery
+                </button>
               </div>
             </div>
-
-            <div class="p-6 flex-grow flex flex-col justify-between">
-              <div>
-                <h2 class="text-2xl font-serif font-bold text-gray-800 mb-3 uppercase tracking-wide">{room.title}</h2>
-                <p class="text-gray-500 text-sm font-sans mb-6 font-light leading-relaxed line-clamp-3">{room.description}</p>
-              </div>
-
-              <div class="border-t border-b border-gray-100 py-4 my-2 grid grid-cols-2 gap-2 text-[11px] uppercase font-sans tracking-wider text-gray-500">
-                <div class="flex items-center gap-2"><span>🛏️</span><span>{room.bed_type}</span></div>
-                <div class="flex items-center gap-2"><span>👤</span><span>MAX {room.capacity}</span></div>
-              </div>
-            </div>
-
-            <div class="px-6 pb-6 pt-2">
-              <div class="flex flex-wrap gap-1.5 mb-6 min-h-[52px]">
-                {amenityArray.slice(0, 3).map((feature) => (
-                  <span class="bg-amber-50/70 text-amber-800 text-[10px] tracking-wider uppercase px-2.5 py-1.5 rounded-md font-semibold font-sans whitespace-nowrap">
-                    {feature}
-                  </span>
-                ))}
-              </div>
-              <button type="button" data-open-modal={index} class="block w-full bg-amber-600 hover:bg-amber-700 text-white text-center font-bold text-sm py-3.5 rounded-lg tracking-wider uppercase cursor-pointer shadow-md">
-                View Gallery
-              </button>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })
+      }
     </div>
   </div>
 
-  {rooms.map((room, index) => {
-    const modalAmenityArray = Array.isArray(room.features) ? room.features : [];
-    
-    // Gathers your cover image and both gallery images into a list
-    const galleryImages = [room.image, room.room_gallery1, room.room_gallery2, room.room_gallery3].filter(Boolean);
+  {
+    rooms.map((room, index) => {
+      const modalAmenityArray = Array.isArray(room.features)
+        ? room.features
+        : [];
 
-    return (
-      <div id={`gallery-modal-${index}`} class="gallery-modal fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] hidden items-center justify-center p-4" data-open="false">
-        <div class="bg-white rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row relative max-h-[85vh]">
-          <button type="button" data-close-modal={index} class="absolute top-4 right-4 z-[100100] bg-white text-gray-700 border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-md cursor-pointer">✕</button>
-          
-          {/* Main Visual Display Frame */}
-          <div class="md:w-7/12 bg-slate-900 relative flex flex-col justify-between p-4 min-h-[400px]">
-            <div class="w-full flex-grow relative overflow-hidden rounded-xl bg-slate-800">
-              <img id={`modal-display-img-${index}`} src={room.image} class="w-full h-full object-cover absolute inset-0 transition-all duration-300" alt="" />
-            </div>
-            
-            {/* Clickable Image Slider Strip (This displays your gallery images!) */}
-            <div class="flex gap-2 mt-4 overflow-x-auto py-2 z-10 bg-slate-950/40 p-2 rounded-xl">
-              {galleryImages.map((imgUrl) => (
-                <button 
-                  type="button" 
-                  class="w-20 h-14 rounded-lg overflow-hidden border-2 border-transparent hover:border-amber-500 focus:border-amber-500 flex-shrink-0 cursor-pointer transition bg-slate-800"
-                  onclick={`document.getElementById('modal-display-img-${index}').src='${imgUrl}'`}
-                >
-                  <img src={imgUrl} class="w-full h-full object-cover" alt="thumbnail" />
-                </button>
-              ))}
-            </div>
-          </div>
+      // Gathers cover image and gallery thumbnails
+      const galleryImages = [
+        room.image,
+        room.room_gallery1,
+        room.room_gallery2,
+        room.room_gallery3,
+      ].filter(Boolean);
+      const bookingUrl =
+        room.booking_url ||
+        defaultBookingMap[room.title] ||
+        "https://booking.sukajadihotel.com/";
 
-          {/* Description Sidebar */}
-          <div class="md:w-5/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-white">
-            <div>
-              <h3 class="text-2xl font-serif font-bold text-gray-900 mb-4 uppercase">{room.title}</h3>
-              <p class="text-gray-600 text-sm font-light mb-6">{room.description}</p>
-              <div class="flex flex-wrap gap-2 mb-4">
-                {modalAmenityArray.map((feature) => (
-                  <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded border border-slate-200">
-                    {feature}
-                  </span>
+      return (
+        <div
+          id={`gallery-modal-${index}`}
+          class="gallery-modal fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] hidden items-center justify-center p-4"
+          data-open="false">
+          <div class="bg-white rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden flex flex-col md:flex-row relative max-h-[85vh]">
+            <button
+              type="button"
+              data-close-modal={index}
+              class="absolute top-4 right-4 z-[100100] bg-white text-gray-700 border border-gray-200 rounded-full w-10 h-10 flex items-center justify-center font-bold shadow-md cursor-pointer">
+              ✕
+            </button>
+
+            {/* Main Visual Display Frame */}
+            <div class="md:w-7/12 bg-slate-900 relative flex flex-col justify-between p-4 min-h-[400px]">
+              <div class="w-full flex-grow relative overflow-hidden rounded-xl bg-slate-800">
+                <img
+                  id={`modal-display-img-${index}`}
+                  src={room.image}
+                  class="w-full h-full object-cover absolute inset-0 transition-all duration-300"
+                  alt=""
+                />
+              </div>
+
+              {/* Clickable Image Slider Strip */}
+              <div class="flex gap-2 mt-4 overflow-x-auto py-2 z-10 bg-slate-950/40 p-2 rounded-xl">
+                {galleryImages.map((imgUrl) => (
+                  <button
+                    type="button"
+                    class="w-20 h-14 rounded-lg overflow-hidden border-2 border-transparent hover:border-amber-500 focus:border-amber-500 flex-shrink-0 cursor-pointer transition bg-slate-800"
+                    onclick={`document.getElementById('modal-display-img-${index}').src='${imgUrl}'`}>
+                    <img
+                      src={imgUrl}
+                      class="w-full h-full object-cover"
+                      alt="thumbnail"
+                    />
+                  </button>
                 ))}
+              </div>
+            </div>
+
+            {/* Description Sidebar & Action CTA */}
+            <div class="md:w-5/12 p-6 md:p-8 flex flex-col justify-between overflow-y-auto bg-white">
+              <div>
+                <h3 class="text-2xl font-serif font-bold text-gray-900 mb-4 uppercase">
+                  {room.title}
+                </h3>
+                <p class="text-gray-600 text-sm font-light mb-6">
+                  {room.description}
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {modalAmenityArray.map((feature) => (
+                    <span class="bg-slate-100 text-slate-800 text-[10px] tracking-wide uppercase px-3 py-1.5 rounded border border-slate-200">
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* DYNAMIC BOOK NOW BUTTON IN MODAL */}
+              <div class="mt-8 pt-4 border-t border-gray-100">
+                <a
+                  href={bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block w-full bg-amber-600 hover:bg-amber-700 text-white text-center font-bold text-sm py-3.5 rounded-lg tracking-wider uppercase cursor-pointer shadow-md transition-colors">
+                  Book Now
+                </a>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
-  })}
+      );
+    })
+  }
   <BookingToast />
 </Layout>
 
 <script is:inline>
   function initSplitGalleryPopups() {
-    document.querySelectorAll('[data-open-modal]').forEach(btn => {
+    document.querySelectorAll("[data-open-modal]").forEach((btn) => {
       btn.onclick = () => {
-        const idx = btn.getAttribute('data-open-modal');
+        const idx = btn.getAttribute("data-open-modal");
         const modal = document.getElementById(`gallery-modal-${idx}`);
         if (modal) {
-          modal.setAttribute('data-open', 'true');
-          modal.style.setProperty('display', 'flex', 'important');
+          modal.setAttribute("data-open", "true");
+          modal.style.setProperty("display", "flex", "important");
         }
       };
     });
-    document.querySelectorAll('[data-close-modal]').forEach(btn => {
+    document.querySelectorAll("[data-close-modal]").forEach((btn) => {
       btn.onclick = () => {
-        const idx = btn.getAttribute('data-close-modal');
+        const idx = btn.getAttribute("data-close-modal");
         const modal = document.getElementById(`gallery-modal-${idx}`);
         if (modal) {
-          modal.setAttribute('data-open', 'false');
-          modal.style.setProperty('display', 'none', 'important');
+          modal.setAttribute("data-open", "false");
+          modal.style.setProperty("display", "none", "important");
         }
       };
     });
   }
   initSplitGalleryPopups();
-  document.addEventListener('astro:after-swap', initSplitGalleryPopups);
+  document.addEventListener("astro:after-swap", initSplitGalleryPopups);
 </script>
