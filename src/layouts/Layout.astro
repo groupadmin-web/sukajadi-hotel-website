@@ -66,21 +66,18 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
         },
       }}
     />
-    {
-      /* Meta Scraper Fixes - Placed outside the component to avoid strict TypeScript type compilation errors */
-    }
+
     <meta
       property="og:description"
       content="Welcome to Sukajadi Hotel & Convention. Book your stay with us directly for premium service, accommodations, and local culinary adventures in Bandung."
     />
     <meta property="fb:app_id" content="1234567890" />
 
-    {
-      /* Injected as raw HTML meta tags to appease the Meta Scraper without throwing TS Type Errors */
-    }
-    <meta property="fb:app_id" content="1234567890" />
-
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-S3XPGW3SLB"></script>
+    <!-- Google Analytics Tag for Sukajadi Hotel -->
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-S3XPGW3SLB"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -88,7 +85,7 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
       }
       gtag("js", new Date());
 
-      // Fires on initial load AND every Astro View Transition page navigation
+      // Support both initial load AND Astro client-side routing / View Transitions
       document.addEventListener("astro:page-load", () => {
         gtag("config", "G-S3XPGW3SLB", {
           page_path: window.location.pathname,
@@ -104,9 +101,7 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
     />
   </head>
   <body>
-    {
-      /* FIXED LAYER PROFILE: Lifted to z-[60] so it sits over hero sliders, completely visible */
-    }
+    {/* FLOATING LANGUAGE CAPSULE WIDGET */}
     <div
       class="fixed top-3 right-3 z-[60] pointer-events-auto sm:top-4 sm:right-6 notranslate select-none">
       <div
@@ -229,7 +224,7 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
 
     <Footer />
 
-    {/* OBFUSCATED WHATSAPP WIDGET */}
+    {/* OBFUSCATED WHATSAPP WIDGET (SUKAJADI HOTEL) */}
     <a
       id="secure-whatsapp-widget"
       href="#"
@@ -340,7 +335,7 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
         }
       });
 
-      // CLEAN TRANSLATION MAP CONFIGURATION (No Hardcoding)
+      // CLEAN TRANSLATION MAP CONFIGURATION
       const labelTranslations = {
         en: "SELECT LANGUAGE:",
         id: "PILIHAN BAHASA:",
@@ -614,7 +609,7 @@ const protectedCmsStrings = showcaseItems.reduce<string[]>((acc, item) => {
             textNode.parentElement.appendChild(noticeLabel);
           } else {
             textNode.textContent = convertedText
-              .replace(/\*\处理/g, "")
+              .replace(/\*\ /g, "")
               .replace(/__/g, "");
           }
         }
